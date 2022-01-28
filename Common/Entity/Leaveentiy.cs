@@ -63,7 +63,8 @@ namespace Common.Entity
         public int EmpID { get; set; }
         [AllowHtml]
         [Display(Name = Validations.Leave.leavecount)]
-        public float leavecount { get; set; }
+       // public float leavecount { get; set; }
+        public decimal leavecount { get; set; }
         [DisplayName("Half day")]
         public string Date { get; set; }
         public string[] DynamicTextBox { get; set; }

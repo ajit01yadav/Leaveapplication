@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsEncrypt.cs" />
+    <Compile Include="Entity\Employeeentity.cs" />
     <Compile Include="Entity\Holidayentity.cs" />
     <Compile Include="Entity\Leaveentiy.cs" />
     <Compile Include="Entity\Leavetypeentity.cs" />

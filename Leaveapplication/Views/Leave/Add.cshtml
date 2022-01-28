@@ -262,11 +262,15 @@
                 $.ajax({
                     type: "GET",
                     url: "/Leave/GetCLBalance",
+                    data: JSON.stringify({ balanceleave: balanceleave }),
                     contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (response) {
-                        if (response != null) {
-                            $('[id*=balanceleave]').val(response);
+                    //dataType: "json",
+                    success: function (data) {
+                        debugger
+                        console.log(data);
+
+                        if (data != null) {
+                            $('[id*=balanceleave]').val(data);
                             //$('#balanceleave').val(response.balanceleave);
 
                         } else {
@@ -283,11 +287,12 @@
                 $.ajax({
                     type: "GET",
                     url: "/Leave/GetPLBalance",
+                    data: JSON.stringify({ balancePL: balancePL }),
                     contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (response) {
-                        if (response != null) {
-                            $('[id*=balancePL]').val(response);
+                    //dataType: "json",
+                    success: function (data) {
+                        if (data != null) {
+                            $('[id*=balancePL]').val(data);
                             //$('#balanceleave').val(response.balanceleave);
 
                         } else {

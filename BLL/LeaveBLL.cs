@@ -24,12 +24,12 @@ namespace BLL
             return new LeaveDAL().GetCount(Fromdate, Todate);
 
         }
-        public int GetCLBalance(string empid)
+        public decimal GetCLBalance(string empid)
         {
             return new LeaveDAL().GetCLBalance(empid);
          
         }
-        public int GetPLBalance(string empid)
+        public decimal GetPLBalance(string empid)
         {
             return new LeaveDAL().GetPLBalance(empid);
 
@@ -42,11 +42,12 @@ namespace BLL
         {
             return new LeaveDAL().CheckAndDeleteUser(leaveid);
         }
-        //public int GetCount(string empid)
-        //{
-        //    return new LeaveDAL().GetCount(empid);
+        public Employeeentity GetEmailId(int empid)
+        {
+            return new LeaveDAL().GetEmailId(empid);
 
-        //}
+        }
+       
 
 
     }

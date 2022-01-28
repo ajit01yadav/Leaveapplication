@@ -91,14 +91,14 @@ namespace DAL
             return parameters.Get<string>("@Output");
         }
       
-        public int GetCLBalance(string empid)
+        public decimal GetCLBalance(string empid)
         {
             var parameters = new DynamicParameters(new
             {
                 empid
                
             });
-            return this.db.Query<int>("Sp_TotalCLBalance", new { empid }, commandType: CommandType.Text).SingleOrDefault();
+            return this.db.Query<decimal>("Sp_TotalCLBalance", new { empid }, commandType: CommandType.Text).SingleOrDefault();
 
         }
         public int GetCount(string Fromdate, string Todate)
@@ -112,14 +112,14 @@ namespace DAL
             return this.db.Query<int>("Sp_TotlaBussinessdays", new { Fromdate, Todate }, commandType: CommandType.StoredProcedure).SingleOrDefault();
 
         }
-        public int GetPLBalance(string empid)
+        public decimal GetPLBalance(string empid)
         {
             var parameters = new DynamicParameters(new
             {
                 empid
 
             });
-            return this.db.Query<int>("Sp_TotalPLBalance", new { empid }, commandType: CommandType.Text).SingleOrDefault();
+            return this.db.Query<decimal>("Sp_TotalPLBalance", new { empid }, commandType: CommandType.Text).SingleOrDefault();
         }
         public Leaveentiy DisplayUsers(int leaveid)
         {
@@ -143,6 +143,18 @@ namespace DAL
            // return this.db.Query<string>("Delete from Tbl_leave1 where leaveid=@leaveid", new { leaveid }, commandType: CommandType.Text).SingleOrDefault();
             this.db.Execute("SPUserDelete", parameters, commandType: CommandType.StoredProcedure);
             return parameters.Get<string>("@Output");
+        }
+        public Employeeentity GetEmailId(int empid)
+        {
+            var parameters = new DynamicParameters(new
+            {
+                empid
+                // IPAddress = HttpContext.Current.Request.UserHostAddress,
+                //  CreatedBy = AuthenticateDAL.UserID()
+            });
+            //SPMangeLeave2
+            //SPLeaveManage3
+            return this.db.Query<Employeeentity>("USP_Employee_GetManagerEmailIdNew", new { empid }, commandType: CommandType.StoredProcedure).SingleOrDefault();
         }
     }
 }
