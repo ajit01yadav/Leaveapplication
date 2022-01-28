@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Mail;
 using System.Web;
+using System.Web.Mvc;
 
 public class General
 {
@@ -20,21 +22,21 @@ public class General
             return "User";
     }
 
-    //public List<SelectListItem> getStatus()
-    //{
-    //    List<SelectListItem> items = new List<SelectListItem>();
-    //    items.Add(new SelectListItem
-    //    {
-    //        Text = "Active",
-    //        Value = "1"
-    //    });
-    //    items.Add(new SelectListItem
-    //    {
-    //        Text = "In-Active",
-    //        Value = "2"
-    //    });
-    //    return items;
-    //}
+    public List<SelectListItem> getStatus()
+    {
+        List<SelectListItem> items = new List<SelectListItem>();
+        items.Add(new SelectListItem
+        {
+            Text = "Active",
+            Value = "1"
+        });
+        items.Add(new SelectListItem
+        {
+            Text = "In-Active",
+            Value = "2"
+        });
+        return items;
+    }
 
     public static string CheckLengthOfPageTitle(string PageTitle)
     {

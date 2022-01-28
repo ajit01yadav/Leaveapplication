@@ -38,6 +38,24 @@ namespace Leaveapplication.Controllers
         {
             ViewData["LeavetypeDropdown"] = new SelectList(new LeaveTypeBLL().CountryDropdown(), "Value", "Text", SelectedValue);
         }
-       
+        public void BindStatusSelectList(int SelectedValue = 1)
+        {
+            ViewData["StatusSelect"] = new SelectList(new General().getStatus(), "Value", "Text", SelectedValue);
+        }
+        public void CreatePager(int? PageNo, int TotalRowCount)
+        {
+            int pageSize = Pager.GetPageSize();
+            int pageIndex = 1;
+            pageIndex = PageNo.HasValue ? Convert.ToInt32(PageNo) : 1;
+            var ItemsCount = Enumerable.Range(1, TotalRowCount).Select(x => "Item " + x);
+            var pager = new Pager(ItemsCount.Count(), PageNo, pageSize, 6);
+            var CreatePager = new Paging
+            {
+                Items = ItemsCount.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+                Pager = pager
+            };
+            ViewBag.Paging = CreatePager;
+        }
+
     }
 }

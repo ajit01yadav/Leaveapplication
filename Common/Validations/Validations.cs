@@ -46,10 +46,12 @@ public class Validations
     public class Leave
     {
         public const string FromDate = "From Date";
-        public const string FromDateRequired = RequiredTextInitials + FromDate;
-        public const string FromDateError = ErrorTextInitials + FromDate;
+        //public const string FromDateRequired = RequiredTextInitials + FromDate;
+        //public const string FromDateError = ErrorTextInitials + FromDate;
+        //public const string Status = "Status";
+        //public const string StatusRequired = RequiredSelectInitials + Status;
 
-        public const string Todate = "To date";
+        public const string Todate = "To Date";
         public const string ToDateRequired = RequiredTextInitials + Todate;
         public const string ToDateError = ErrorTextInitials + Todate;
 
@@ -61,7 +63,7 @@ public class Validations
         //public const string LeavetypeRequired = RequiredTextInitials + LeaveStatusID;
         //public const string LeavetypeError = ErrorTextInitials + LeaveStatusID;
 
-        public const string leavetype = "Leave type";
+        public const string leavetype = "Leave Type";
         public const string leavetypeRequired = RequiredTextInitials + leavetype;
         public const string leavetypeError = ErrorTextInitials + leavetype;
 
@@ -70,8 +72,8 @@ public class Validations
         //public const string RoleRequired = RequiredSelectInitials + Role;
         //public const string RoleError = ErrorSelectInitials + Role;
 
-        //public const string Status = "Status";
-        //public const string StatusRequired = RequiredSelectInitials + Status;
+        public const string leavecount = "Total Number of days";
+       // public const string StatusRequired = RequiredSelectInitials + Status;
     }
     public class Login
     {

@@ -1,5 +1,6 @@
 ﻿using BLL;
 using Common.Entity;
+using PagedList;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace Leaveapplication.Controllers
             ViewBag.leaveid = objUser.leaveId;
             GetMessage(Message, User);
             BindCountryDropdown();
+            BindStatusSelectList(objUser.Status);
             return View(objUser); 
       
         }
@@ -51,7 +53,10 @@ namespace Leaveapplication.Controllers
         public ActionResult Manage(Leaveentiy objUser, string Message, int? page)
         {
             List<Leaveentiy> UserList = new LeaveBLL().ManageUser(objUser);
-          //  BindCountryDropdown();
+            GetMessage(UserList.Count == 0 ? "NoRecord" : Message, "");
+            CreatePager(page, UserList.Count);
+            //  BindCountryDropdown();
+            PagedList<Leaveentiy> model = new PagedList<Leaveentiy>(UserList, page.HasValue ? Convert.ToInt32(page) : 1, Pager.GetPageSize());
             return View(UserList);
         }
         public ActionResult Delete(string User)
@@ -105,6 +110,8 @@ namespace Leaveapplication.Controllers
        
         {
             int holiday = new LeaveBLL().GetCount(Fromdate, Todate);
+       
+            
             return holiday;
            
 

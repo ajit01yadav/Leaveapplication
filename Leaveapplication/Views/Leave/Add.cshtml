@@ -14,9 +14,10 @@
     <script src="~/Scripts/jquery-ui-1.13.0.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#Fromdate").datepicker({ dateFormat: 'yy-mm-dd' });
+            $("#Fromdate").datepicker({ dateFormat: 'dd/mm/yy' });
+            //$("#halfdaydate").datepicker({ dateFormat: 'yy-mm-dd' });
             $("#Todate").datepicker({
-                dateFormat: 'yy-mm-dd',
+                dateFormat: 'dd/mm/yy',
                // onSelect: function (dateString, txtDate) {
                     onClose: function (dateString, txtDate) {
                     //TotalCount();
@@ -25,21 +26,85 @@
                 }
           
             })
+         
+            $(function () {
+                $("#LeaveStatusID").change(function () {
+                    debugger
+                    var Leavetype = $('#LeaveStatusID').val();
+                    var leavecount = $('#leavecount').val();
+                    if (Leavetype == '2' && leavecount>'2')
+                    {
+                        alert('you cannot apply more than 2 Casual Leave');
+                    }
+                  //  alert($('option:selected', this).text());
+                });
+            });
+            function removeElement(e) {
+                let button = e.target;
+                let field = button.previousSibling;
+                let div = button.parentElement;
+                let br = button.nextSibling;
+                div.removeChild(button);
+                div.removeChild(field);
+                div.removeChild(br);
+
+                let allElements = document.getElementById("reqs");
+                let inputs = allElements.getElementsByTagName("input");
+                for (i = 0; i < inputs.length; i++) {
+                    inputs[i].setAttribute('id', 'reqs' + (i + 1));
+                    inputs[i].setAttribute('value', (i + 1));
+                    inputs[i].nextSibling.setAttribute('id', 'reqsr' + (i + 1));
+                }
+            }
+
+            function add() {
+                let allElements = document.getElementById("reqs");
+                let reqs_id = allElements.getElementsByTagName("input").length;
+
+                reqs_id++;
+
+                //create textbox
+                let input = document.createElement('input');
+                input.type = "text";
+                input.setAttribute("class", "w3-input w3-border");
+                input.setAttribute('id', 'reqs' + reqs_id);
+                input.setAttribute('value', reqs_id);
+                let reqs = document.getElementById("reqs");
+
+                //create remove button
+                let remove = document.createElement('button');
+                remove.setAttribute('id', 'reqsr' + reqs_id);
+                remove.onclick = function (e) {
+                    removeElement(e);
+                };
+                remove.setAttribute("type", "button");
+                remove.innerHTML = "Remove";
+
+                //append elements
+                reqs.appendChild(input);
+                reqs.appendChild(remove);
+                let br = document.createElement("br");
+                reqs.appendChild(br);
+            }
+
+
+           
         });
+       
     </script>
 
 
 }
 <h2>Add</h2>
-@using (Html.BeginForm())
-{
-   
+    @using (Html.BeginForm("", "Leave", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+
     @Html.ValidationSummary(false)
     <fieldset>
 
         <div class="col-md-12 col-xl-12">
             @if (ViewBag.Message != "")
-                {
+            {
                 <div id="msgDisplay" class="@ViewBag.Class">
                     <button data-dismiss="alert" class="close" type="button">
                     <i class="ace-icon fa fa-times"></i></button>
@@ -75,9 +140,7 @@
                         </div>
                         <div class="col-md-8 col-xl-9">
                             @Html.TextBoxFor(model => model.Fromdate, new { @id = "Fromdate", @class = "form-control", @maxlength = "25" })
-
-                            @*@Html.ValidationMessageFor(model => model.Fromdate, "", new { @class = "text-danger" })*@
-
+                            @*@Html.TextBoxFor(model => model.Fromdate, new { @id = "Fromdate", @class = "form-control", @Value = Model.Fromdate.HasValue ? Model.Fromdate.GetValueOrDefault().ToString("dd/MM/yyyy") : "" })*@
                         </div>
                     </div>
                 </div>
@@ -89,6 +152,7 @@
                         </div>
                         <div class="col-md-8 col-xl-9">
                             @Html.TextBoxFor(model => model.Todate, new { @id = "Todate", @class = "form-control", @maxlength = "25" })
+                           @*@Html.TextBoxFor(model => model.Todate, new { @id = "Todate", @class = "form-control", @Value = Model.Todate.HasValue ? Model.Todate.GetValueOrDefault().ToString("dd/MM/yyyy") : "" })*@
                             @*@Html.ValidationMessageFor(model => model.Todate, "", new { @class = "text-danger" })*@
                         </div>
                     </div>
@@ -127,6 +191,7 @@
                         </div>
                     </div>
                 </div>
+               
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-2 col-xl-3">
@@ -143,30 +208,50 @@
                         </div>
                         <div class="col-md-4 col-xl-4">
                             @Html.TextBoxFor(model => model.PL, new { @id = "balancePL", @class = "form-control", @maxlength = "25" })
-                          
+
                         </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-9 col-xl-9 offset-md-3 offset-xl-3">
-                            <button type="submit" id="btnSubmit" class="btn btn-primary">Save</button>
-                            @*<input name="btnSubmit" value="Sign In" id="btnSubmit" class="@Validations.ButtonCss.btnLoginBlock" type="submit">*@
+               
+              <div>
+                 
+                  <label for="coupon_question">Do you want to take half day leave?</label>
+                  <input type="checkbox" id="chkPassport" />
+                  @*@Html.CheckBoxFor(Model=>Model.Date)*@
+                  @*@Html.CheckBoxFor(Model => Model.Date, new { @checked = "checked" });*@
+                  <span class="item-text">Yes</span>
+                 
+                  <br />
+                  <br />
+                  <div id="TextBoxContainer" placeholder="dd/mm/yyyy">
+                      <!--Textboxes will be added here -->
+                  </div>
+                  <br />
+                  <input id="btnAdd" type="button" value="Add" onclick="AddTextBox()" />
+                     
+                 
+              </div>
+               
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-9 col-xl-9 offset-md-3 offset-xl-3">
+                                <button type="submit" id="btnSubmit" class="btn btn-primary">Save</button>
+                                @*<input name="btnSubmit" value="Sign In" id="btnSubmit" class="@Validations.ButtonCss.btnLoginBlock" type="submit">*@
 
-                            <a href="@Url.Action("Manage", "Leave")" class="btn btn-outline">Cancel</a>
+                                <a href="@Url.Action("Manage", "Leave")" class="btn btn-outline">Cancel</a>
+                            </div>
                         </div>
+
                     </div>
 
+
                 </div>
-
-
-            </div>
 
         </div>
     </fieldset>
 
-  
+
 
 }
 
@@ -219,7 +304,7 @@
 
                 $(function () {
                     $('[id*=Todate]').on('change', function () {
-                        debugger
+                       
                         var val1 = $('#Fromdate').val();
                         var val2 = $('#Todate').val();
                       
@@ -230,7 +315,7 @@
                             dataType: "json",
                             data: "Fromdate=" + val1 + "&Todate=" + val2,
                             success: function (response) {
-                                debugger
+                               
                                 if (response != "") {
                                     console.log(response);
 
@@ -245,44 +330,54 @@
                     });
                 });
 
+
+
             });
 
 
-            //function TotalCount() {
-            //    debugger
-
-
-            //    var startDate = new Date(document.getElementById('Fromdate').value);
-            //    var endDate = new Date(document.getElementById('Todate').value);
-            //    var numOfDates = getBusinessDatesCount(startDate, endDate);
-
-            //    function getBusinessDatesCount(startDate, endDate) {
-            //        let count = 0;
-            //        const curDate = new Date(startDate.getTime());
-            //        while (curDate <= endDate) {
-            //            const dayOfWeek = curDate.getDay();
-            //            if (dayOfWeek !== 0 && dayOfWeek !== 6) count++;
-            //            curDate.setDate(curDate.getDate() + 1);
-            //        }
-            //        document.getElementById('leavecount').value = count;
-            //        selectElement = document.getElementById('LeaveStatusID');
-            //        output = selectElement.value;
-            //        if (count > 2 && output == "2") {
-            //            // return true;
-            //            alert("You cannot select more than 2 days casual leave");
-
-            //            return true;
-
-            //       }
-            
-            //  }
-
-
-            //}
-
-
-
 </script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+        function GetDynamicTextBox(value) {
+            var div = $("<div />");
+
+            var textBox = $("<input />").attr("type", "textbox").attr("name", "DynamicTextBox");
+            textBox.val(value);
+            div.append(textBox);
+
+            var button = $("<input />").attr("type", "button").attr("value", "Remove");
+            button.attr("onclick", "RemoveTextBox(this)");
+            div.append(button);
+
+            return div;
+        }
+        function AddTextBox() {
+            var div = GetDynamicTextBox("");
+            $("#TextBoxContainer").append(div);
+        }
+
+        function RemoveTextBox(button) {
+            $(button).parent().remove();
+        }
+
+        $(function () {
+            var values = eval('@Html.Raw(ViewBag.Values)');
+            if (values != null) {
+                $("#TextBoxContainer").html("");
+                $(values).each(function () {
+                    $("#TextBoxContainer").append(GetDynamicTextBox(this));
+                });
+            }
+        });
+</script>
+@*@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+            $(function () {
+                alert("@ViewBag.Message")
+            });
+    </script>
+}*@
 
 
 

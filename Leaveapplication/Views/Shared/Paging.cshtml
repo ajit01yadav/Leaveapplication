@@ -1,0 +1,57 @@
+﻿@{
+    Paging Paging = ViewBag.Paging;
+}
+<style>
+    ul.pagination {
+        margin: 0px;
+    }
+
+        ul.pagination > li > a {
+            cursor: pointer;
+        }
+</style>
+
+@if (Paging.Pager.EndPage > 1)
+{
+    <input type="hidden" name="page" id="page"/>
+    <tr>
+        <td colspan="12">
+            <ul class="pagination pull-right">
+                @if (Paging.Pager.CurrentPage > 1)
+                {
+                    <li>
+                        <a data-href="1" title="Go to First Page">First</a>
+                    </li>
+                    <li>
+                        <a data-href="@(Paging.Pager.CurrentPage - 1)" title="Go to Page @(Paging.Pager.CurrentPage - 1)">Previous</a>
+                    </li>
+                }
+
+                @for (var page = Paging.Pager.StartPage; page <= Paging.Pager.EndPage; page++)
+                {
+                    <li class="@(page == Paging.Pager.CurrentPage ? "active" : "")">
+                        <a data-href="@page" title="Go to Page @page">@page</a>
+                    </li>
+                }
+
+                @if (Paging.Pager.CurrentPage < Paging.Pager.TotalPages)
+                {
+                    <li>
+                        <a data-href="@(Paging.Pager.CurrentPage + 1)" title="Go to Page @(Paging.Pager.CurrentPage + 1)">Next</a>
+                    </li>
+                    <li>
+                        <a data-href="@(Paging.Pager.TotalPages)" title="Go to Last Page">Last</a>
+                    </li>
+                }
+            </ul>
+        </td>
+    </tr>
+}
+
+<script type="text/javascript">
+    $('ul.pagination > li > a').click(function () {
+        $('input[id*="page"]').val($(this).attr('data-href'));
+        $('form').submit();
+    })
+</script>
+

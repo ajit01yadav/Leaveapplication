@@ -18,32 +18,64 @@ namespace DAL
         private IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString);
         public string InsertUpdateUsers(Leaveentiy objUsers)
       {
-            
-  
-           var parameters = new DynamicParameters(new
-           {
-               objUsers.leaveId,
-               objUsers.Fromdate,
-               objUsers.Todate,
-               objUsers.leavereason,
-               objUsers.LeaveStatusID,
-               objUsers.Description,
-               //objUsers.leavetype,
-              // objUsers.leavebalance,
-              objUsers.leavecount,
-               objUsers.createdon,
-              // objUsers.updatedon
-              objUsers.updatedby
+
+                var parameters = new DynamicParameters(new
+            {
+                  
+            objUsers.leaveId,
+            objUsers.Fromdate,
+                objUsers.Todate,
+                objUsers.leavereason,
+                objUsers.LeaveStatusID,
+               // objUsers.Description,
+                //objUsers.leavetype,
+                // objUsers.leavebalance,
+                objUsers.leavecount,
+                    objUsers.Status,
+                    objUsers.createdon,
+               // objUsers.DynamicTextBox,
+
+
+               //objUsers,
+               //objUsers.halfdaythree,
+               objUsers.updatedby
+              
            });
         
             parameters.Add("@Output", dbType: DbType.String, direction: ParameterDirection.Output, size: 50);
             this.db.Execute("SPUsersInsertUpdate1", parameters, commandType: CommandType.StoredProcedure);
+            if (objUsers.DynamicTextBox != null)
+            {
+                foreach (string textboxValue in objUsers.DynamicTextBox)
+                {
+                    string constr = ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString;
+                    using (SqlConnection con = new SqlConnection(constr))
+
+                    {
+                        SqlCommand cmd = new SqlCommand("SP_HalfdayInsertUpdate", con);
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+
+                        cmd.Connection = con;
+                        cmd.Parameters.AddWithValue("@Date", textboxValue);
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+
+                    }
+
+
+                }
+            }
+
             return parameters.Get<string>("@Output");
 
         }
         public List<Leaveentiy> ManageUser(Leaveentiy objUser)
         {
-            return this.db.Query<Leaveentiy>("SPMangeLeave",  commandType: CommandType.StoredProcedure).ToList();
+            //SPMangeLeave2
+            //SPLeaveManage3
+            return this.db.Query<Leaveentiy>("SPLeaveManage3", new { objUser.Fromdate, objUser.Todate }, commandType: CommandType.StoredProcedure).ToList();
         }
         public string Getdata(string empid, string leavetype)
         {
