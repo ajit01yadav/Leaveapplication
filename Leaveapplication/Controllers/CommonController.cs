@@ -34,7 +34,7 @@ namespace Leaveapplication.Controllers
                 return 0;
             }
         }
-        public void BindCountryDropdown(int SelectedValue = 0)
+        public void BindLeavetype(int SelectedValue = 0)
         {
             ViewData["LeavetypeDropdown"] = new SelectList(new LeaveTypeBLL().CountryDropdown(), "Value", "Text", SelectedValue);
         }

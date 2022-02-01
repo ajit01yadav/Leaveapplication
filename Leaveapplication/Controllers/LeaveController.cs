@@ -25,7 +25,7 @@ namespace Leaveapplication.Controllers
                 objUser = new LeaveBLL().DisplayUsers(DecryptToInt(User));
             ViewBag.leaveid = objUser.leaveId;
             GetMessage(Message, User);
-            BindCountryDropdown();
+            BindLeavetype();
             BindStatusSelectList(objUser.Status);
             return View(objUser); 
       
