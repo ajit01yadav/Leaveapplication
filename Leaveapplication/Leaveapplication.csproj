@@ -9,7 +9,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{58458423-060F-49BC-9316-F7DBE7D3742C}</ProjectGuid>
+    <ProjectGuid>{26DAA13F-F699-4796-B3F3-B4F76185F8DF}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -476,11 +476,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj">
-      <Project>{3E5BC732-B091-4419-862D-2F1D5A912D43}</Project>
+      <Project>{F73C14D8-A53F-4222-B668-6BC80E0B60A9}</Project>
       <Name>BLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{17163D2A-853F-4CA0-BB39-576B6232B286}</Project>
+      <Project>{4786F958-2292-46C6-AC9D-F61F60DC38E9}</Project>
       <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
