@@ -316,15 +316,16 @@
                         $.ajax({
                             type: "GET",
                             url: "/Leave/CalculateleaveDays",
+                            //data: JSON.stringify({ leavecount: leavecount }),
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             data: "Fromdate=" + val1 + "&Todate=" + val2,
-                            success: function (response) {
+                            success: function (data) {
                                
-                                if (response != "") {
-                                    console.log(response);
+                                if (data != "") {
+                                    console.log(data);
 
-                                    $('[id*=leavecount]').val(response);
+                                    $('[id*=leavecount]').val(data);
                                 }
 
                                 else {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Entity;
+using System;
 using System.Collections.Generic;
 using System.Net.Mail;
 using System.Web;
@@ -74,7 +75,8 @@ public class General
     {
         try
         {
-            string FromEmail = "noreply@unlocktech.in", SMTPUsername = "", SMTPPassword = "", SMTP = "localhost", Signature = "";
+           
+            string FromEmail = "ajit.yadav@necsws.com", SMTPUsername = "", SMTPPassword = "", SMTP = "localhost", Signature = "";
             int SMTPPort = 25, EmailAlert = 1;
 
             if (Signature != "" && blnSignature == true)

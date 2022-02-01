@@ -98,7 +98,7 @@ namespace DAL
                 empid
                
             });
-            return this.db.Query<decimal>("Sp_TotalCLBalance", new { empid }, commandType: CommandType.Text).SingleOrDefault();
+            return this.db.Query<decimal>("Sp_TotalCLBalance", new { empid }, commandType: CommandType.StoredProcedure).SingleOrDefault();
 
         }
         public int GetCount(string Fromdate, string Todate)

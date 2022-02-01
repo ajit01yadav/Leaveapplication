@@ -51,9 +51,9 @@ namespace Common.Entity
 
         public int leavebalance { get; set; }
         [DisplayName("Balance Leave :CL")]
-        public int Casual_Leave { get; set; }
+        public decimal Casual_Leave { get; set; }
         [DisplayName("Balance Leave :PL")]
-        public int PL { get; set; }
+        public decimal PL { get; set; }
         public DateTime? createdon { get; set; }
         // public DateTime? updatedon { get; set; }
         public string updatedby { get; set; }

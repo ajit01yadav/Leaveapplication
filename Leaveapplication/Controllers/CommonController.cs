@@ -56,6 +56,23 @@ namespace Leaveapplication.Controllers
             };
             ViewBag.Paging = CreatePager;
         }
+        public bool SendMail(int empid, string fromdate, string todate, decimal leavecount)
+        {
+
+            Employeeentity objemp = new LeaveBLL().GetEmailId(empid);
+            string strSubject = "", strMessage = "";
+            if (objemp != null)
+            {
+                strSubject = "Application For Leave";
+                strMessage = "<table border='0' style=' font-family:Arial; font-size:13px;'><tr><td style='text-align:justify'>";
+                strMessage += "Dear " + objemp.FirstName + " " + objemp.LastName + "," + "<br/><br/>";
+                strMessage += "This is to request you to kindly grant me a casual leave for " + leavecount + " day/s i.e." + fromdate + "  to " + todate + ". :" + "<br/><br/>";
+                strMessage += "Regards," + "<br/>";
+                strMessage += "NEC Technologies.";
+                new General().SendMail(objemp.EmailId.ToString(), "", "", strSubject, strMessage, 0, "", true, "");
+            }
+            return true;
+        }
 
     }
 }
