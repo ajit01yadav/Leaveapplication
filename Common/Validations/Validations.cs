@@ -12,6 +12,7 @@ public class Validations
     public static string LogsDelete = "Record Deleted";
     public const string RequiredTextInitials = "Please specify ";
     public const string ErrorTextInitials = "Please specify valid ";
+    public const string ErrorTextInitial = "Please use the date format dd/mm/yyyy";
     public const string RequiredSelectInitials = "Please select ";
     public const string RequiredImageInitials = "Please upload ";
     public const string ErrorSelectInitials = "Please select valid ";
@@ -46,14 +47,15 @@ public class Validations
     public class Leave
     {
         public const string FromDate = "From Date";
-        //public const string FromDateRequired = RequiredTextInitials + FromDate;
-        //public const string FromDateError = ErrorTextInitials + FromDate;
-        //public const string Status = "Status";
-        //public const string StatusRequired = RequiredSelectInitials + Status;
+        public const string FromDateRequired = RequiredTextInitials + FromDate;
+        // public const string FromDateError = ErrorTextInitials + FromDate;
+        public const string FromDateError = ErrorTextInitial;
+       
 
         public const string Todate = "To Date";
         public const string ToDateRequired = RequiredTextInitials + Todate;
-        public const string ToDateError = ErrorTextInitials + Todate;
+        //public const string ToDateError = ErrorTextInitials + Todate;
+        public const string ToDateError = ErrorTextInitial;
 
         public const string leavereason = "Leave Reason";
         public const string LeavereasonRequired = RequiredTextInitials + leavereason;
@@ -66,6 +68,10 @@ public class Validations
         public const string leavetype = "Leave Type";
         public const string leavetypeRequired = RequiredTextInitials + leavetype;
         public const string leavetypeError = ErrorTextInitials + leavetype;
+
+        public const string Rejectionreason = "Rejection Reason";
+        public const string RejectionreasonRequired = RequiredTextInitials + Rejectionreason;
+        public const string RejectionreasonError = ErrorTextInitials + Rejectionreason;
 
 
         //public const string Role = "Role";
@@ -84,6 +90,7 @@ public class Validations
         public const string Fromdate = "Fromdate";
         public const string FromdateRequired = RequiredTextInitials + Fromdate;
         public const string FromdateError = ErrorTextInitials + Fromdate;
+
 
         public const string Password = "Password";
         public const string PasswordRequired = RequiredTextInitials + Password;
@@ -117,6 +124,9 @@ public class Validations
         public const string ImageValidation = @"^.*\.(jpg|jpeg|gif|JPG|png|PNG)$";
 
         public const string VideoValidation = @"^([a-zA-Z0-9\s_\\.\-:])+(.mp4|.avi|.mkv)$";
+
+        public const string DateFormat = @"(((0|1)[0-9]|2[0-9]|3[0-1])\/(0[1-9]|1[0-2])\/((19|20)\d\d))$";
+       // [RegularExpression(@"(((0|1)[0-9]|2[0-9]|3[0-1])\/(0[1-9]|1[0-2])\/((19|20)\d\d))$", ErrorMessage = "Invalid date format.")]
     }
 
     public class ButtonCss
@@ -225,6 +235,14 @@ public class Validations
             case "Invalid":
                 ReturnMessage = "Invalid Password.";
                 Class = "alert alert-danger alert-dismissable col-lg-12";
+                break;
+            case "Approve":
+                ReturnMessage = "Your leave has been approved successfully.";
+                Class = "alert alert-success alert-dismissable col-lg-12";
+                break;
+            case "Reject":
+                ReturnMessage = "Your leave has been rejected successfully.";
+                Class = "alert alert-success alert-dismissable col-lg-12";
                 break;
 
 

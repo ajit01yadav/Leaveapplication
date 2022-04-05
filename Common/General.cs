@@ -1,18 +1,32 @@
 ﻿using Common.Entity;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 
 public class General
 {
+    private IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString);
     public static string GetStatus(int Active)
     {
         if (Active == 1)
-            return "Active";
+            return "Open";
+        else if (Active == 2)
+            return "Approved";
         else
-            return "In-Active";
+            return "Rejected";
+    }
+    public static string GetUserStatus(int Active)
+    {
+        if (Active == 1)
+            return "Active";
+       
+        else
+            return "Inactive";
     }
 
     public static string GetRole(int RoleID)
@@ -22,8 +36,37 @@ public class General
         else
             return "User";
     }
+    //public Decimal GetTotalLeave(int empid, int leaveid)
+    //{
+    //    decimal CL;
+    //     var empids = Session["Empid"].ToString();
+    //    decimal CL = new LeaveBLL().GetCLBalance(empids);
+    //    return CL;
+    //}
+
 
     public List<SelectListItem> getStatus()
+    {
+        List<SelectListItem> items = new List<SelectListItem>();
+        items.Add(new SelectListItem
+        {
+            Text = "Open",
+            Value = "1"
+        });
+        items.Add(new SelectListItem
+        {
+            Text = "Approved",
+            Value = "2"
+        });
+        items.Add(new SelectListItem
+        {
+            Text = "Rejected",
+            Value = "3"
+        });
+      
+        return items;
+    }
+    public List<SelectListItem> GetUserStatus()
     {
         List<SelectListItem> items = new List<SelectListItem>();
         items.Add(new SelectListItem
@@ -33,7 +76,7 @@ public class General
         });
         items.Add(new SelectListItem
         {
-            Text = "In-Active",
+            Text = "Inactive",
             Value = "2"
         });
         return items;
@@ -53,14 +96,7 @@ public class General
         return strPageTitle;
     }
 
-   
-
-   
-
   
-
-  
-
     public static bool HasRights(int Value)
     {
         return Value == 0 ? false : true;
@@ -71,12 +107,14 @@ public class General
         return HttpUtility.UrlEncode(clsEncrypt.Encrypt(strID));
     }
 
-    public void SendMail(string ToEmail, string CCEmail, string BCCEmail, string Subject, string Message, int BodyFormat, string ReplyToEmail, bool blnSignature, string FromName)
+    public void SendMail(string ToEmail, string CCEmail, string BCCEmail, string Subject, string Message, int BodyFormat, string ReplyToEmail, bool blnSignature, string FromName, string FromEmail)
     {
         try
         {
-           
-            string FromEmail = "ajit.yadav@necsws.com", SMTPUsername = "", SMTPPassword = "", SMTP = "localhost", Signature = "";
+
+            //string FromEmail = "ajit.yadav@necsws.com", SMTPUsername = "", SMTPPassword = "", SMTP = "localhost", Signature = "";
+            //string FromEmail = "", SMTPUsername = "", SMTPPassword = "", SMTP = "localhost", Signature = "";
+            string SMTPUsername = "", SMTPPassword = "", SMTP = "localhost", Signature = "";
             int SMTPPort = 25, EmailAlert = 1;
 
             if (Signature != "" && blnSignature == true)

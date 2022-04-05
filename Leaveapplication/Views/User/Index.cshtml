@@ -1,0 +1,126 @@
+﻿@model UserEntity
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-xs-12 page-header">
+            <div class="row">
+                <div id="ModuleHead" class="col-xs-8">
+                    <h1>
+                        <i class="fa fa-user"></i>&nbsp;@ViewBag.Type User
+                    </h1>
+                </div>
+                <div class="col-xs-4 pull-right text-right">
+                    <div class="icon-menu">
+                        <a href="@Url.Action("Manage", "User")" title="Manage Users" data-placement="bottom">
+                            <span aria-hidden="true" class="glyphicon glyphicon-align-justify"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-horizontal" role="form">
+            <div class="col-sm-12">
+                @Html.ValidationSummary(false, "The following error occurred:", new { @Id = "validationSummary", @class = "alert alert-danger alert-dismissable" })
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-user"></i>&nbsp;@ViewBag.Type User
+        </div>
+        <div class="panel-body">
+            @if (ViewBag.Message != "")
+            {
+                <div id="msgDisplay" class="@ViewBag.Class">
+                    <button data-dismiss="alert" class="close" type="button">
+                        <i class="ace-icon fa fa-times"></i>
+                    </button>
+                    <label id="lblMessage">@ViewBag.Message</label>
+                </div>
+            }
+            <input type="hidden" id="UserID" name="UserID" value="@Model.UserId" />
+            <div class="form-horizontal" role="form">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FirstName, new { @class = "col-sm-3 control-label no-padding-right" })
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control col-md-2", @placeholder = "Enter First Name", @maxlength = "100" })
+                            <span class="input-group-addon"><span class="req">*</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LastName, new { @class = "col-sm-3 control-label no-padding-right" })
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control col-md-2", @placeholder = "Enter Last Name", @maxlength = "100" })
+                            <span class="input-group-addon"><span class="req">*</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, new { @class = "col-sm-3 control-label no-padding-right" })
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "form-control col-md-2", @placeholder = "Enter Email", @maxlength = "250" })
+                            <span class="input-group-addon"><span class="req">*</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Password, new { @class = "col-sm-3 control-label no-padding-right" })
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            @Html.TextBoxFor(model => model.Password, new { id = "password", @class = "form-control col-md-2", @placeholder = "Enter Password", @maxlength = "50", @type = "Password" })
+                            <span class="input-group-addon"><span class="req">*</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RoleID, new { @class = "col-sm-3 control-label no-padding-right" })
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            @Html.DropDownListFor(model => model.RoleID, ViewData["Permission"] as SelectList, new { @ID = "ddlRole", @class = "form-control col-md-2" })
+                            <span class="input-group-addon"><span class="req">*</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Status, new { @class = "col-sm-3 control-label no-padding-right" })
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            @Html.DropDownListFor(model => model.Status, ViewData["StatusSelect"] as SelectList, new { @class = "form-control" })
+                            <span class="input-group-addon"><span class="req">*</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer save-panel">
+                
+                
+                    <div class="pull-right">
+                        <a href="@Url.Action("Manage", "User")" class="@Validations.ButtonCss.btnCancelMD">
+                            <i class="fa fa-times"></i> Cancel
+                        </a>
+                        <button type="submit" class="@Validations.ButtonCss.btnSaveLG">
+                            <i class="fa fa-save"></i> Save
+                        </button>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+}

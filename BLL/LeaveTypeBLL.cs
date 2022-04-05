@@ -47,6 +47,27 @@ namespace BLL
             return items;
         }
 
+        public List<SelectListItem> GetStatus()
+        {
+            List<ApproveStatusentity> Contentlist = new LeaveTypeDAL().ApproveStatusDropdown();
+            List<SelectListItem> items = new List<SelectListItem>();
+            return GetStatus(Contentlist, items);
+        }
+        private List<SelectListItem> GetStatus(List<ApproveStatusentity> Contentlist, List<SelectListItem> items)
+        {
+            foreach (ApproveStatusentity status in Contentlist)
+            {
+                items.Add(new SelectListItem
+                {
+                    Text = status.Status,
+                    Value = status.Status_id.ToString()
+                });
+            }
+            return items;
+
+        }
+
+
 
     }
 }

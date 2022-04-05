@@ -10,20 +10,24 @@ using System.Net.Mail;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services;
 
 namespace Leaveapplication.Controllers
 {
     public class LeaveController : CommonController
     {
+      
         // GET: Leave
         [HttpGet]
-       // public ActionResult Add(string empid)
-             public ActionResult Add(string User, string Message)
+      
+        public ActionResult Add(string User, string Message)
         {
             Leaveentiy objUser = new Leaveentiy();
             if (!String.IsNullOrEmpty(User))
                 objUser = new LeaveBLL().DisplayUsers(DecryptToInt(User));
             ViewBag.leaveid = objUser.leaveId;
+            ViewBag.halfdayid = objUser.halfdayid;
+            Session["haldayid"] = ViewBag.halfdayid;
             GetMessage(Message, User);
             BindLeavetype();
             BindStatusSelectList(objUser.Status);
@@ -32,63 +36,136 @@ namespace Leaveapplication.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(Leaveentiy objUser, string Output)
+        public ActionResult Add(Leaveentiy objUser,Halfdayentity objhalfday, string Output)
         {
+           objUser.halfdayid = Convert.ToInt32(Session["haldayid"]).ToString();
+            // objUser.leaveId
+            if (objUser.halfdayid != "0")
+            {
+                
+                string Message = new LeaveBLL().IsDeletedRecord(objUser.leaveId);
+            }
+
+            objUser.EmpID = Convert.ToInt32(Session["Empid"]);
+            objUser.EMPCode = Convert.ToString(Session["Empcode"]);
+           
             if (ModelState.IsValid)
             {
                 Output = new LeaveBLL().InsertUpdateUsers(objUser);
-                
+              
             }
               bool result = false;
+            result = SendMail(objUser.Fromdate, objUser.Todate, objUser.leavecount, objUser.DynamicTextBox);
 
+            return (Output == "Update" ? RedirectToAction("Manage", "Leave", new { Message = "Update" }) : RedirectToAction("Add", "Leave", new { Message = Output }));
 
-          
-            result = SendMail(objUser.EmpID, objUser.Fromdate,objUser.Todate,objUser.leavecount);
-
-            // GetMessage(Output);
-
-            return (Output == "Update" ? RedirectToAction("Manage", "Leave", new { Message = "Update" }) : RedirectToAction("", "Leave", new { Message = Output }));
-
-            // return View(Output);
         }
-       
+        
         public ActionResult Manage(Leaveentiy objUser, string Message, int? page)
         {
-            List<Leaveentiy> UserList = new LeaveBLL().ManageUser(objUser);
-            GetMessage(UserList.Count == 0 ? "NoRecord" : Message, "");
-            CreatePager(page, UserList.Count);
+            objUser.EmpID =Convert.ToInt32(Session["Empid"]);
+           
+               List<Leaveentiy> UserList = new LeaveBLL().ManageUserByEmpcode(objUser.EmpID);
+               // List<Leaveentiy> UserList = new LeaveBLL().ManageUser(objUser);
+                GetMessage(UserList.Count == 0 ? "NoRecord" : Message, "");
+                CreatePager(page, UserList.Count);
+               // return View(UserList);
             //  BindCountryDropdown();
-           // PagedList<Leaveentiy> model = new PagedList<Leaveentiy>(UserList, page.HasValue ? Convert.ToInt32(page) : 1, Pager.GetPageSize());
-            return View(UserList);
+            PagedList<Leaveentiy> model = new PagedList<Leaveentiy>(UserList, page.HasValue ? Convert.ToInt32(page) : 1, Pager.GetPageSize());
+             return View(model);
         }
+        public ActionResult ApproveReject(Leaveentiy objUser, string Message, int? page)
+        {
+            var empids = Convert.ToInt32(Session["Empid"]);
+            // Employeeentity objemp = new LeaveBLL().GetEmailId(empids);
+           var Reportingid = Convert.ToString(Session["ReportingToId"]);
+            List<Leaveentiy> UserList = new LeaveBLL().ApproveRejectUser(objUser, empids.ToString());
+          // List<Leaveentiy> UserList = new LeaveBLL().ManageApproveReject(empids.ToString());
+            GetMessage(UserList.Count == 0 ? "NoRecord" : Message, "");
+                CreatePager(page, UserList.Count);
+            PagedList<Leaveentiy> model = new PagedList<Leaveentiy>(UserList, page.HasValue ? Convert.ToInt32(page) : 1, Pager.GetPageSize());
+            return View(model);
+        }
+              
         public ActionResult Delete(string User)
         {
             string Message = new LeaveBLL().CheckAndDeleteUser(DecryptToInt(User));
-           // GetMessage(Message);
             return RedirectToAction("Manage", "Leave", new { Message = Message });
           
+
+        }
+        public ActionResult Approve(Leaveentiy objUser, string User)
+        {
+            bool result = false;
+
+            result = SendMail(User);
+            string Message = new LeaveBLL().UpdateStatus(DecryptToInt(User));
+            objUser = new LeaveBLL().DisplayUsers(DecryptToInt(User));
+            objUser.IsApproved = true;
+            objUser.IsRejected = false;
+            string Messages = new LeaveBLL().IsApproved(objUser.leaveId, objUser.IsApproved, objUser.IsRejected);
+            int empid = objUser.EmpID;
+            int leaveid = objUser.leaveId;
+            string leavetype = objUser.LeaveStatusID;
+            int status = objUser.Status;
+            GetApprveRejectCLBalance(empid, leaveid, leavetype, status);
+           return RedirectToAction("ApproveReject", "Leave", new { Message = Message });
+           // return RedirectToAction( Message );
 
         }
 
         [HttpGet]
         public decimal GetCLBalance(string empid)
         {
-            decimal CL = new LeaveBLL().GetCLBalance(empid);
+            var empids = Session["Empid"].ToString();
+            decimal CL = new LeaveBLL().GetCLBalance(empids);
+            return CL;
+        }
+        [HttpGet]
+        public decimal GetApprveRejectCLBalance(int empid,int leaveid,string leavetype, int status)
+        {
+            
+            decimal CL = new LeaveBLL().GetApprveRejectCLBalance(empid, leaveid, leavetype, status);
             return CL;
         }
         [HttpGet]
         public decimal GetPLBalance(string empid)
         {
-            decimal PL = new LeaveBLL().GetPLBalance(empid);
+            var empids = Session["Empid"].ToString();
+            decimal PL = new LeaveBLL().GetPLBalance(empids);
             return PL;
         }
         [HttpGet]
-        public int CalculateleaveDays(string Fromdate, string Todate)
+        public decimal CalculateleaveDays(string Fromdate, string Todate)
        
         {
-            int holiday = new LeaveBLL().GetCount(Fromdate, Todate); 
+            decimal holiday = new LeaveBLL().GetCount(Fromdate, Todate); 
             return holiday;
             }
 
+       
+       // public string UserDetails(Leaveentiy objUser,string Rejectionreason, int Leaveid)
+         //public ActionResult UserDetails(string User, string Rejectionreason, int Leaveid)
+         public ActionResult UserDetails(Leaveentiy objUser, string User, string Rejectionreason, int Leaveid)
+
+        {
+            string Rejection = new LeaveBLL().InsertRejectreason(Rejectionreason, Leaveid);
+            bool result = false;
+            result = SendRejectMail(Leaveid);
+            string Message = new LeaveBLL().UpdateRejectStatus(Leaveid);
+            objUser = new LeaveBLL().DisplayUser(Leaveid);
+            objUser.IsApproved = false;
+            objUser.IsRejected = true;
+            string Messages = new LeaveBLL().IsApproved(objUser.leaveId, objUser.IsApproved, objUser.IsRejected);
+            int empid = objUser.EmpID;
+            int leaveid = objUser.leaveId;
+            string leavetype = objUser.LeaveStatusID;
+            int status = objUser.Status;
+            GetApprveRejectCLBalance(empid, leaveid, leavetype, status);
+            return RedirectToAction("ApproveReject", "Leave", new { Message = Message });
+           // return Rejection;
+
+        }
+      
     }
 }

@@ -1,0 +1,158 @@
+﻿@model PagedList.IPagedList<UserEntity>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Manage Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Manage", "User", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-xs-12 page-header">
+            <div class="row">
+                <div id="ModuleHead" class="col-xs-6">
+                    <h1>
+                        <i class="fa fa-user">&nbsp;</i>Manage Users
+                    </h1>
+                </div>
+
+                <div class="col-xs-6 icon-menu-wrapper">
+                    <div class="icon-menu">
+                        <a class="showSingle" target="1" data-placement="bottom" title="Search User">
+                            <span aria-hidden="true" class="fa fa-search"></span>
+                        </a>
+                        @if (General.HasRights(ViewBag.SaveRights))
+                        {
+                            <a href="@Url.Action("", "User")" title="Add New User" data-placement="bottom" id="btnAddUser">
+                                <span aria-hidden="true" class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        }
+                    </div>
+                    <div class="icon-content">
+                        <div id="div1" class="targetDiv big">
+                            <div class="row">
+                                <div class="col-xs-12 form-group">
+                                    <label>
+                                        <i class="fa fa-search"></i>&nbsp;Search User By
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>
+                                        First Name:
+                                    </label>
+                                    <div class="form-group">
+                                        @Html.TextBox("FirstName", "", new { @class = "form-control", @maxlength = "100" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>
+                                        Last Name:
+                                    </label>
+                                    <div class="form-group">
+                                        @Html.TextBox("LastName", "", new { @class = "form-control", @maxlength = "100" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>
+                                        Status:
+                                    </label>
+                                    <div class="form-group">
+                                        @Html.DropDownList("Active", new List<SelectListItem> {
+                                      new SelectListItem { Text = "Select", Value = "" },
+                                      new SelectListItem { Text = "Active", Value = "1"},
+                                      new SelectListItem { Text = "In-Active", Value = "2" }}, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label></label>
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-primary" value="Search" id="btnfilter" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    if (ViewBag.Message != "")
+    {
+        <div id="msgDisplay" class="@ViewBag.Class">
+            <button data-dismiss="alert" class="close" type="button">
+                <i class="ace-icon fa fa-times"></i>
+            </button>
+            <label>@ViewBag.Message</label>
+        </div>
+    }
+    if (@Model.Count > 0)
+    {
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table table-striped table-bordered table-hover table-responsive">
+                    <tr class="text-center">
+                        <th class="text-center">First Name</th>
+                        <th class="text-center">Last Name</th>
+                        <th class="text-center">Email Address</th>
+                        <th class="text-center">Role</th>
+                        <th class="text-center">Status</th>
+                        @if (General.HasRights(ViewBag.SaveRights) || General.HasRights(ViewBag.DeleteRights))
+                        {
+                            <th class="text-center">Action</th>
+                        }
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="text-center">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FirstName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LastName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @item.RoleName
+                            </td>
+                            <td>
+                                @General.GetUserStatus(item.Status)
+                            </td>
+                            @if (General.HasRights(ViewBag.SaveRights) || General.HasRights(ViewBag.DeleteRights))
+                            {
+                                <td class="text-center">
+                                    @if (General.HasRights(ViewBag.SaveRights))
+                                    {
+                                        <span>
+                                            <a href="@Url.Action("", new { User = clsEncrypt.Encrypt(item.UserId.ToString()) })" title='Edit'>
+                                                <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+                                            </a>
+                                        </span>
+                                    }
+                                    @if (General.HasRights(ViewBag.DeleteRights))
+                                    {
+                                        <span>
+                                            <a href="@Url.Action("Delete", new { User = clsEncrypt.Encrypt(item.UserId.ToString()) })" onclick="return ShowConfirmation(event,this,'You want to delete this user?')" title='Delete'>
+                                                <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+                                            </a>
+                                        </span>
+                                    }
+                                    <span>
+                                        <a href="@Url.Action("", "LogsAudit", new { Column = "Users" , Value = clsEncrypt.Encrypt(item.UserId.ToString()) })" title='View Audit Logs' target="_blank">
+                                            <i class="fa fa-info-circle fa-lg" aria-hidden="true"></i>
+                                        </a>
+                                    </span>
+                                </td>
+                            }
+                        </tr>
+                    }
+                    @Html.Partial("Paging")
+                </table>
+            </div>
+        </div>
+    }
+}

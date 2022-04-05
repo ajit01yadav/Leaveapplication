@@ -1,0 +1,93 @@
+﻿@model RoleEntity
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 0;
+}
+<div class="row">
+    <div class="col-xs-12 page-header">
+        <div class="row">
+            <div id="ModuleHead" class="col-xs-8">
+                <h1>
+                    <i class="fa fa-user-secret fa-fw"></i>&nbsp;@ViewBag.Type Roles
+                </h1>
+            </div>
+            <div class="col-xs-4 pull-right text-right">
+                <div class="icon-menu">
+                    <a href="@Url.Action("Manage","Role")" title="Manage Roles" data-placement="bottom">
+                        <span aria-hidden="true" class="glyphicon glyphicon-align-justify"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="form-horizontal" role="form">
+            <div class="col-sm-12">
+                @Html.ValidationSummary(false, "The following error occurred:", new { @Id = "validationSummary", @class = "alert alert-danger alert-dismissable" })
+
+                @if (ViewBag.Message != null && ViewBag.Message != "")
+                {
+                    <div id="msgDisplay" class="@ViewBag.Class">
+                        <button data-dismiss="alert" class="close" type="button">
+                            <i class="ace-icon fa fa-times"></i>
+                        </button>
+                        <label id="lblMessage">@ViewBag.Message</label>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-user"></i>&nbsp;@ViewBag.Type Role
+        </div>
+        <input type="hidden" id="RoleID" name="RoleID" value="@Model.RoleID" />
+        <div class="panel-body">
+            <div class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">Role Name :</label>
+                    <div class="col-sm-10">
+                        <div class="input-group">
+                            @Html.TextBoxFor(model => model.RoleName, new { id = "txtRoleName", @class = "form-control col-md-2", @placeholder = "Enter Role Name", @maxlength = "50" })
+                            <span class="input-group-addon"><span class="req">*</span></span>
+                        </div>
+                    </div>
+                </div>
+             
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">Status :</label>
+                    <div class="col-sm-10">
+                        <div class="input-group">
+                            @Html.DropDownListFor(model => model.Status, ViewData["StatusSelect"] as SelectList, new { @class = "form-control col-md-2" })
+                            @*@Html.HiddenFor(model => model.RoleRights, new { @Id = "hdfRights" })*@
+                            <span class="input-group-addon"><span class="req">*</span></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel-footer save-panel">
+                @if (ViewBag.SaveRight != "")
+                {
+                    <div class="pull-right">
+                        <a href="@Url.Action("Manage", "Role")" class="@Validations.ButtonCss.btnCancelMD">
+                            <i class="fa fa-times"></i> Cancel
+                        </a>
+                        <button type="submit" id="btnSave" class="@Validations.ButtonCss.btnSaveLG">
+                            <i class="fa fa-save"></i> Save
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+

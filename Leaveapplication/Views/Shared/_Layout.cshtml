@@ -1,44 +1,109 @@
 ﻿<!DOCTYPE html>
-<html>
-<head>
+<html lang="en">
+<head id="Head1">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @*<title>@ViewBag.Title - My ASP.NET Application</title>*@
-    @Styles.Render("~/Content/css")
+    @*<title>@ViewBag.Title :: @System.Configuration.ConfigurationManager.AppSettings["SiteName"]</title>*@
+    @Styles.Render("~/PluginCss")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="http://pentaglobal.1.myunlockcommerce.com/assets/css/unlock.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" />
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+    <!-- include codemirror (codemirror.css, codemirror.js, xml.js, formatting.js) -->
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.css">
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/theme/monokai.css">
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/xml/xml.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/2.36.0/formatting.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.min.js"></script>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        @*<div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+    <div id="container-fluid">
+        @*<form id="form1">*@
+        <nav class="navbar navbar-default navbar-top" style="margin-bottom:0;">
+            <div class="container-fluid">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle Branch</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                <a class="navbar-brand hidden-xs" href="~/">Leave Application</a>
+                <a class="navbar-brand show-xs hidden-sm hidden-md hidden-lg" href="~/">Leave Application</a>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li class="dropdown" id="usersession">
+                        @*<a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                            <i class="fa fa-user fa-fw"></i>
+                            <span class="white hidden-xs">
+                                Welcome
+                                <strong>
+                                    @Html.Raw(AuthenticateBLL.FirstName() + " " + AuthenticateBLL.LastName())
+                                </strong>&nbsp;&nbsp;
+                            </span>
+                            <i class="fa fa-caret-down"></i>
+                        </a>*@
+                        <ul class="dropdown-menu dropdown-user">
+                            @*<li>
+                                <a href=@Url.Action("ChangePassword", "Account")><i class="fa fa-user fa-fw"></i>Change Password</a>
+                            </li>
+                            <li class="divider"></li>*@
+                            <li>
+                                <a href=@Url.Action("LogOut", "Account")><i class="fa fa-sign-out fa-fw"></i>Sign Out</a>
+                            </li>
+                        </ul>
+                        <!-- /.dropdown-user -->
+                    </li>
+                    <!-- /.dropdown -->
                 </ul>
-                @Html.Partial("_LoginPartial")
             </div>
-        </div>*@
+            <!--Start Admin Menu Section-->
+            @*@Html.Partial("~/Views/Menu/AdminMenu.cshtml")*@
+            <!--End Of Admin Menu Section-->
+        </nav>
+        @*</form>*@
+        <div id="page-wrapper">
+            @RenderBody()
+        </div>
+        <!-- /#page-wrapper -->
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            @*<p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>*@
-        </footer>
-    </div>
+    <div class="footer">
+        <div class="footer-inner">
+            <div class="footer-content">
+                <div class="col-md-8">
+                    &copy; @DateTime.Now.Year @System.Configuration.ConfigurationManager.AppSettings["SiteName"]
+                </div>
+                <div class="col-md-4 pull-right text-right">
+                </div>
+            </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel"></h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    @Scripts.Render("~/Validation")
+    @Scripts.Render("~/PluginJS")
     @RenderSection("scripts", required: false)
 </body>
 </html>

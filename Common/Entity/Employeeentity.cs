@@ -20,4 +20,17 @@ namespace Common.Entity
         public string ReportingToId { get; set; }
         //[[ReportingToId]]
     }
+    public class HRentity
+    {
+        public int HR_ID { get; set; }
+        public string Emailid { get; set; }
+        public int CreatedById { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public int LastModifiedById { get; set; }
+        public int LastModifiedDate { get; set; }
+      
+        //[LastModifiedById]
+
+
+    }
 }

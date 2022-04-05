@@ -1,113 +1,69 @@
-﻿@model IEnumerable<Common.Entity.Leaveentiy>
-   
-    @{
-        ViewBag.Title = "Manage Leave";
-        Layout = "~/Views/Shared/_Layout.cshtml";
-    }
+﻿
+@model PagedList.IPagedList<Leaveentiy>
+@using PagedList.Mvc;
 
-    @using (Html.BeginForm("Manage", "Leave", FormMethod.Post))
+
+@{
+    ViewBag.Title = "Manage Products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Manage", "Leave", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-xs-12 page-header">
+            <div class="row">
+
+                <div class="col-sm-4">
+                <label>
+                    From Date:
+                </label>
+                <div class="form-group">
+                    @Html.TextBox("FromDate", "", new { @class = "form-control", @maxlength = "100" })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <label>
+                    To date:
+                </label>
+                <div class="form-group">
+                    @Html.TextBox("ToDate", "", new { @class = "form-control", @maxlength = "100" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <label></label>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" value="Search" />
+                    </div>
+                </div>
+            </div>
+               
+            </div>
+        </div>
+    </div>
+
+    if (ViewBag.Message != "")
     {
+        <div id="msgDisplay" class="@ViewBag.Class">
+            <button data-dismiss="alert" class="close" type="button">
+                <i class="ace-icon fa fa-times"></i>
+            </button>
+            <label>@ViewBag.Message</label>
+        </div>
+    }
         <div class="row">
-            <div class="col-xs-12 page-header">
-                <div class="row">
-                    <div id="ModuleHead" class="col-xs-6">
-                        <h1>
-                            <i class="fa fa-user">&nbsp;</i>Manage Leave
-                        </h1>
-                    </div>
-
-                    <div class="col-xs-6 icon-menu-wrapper">
-                            <div class="icon-menu">
-
-                                      <a href="@Url.Action("Add", "Leave")" title="Add New Leave" data-placement="bottom" id="btnAddUser">
-                                        <span aria-hidden="true" class="glyphicon glyphicon-plus"></span>
-                                    </a>
-                                <a href="@Url.Action("", "Leave")"
-                                   title="Add New Leave" data-placement="bottom" id="btnAddProductCategory"><span aria-hidden="true" class="glyphicon glyphicon-plus"></span></a>
-
-                            </div>
-                        <div class="icon-content">
-                            <div id="div1" class="targetDiv big">
-                                <div class="row">
-                                    <div class="col-xs-12 form-group">
-                                        <label>
-                                            <i class="fa fa-search"></i>&nbsp;Search Leave Detalis By
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <label>
-                                        From Date:
-                                    </label>
-                                    <div class="form-group">
-                                        @Html.TextBox("FromDate", "", new { @class = "form-control", @maxlength = "100" })
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <label>
-                                        To Date:
-                                    </label>
-                                    <div class="form-group">
-                                        @Html.TextBox("ToDate", "", new { @class = "form-control", @maxlength = "100" })
-                                    </div>
-                                </div>
-                               
-                                    <div class="col-sm-4">
-                                        <label></label>
-                                        <div class="form-group">
-                                            <input type="submit" class="btn btn-primary" value="Search" />
-                                        </div>
-                                    </div>
-                                
-                            </div>
-                        </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-        if (ViewBag.Message != "")
-        {
-            <div id="msgDisplay" class="@ViewBag.Class">
-                <button data-dismiss="alert" class="close" type="button">
-                    <i class="ace-icon fa fa-times"></i>
-                </button>
-                <label id="lblMessage">@ViewBag.Message</label>
-            </div>
-        }
-
-
-        <div class="row">
-            <div class="col-xs-6 icon-menu-wrapper">
-                <div class="icon-menu">
-
-                    <a href="@Url.Action("Add", "Leave")" title="Add New Leave" data-placement="bottom" id="btnAddUser">
-                        @*<span aria-hidden="true" class="glyphicon glyphicon-plus">Add leave</span>*@
-                        <h1 aria-hidden="true">Add leave</h1>
-
-                    </a>
-
-                </div>
-
-            </div>
             <div class="col-xs-12">
                 <table class="table table-striped table-bordered table-hover table-responsive">
-
                     <tr class="text-center">
                         <th class="text-center">From Date</th>
                         <th class="text-center">To Date</th>
                         <th class="text-center">Leave Reason</th>
                         <th class="text-center">Leave Type</th>
                         <th class="text-center">Total Days</th>
-                        @*<th class="text-center">Status</th>*@
                        
-
-                        <th class="text-center">Action</th>
-                        @*@if (General.HasRights(ViewBag.SaveRights) || General.HasRights(ViewBag.DeleteRights))
-                            {
-                                <th class="text-center">Action</th>
-                            }*@
+                            <th class="text-center">Action</th>
+                        
                     </tr>
                     @foreach (var item in Model)
                     {
@@ -127,39 +83,30 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.leavecount)
                             </td>
-                           
-                            @*<td>
-                                @General.GetStatus(item.Status)
-                            </td>*@
-                               
-                               
-
 
                             <td class="text-center">
 
 
                                 <span>
-                                    <a href="@Url.Action("", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" title='Edit'>
+                                    <a href="@Url.Action("Add", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" title='Edit'>
                                         <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
                                     </a>
                                 </span>
 
-
-
                                 <span>
-                                    <a href="@Url.Action("Delete", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" onclick="return ShowConfirmation(event,this,'You want to delete this user?')" title='Delete'>
+                                    <a href="@Url.Action("Delete", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" onclick="return ShowConfirmation(event,this,'You want to delete this record?')" title='Delete'>
                                         <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+         
                                     </a>
                                 </span>
 
 
                             </td>
-
                         </tr>
                     }
                     @Html.Partial("Paging")
                 </table>
             </div>
         </div>
-        // }
-    }
+    
+}

@@ -1,6 +1,6 @@
-﻿@model Common.Entity.Leaveentiy
+﻿@model Leaveentiy
 @{
-    ViewBag.Title = "Add Leave";
+   // ViewBag.Title = "Add Leave";
 }
 
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
@@ -86,304 +86,340 @@
                 let br = document.createElement("br");
                 reqs.appendChild(br);
             }
+            $(function () {
+                $('.always').change(function () {
+                    //$('#dates').toggle(!this.checked);
+                    $('#dates').toggle(this.checked);
+                }).change(); //ensure visible state matches initially
+            });
 
-
-           
         });
+        //leavecount
+       // let btnAdd = document.querySelector('#add');
+       // let btnAdd = document.querySelector('#btnAdd');
+       // let btnSubtract = document.querySelector('#subtract');
+       //// let input = document.querySelector('input');
+       // let input = document.querySelector('#leavecount');
+       // btnAdd.addEventListener('click', () => {
+       //     input.value = parseInt(input.value) + 1;
+       // });
+       // btnSubtract.addEventListener('click', () => {
+       //     input.value = parseInt(input.value) - 1;
+       // });
        
     </script>
 
 
 }
-<h2>Add</h2>
-    @using (Html.BeginForm("", "Leave", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@*<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+
+    <div>
+        <button id="subtract">-</button>
+        <input type="number" value="0">
+        <button id="add">+</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>*@
+
+@*<h2>Add</h2>*@
+    @using (Html.BeginForm("Add", "Leave", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
-
-    @Html.ValidationSummary(false)
-    <fieldset>
-
-        <div class="col-md-12 col-xl-12">
-            @if (ViewBag.Message != "")
-            {
-                <div id="msgDisplay" class="@ViewBag.Class">
-                    <button data-dismiss="alert" class="close" type="button">
-                    <i class="ace-icon fa fa-times"></i></button>
-                    <label id="lblMessage">@ViewBag.Message</label>
-                </div>
-            }
-            <input type="hidden" id="leaveid" name="leaveid" value="@Model.leaveId" />
-        </div>
-        @*<div>
-            <div class="row">
-                <div class="form-horizontal" role="form">
-                    <div class="col-sm-12">
-                        @Html.ValidationSummary(true, "The following error occurred:", new { @Id = "validationSummary", @class = "alert alert-danger alert-dismissable" })
-                    </div>
+       
+        <div class="row">
+            <div class="form-horizontal" role="form">
+                <div class="col-sm-12">
+                    @Html.ValidationSummary(false, "Please fill up details for the following:", new { @Id = "validationSummary", @class = "alert alert-danger alert-dismissable" })
                 </div>
             </div>
-            @if (@ViewBag.Message != null)
+        </div>
+        <div class="panel panel-default">
+            @*<div class="panel-heading">
+                <i class="fa fa-line-chart"></i>&nbsp;@ViewBag.Type Career
+            </div>*@
+            <div class="panel-body">
+
+                @if (ViewBag.Message != "")
                 {
-                    <div class="alert alert-danger alert-dismissable" role="alert">
-                        @ViewBag.Message
+                    <div id="msgDisplay" class="@ViewBag.Class">
+                        <button data-dismiss="alert" class="close" type="button">
+                            <i class="ace-icon fa fa-times"></i>
+                        </button>
+                        <label id="lblMessage">@ViewBag.Message</label>
                     </div>
                 }
-        </div>*@
+                <input type="hidden" id="leaveid" name="leaveid" value="@Model.leaveId" />
+                <input type="hidden" id="halfdayid" name="leaveid" value="@Model.halfdayid" />
 
-        @Html.AntiForgeryToken()
-        <div class="container container-height">
-            <div class="form-wrap">
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-4 col-xl-3">
+             
 
-                            @Html.LabelFor(model => model.Fromdate, new { @class = "col-form-label required-label" })
-                        </div>
-                        <div class="col-md-8 col-xl-9">
-                            @Html.TextBoxFor(model => model.Fromdate, new { @id = "Fromdate", @class = "form-control", @maxlength = "25" })
-                            @*@Html.TextBoxFor(model => model.Fromdate, new { @id = "Fromdate", @class = "form-control", @Value = Model.Fromdate.HasValue ? Model.Fromdate.GetValueOrDefault().ToString("dd/MM/yyyy") : "" })*@
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-4 col-xl-3">
+                    @Html.AntiForgeryToken()
+                    <div class="container container-height">
+                        <div class="form-wrap">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-4 col-xl-3">
 
-                            @Html.LabelFor(model => model.Todate, new { @class = "col-form-label required-label" })
-                        </div>
-                        <div class="col-md-8 col-xl-9">
-                            @Html.TextBoxFor(model => model.Todate, new { @id = "Todate", @class = "form-control", @maxlength = "25" })
-                           @*@Html.TextBoxFor(model => model.Todate, new { @id = "Todate", @class = "form-control", @Value = Model.Todate.HasValue ? Model.Todate.GetValueOrDefault().ToString("dd/MM/yyyy") : "" })*@
-                            @*@Html.ValidationMessageFor(model => model.Todate, "", new { @class = "text-danger" })*@
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-4 col-xl-3">
-
-                            @Html.LabelFor(model => model.leavereason, new { @class = "col-form-label required-label" })
-                        </div>
-                        <div class="col-md-8 col-xl-9">
-                            @Html.TextAreaFor(model => model.leavereason, new { @class = "form-control", @maxlength = "250" })
-                            @*@Html.ValidationMessageFor(model => model.leavereason, "", new { @class = "text-danger" })*@
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-4 col-xl-3">
-                            @Html.LabelFor(model => model.leavetype, new { @class = "col-form-label required-label" })
-                        </div>
-                        <div class="col-md-8 col-xl-9">
-                            @Html.DropDownListFor(O => O.LeaveStatusID, ViewData["LeavetypeDropdown"] as SelectList, "select", new { @id = "LeaveStatusID", @class = "form-control" })
-                            @*@Html.ValidationMessageFor(model => model.LeaveStatusID, "", new { @class = "text-danger" })*@
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-4 col-xl-3">
-                            @Html.LabelFor(model => model.leavecount, new { @class = "col-form-label required-label" })
-                        </div>
-                        <div class="col-md-8 col-xl-9">
-                            @Html.TextBoxFor(model => model.leavecount, new { @id = "leavecount", @class = "form-control", @maxlength = "25" })
-                            @*@Html.ValidationMessageFor(model => model.LeaveStatusID, "", new { @class = "text-danger" })*@
-                        </div>
-                    </div>
-                </div>
-               
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-2 col-xl-3">
-
-                            @Html.LabelFor(model => model.Casual_Leave, new { @class = "col-form-label required-label" })
-                        </div>
-                        <div class="col-md-4 col-xl-3">
-                            @Html.TextBoxFor(model => model.Casual_Leave, new { @id = "balanceleave", @class = "form-control", @maxlength = "25" })
-
-                        </div>
-                        <div class="col-md-2 col-xl-2">
-
-                            @Html.LabelFor(model => model.PL, new { @class = "col-form-label required-label" })
-                        </div>
-                        <div class="col-md-4 col-xl-4">
-                            @Html.TextBoxFor(model => model.PL, new { @id = "balancePL", @class = "form-control", @maxlength = "25" })
-
-                        </div>
-                    </div>
-                </div>
-
-               
-              <div>
-                 
-                  <label for="coupon_question">Do you want to take half day leave?</label>
-                  <input type="checkbox" id="chkPassport" />
-                  @*@Html.CheckBoxFor(Model=>Model.Date)*@
-                  @*@Html.CheckBoxFor(Model => Model.Date, new { @checked = "checked" });*@
-                  <span class="item-text">Yes</span>
-                 
-                  <br />
-                  <br />
-                  <div id="TextBoxContainer" placeholder="dd/mm/yyyy">
-                      <!--Textboxes will be added here -->
-                  </div>
-                  <br />
-                  <input id="btnAdd" type="button" value="Add" onclick="AddTextBox()" />
-                     
-                 
-              </div>
-               
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-9 col-xl-9 offset-md-3 offset-xl-3">
-                                <button type="submit" id="btnSubmit" class="btn btn-primary">Save</button>
-                                @*<input name="btnSubmit" value="Sign In" id="btnSubmit" class="@Validations.ButtonCss.btnLoginBlock" type="submit">*@
-
-                                <a href="@Url.Action("Manage", "Leave")" class="btn btn-outline">Cancel</a>
+                                        @Html.LabelFor(model => model.Fromdate, new { @class = "col-form-label required-label" })
+                                        <span class="req">*</span>
+                                    </div>
+                                    <div class="col-md-8 col-xl-9">
+                                        @Html.TextBoxFor(model => model.Fromdate, new { @id = "Fromdate", @class = "form-control", @maxlength = "25" })
+                                        
+                                       
+                                    </div>
+                                </div>
                             </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-4 col-xl-3">
+
+                                        @Html.LabelFor(model => model.Todate, new { @class = "col-form-label required-label" })
+                                        <span class="req">*</span>
+                                    </div>
+                                    <div class="col-md-8 col-xl-9">
+                                        @Html.TextBoxFor(model => model.Todate, new { @id = "Todate", @class = "form-control", @maxlength = "25" })
+                                       
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-4 col-xl-3">
+
+                                        @Html.LabelFor(model => model.leavereason, new { @class = "col-form-label required-label" })
+                                        <span class="req">*</span>
+                                    </div>
+                                    <div class="col-md-8 col-xl-9">
+                                        @Html.TextAreaFor(model => model.leavereason, new { @class = "form-control", @maxlength = "250" })
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-4 col-xl-3">
+                                        @Html.LabelFor(model => model.leavetype, new { @class = "col-form-label required-label" })
+                                        <span class="req">*</span>
+                                    </div>
+                                    <div class="col-md-8 col-xl-9">
+                                        @Html.DropDownListFor(O => O.LeaveStatusID, ViewData["LeavetypeDropdown"] as SelectList, "select", new { @id = "LeaveStatusID", @class = "form-control" })
+                                        @*@Html.ValidationMessageFor(model => model.LeaveStatusID, "", new { @class = "text-danger" })*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-4 col-xl-3">
+                                        @Html.LabelFor(model => model.leavecount, new { @class = "col-form-label" })
+                                    </div>
+                                    <div class="col-md-8 col-xl-9">
+                                        @Html.TextBoxFor(model => model.leavecount, new { @id = "leavecount", @class = "form-control", @maxlength = "25" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-2 col-xl-3">
+
+                                        @Html.LabelFor(model => model.Casual_Leave, new { @class = "col-form-label" })
+                                    </div>
+                                    <div class="col-md-4 col-xl-3">
+                                        @Html.TextBoxFor(model => model.Casual_Leave, new { @id = "balanceleave", @class = "form-control", @maxlength = "25" })
+
+                                    </div>
+                                    <div class="col-md-2 col-xl-2">
+
+                                        @Html.LabelFor(model => model.PL, new { @class = "col-form-label" })
+                                    </div>
+                                    <div class="col-md-4 col-xl-4">
+                                        @Html.TextBoxFor(model => model.PL, new { @id = "balancePL", @class = "form-control", @maxlength = "25" })
+
+                                    </div>
+                                </div>
+                            </div>
+                           
+                           
+                            <label for="coupon_question">Do you want to take half day leave?</label>
+                           
+                            @*<input type="checkbox" id="chkPassport" class="always" />*@
+                            @*<input type="checkbox" id="IsHalfdaySelect" class="always" />*@
+                            @Html.CheckBoxFor(model => model.IsHalfdaySelect, new { id = "select_all",@class= "always" })
+
+                            <span class="item-text">Yes</span>
+
+                            <div id="dates" >
+                                <br />
+                                <div id="TextBoxContainer" placeholder="dd/mm/yyyy">
+                                    <!--Textboxes will be added here -->
+                                </div>
+                                <br />
+                                <input id="btnAdd" type="button" value="Add" onclick="AddTextBox()" />
+
+
+                            </div>
+
+       
+                            <div class="panel-footer save-panel">
+                           
+                                <div class="pull-right">
+                                    <a href="@Url.Action("Manage", "Leave")" class="@Validations.ButtonCss.btnCancelMD">
+                                        <i class="fa fa-times"></i> Cancel
+                                    </a>
+                                    <button type="submit" class="@Validations.ButtonCss.btnSaveLG">
+                                        <i class="fa fa-save"></i> Save
+                                    </button>
+                                </div>
+                            
+                        </div>
+
+
                         </div>
 
                     </div>
-
-
+                @*</fieldset>*@
+                </div>
                 </div>
 
-        </div>
-    </fieldset>
 
+                }
 
+                <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+                <script type="text/javascript">
+                    $(document).ready(function () {
 
-}
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script type="text/javascript">
-            $(document).ready(function () {
-
-                $.ajax({
-                    type: "GET",
-                    url: "/Leave/GetCLBalance",
-                    data: JSON.stringify({ balanceleave: balanceleave }),
-                    contentType: "application/json; charset=utf-8",
-                    //dataType: "json",
-                    success: function (data) {
-                        debugger
-                        console.log(data);
-
-                        if (data != null) {
-                            $('[id*=balanceleave]').val(data);
-                            //$('#balanceleave').val(response.balanceleave);
-
-                        } else {
-                            alert("Something went wrong");
-                        }
-                    },
-                    failure: function (response) {
-                        alert(response.responseText);
-                    },
-                    error: function (response) {
-                        alert(response.responseText);
-                    }
-                });
-                $.ajax({
-                    type: "GET",
-                    url: "/Leave/GetPLBalance",
-                    data: JSON.stringify({ balancePL: balancePL }),
-                    contentType: "application/json; charset=utf-8",
-                    //dataType: "json",
-                    success: function (data) {
-                        if (data != null) {
-                            $('[id*=balancePL]').val(data);
-                            //$('#balanceleave').val(response.balanceleave);
-
-                        } else {
-                            alert("Something went wrong");
-                        }
-                    },
-                    failure: function (response) {
-                        alert(response.responseText);
-                    },
-                    error: function (response) {
-                        alert(response.responseText);
-                    }
-                });
-
-                $(function () {
-                    $('[id*=Todate]').on('change', function () {
-                       
-                        var val1 = $('#Fromdate').val();
-                        var val2 = $('#Todate').val();
-                      
                         $.ajax({
                             type: "GET",
-                            url: "/Leave/CalculateleaveDays",
-                            //data: JSON.stringify({ leavecount: leavecount }),
+                            url: "/Leave/GetCLBalance",
+                            data: JSON.stringify({ balanceleave: balanceleave }),
                             contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            data: "Fromdate=" + val1 + "&Todate=" + val2,
+                            //dataType: "json",
                             success: function (data) {
-                               
-                                if (data != "") {
-                                    console.log(data);
+                                debugger
+                                console.log(data);
 
-                                    $('[id*=leavecount]').val(data);
-                                }
+                                if (data != null) {
+                                    $('[id*=balanceleave]').val(data);
+                                    //$('#balanceleave').val(response.balanceleave);
 
-                                else {
-                                    $('[id*=leavecount]').val('');
+                                } else {
+                                    alert("Something went wrong");
                                 }
+                            },
+                            failure: function (response) {
+                                alert(response.responseText);
+                            },
+                            error: function (response) {
+                                alert(response.responseText);
                             }
                         });
+                        $.ajax({
+                            type: "GET",
+                            url: "/Leave/GetPLBalance",
+                            data: JSON.stringify({ balancePL: balancePL }),
+                            contentType: "application/json; charset=utf-8",
+                            //dataType: "json",
+                            success: function (data) {
+                                if (data != null) {
+                                    $('[id*=balancePL]').val(data);
+                                    //$('#balanceleave').val(response.balanceleave);
+
+                                } else {
+                                    alert("Something went wrong");
+                                }
+                            },
+                            failure: function (response) {
+                                alert(response.responseText);
+                            },
+                            error: function (response) {
+                                alert(response.responseText);
+                            }
+                        });
+
+                        $(function () {
+                            $('[id*=Todate]').on('change', function () {
+
+                                var val1 = $('#Fromdate').val();
+                                var val2 = $('#Todate').val();
+
+                                $.ajax({
+                                    type: "GET",
+                                    url: "/Leave/CalculateleaveDays",
+                                    //data: JSON.stringify({ leavecount: leavecount }),
+                                    contentType: "application/json; charset=utf-8",
+                                   // dataType: "json",
+                                    data: JSON.stringify({ val1: val2 }),
+                                    data: "Fromdate=" + val1 + "&Todate=" + val2,
+                                    success: function (data) {
+                                        debugger
+
+                                        if (data != "") {
+                                            console.log(data);
+
+                                            $('[id*=leavecount]').val(data);
+                                        }
+
+                                        else {
+                                            $('[id*=leavecount]').val('');
+                                        }
+                                    }
+                                });
+                            });
+                        });
+                      
+
                     });
-                });
 
 
+                </script>
+                <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+                <script type="text/javascript">
+                    function GetDynamicTextBox(value) {
+                        var div = $("<div />");
 
-            });
+                        var textBox = $("<input />").attr("type", "textbox").attr("name", "DynamicTextBox").attr("placeholder", "dd/mm/yyyy").attr("id", "halfday");
+                        textBox.val(value);
+                        div.append(textBox);
 
+                        var button = $("<input />").attr("type", "button").attr("value", "Remove").attr("id", "subtract");
+                        button.attr("onclick", "RemoveTextBox(this)");
+                        div.append(button);
 
-</script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script type="text/javascript">
-        function GetDynamicTextBox(value) {
-            var div = $("<div />");
+                        return div;
+                    }
+                    //
+                    //
+                    function AddTextBox() {
+                        var div = GetDynamicTextBox("");
+                        $("#TextBoxContainer").append(div);
+                    }
 
-            var textBox = $("<input />").attr("type", "textbox").attr("name", "DynamicTextBox");
-            textBox.val(value);
-            div.append(textBox);
+                    function RemoveTextBox(button) {
+                        $(button).parent().remove();
+                    }
 
-            var button = $("<input />").attr("type", "button").attr("value", "Remove");
-            button.attr("onclick", "RemoveTextBox(this)");
-            div.append(button);
-
-            return div;
-        }
-        function AddTextBox() {
-            var div = GetDynamicTextBox("");
-            $("#TextBoxContainer").append(div);
-        }
-
-        function RemoveTextBox(button) {
-            $(button).parent().remove();
-        }
-
-        $(function () {
-            var values = eval('@Html.Raw(ViewBag.Values)');
-            if (values != null) {
-                $("#TextBoxContainer").html("");
-                $(values).each(function () {
-                    $("#TextBoxContainer").append(GetDynamicTextBox(this));
-                });
-            }
-        });
-</script>
-@*@if (ViewBag.Message != null)
-{
-    <script type="text/javascript">
-            $(function () {
-                alert("@ViewBag.Message")
-            });
-    </script>
-}*@
+                    $(function () {
+                        var values = eval('@Html.Raw(ViewBag.Values)');
+                        if (values != null) {
+                            $("#TextBoxContainer").html("");
+                            $(values).each(function () {
+                                $("#TextBoxContainer").append(GetDynamicTextBox(this));
+                            });
+                        }
+                    });
+                </script>
+               
 
 
 
