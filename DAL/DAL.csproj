@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthenticateDAL.cs" />
+    <Compile Include="ContentDAL.cs" />
     <Compile Include="HolidayDAL.cs" />
     <Compile Include="LeaveDAL.cs" />
     <Compile Include="LeaveTypeDAL.cs" />

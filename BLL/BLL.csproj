@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthenticateBLL.cs" />
+    <Compile Include="ContentBLL.cs" />
     <Compile Include="HolidayBLL.cs" />
     <Compile Include="LeaveBLL.cs" />
     <Compile Include="LeaveTypeBLL.cs" />

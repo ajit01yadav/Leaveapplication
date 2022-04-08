@@ -64,9 +64,16 @@
                 reqs_id++;
 
                 //create textbox
+                //let input = document.createElement('input');
+                //input.type = "text";
+                //input.setAttribute("class", "w3-input w3-border");
+                //input.setAttribute('id', 'reqs' + reqs_id);
+                //input.setAttribute('value', reqs_id);
+                //let reqs = document.getElementById("reqs");
+
                 let input = document.createElement('input');
-                input.type = "text";
-                input.setAttribute("class", "w3-input w3-border");
+                input.type = "date";
+                input.setAttribute("class", "form-control");
                 input.setAttribute('id', 'reqs' + reqs_id);
                 input.setAttribute('value', reqs_id);
                 let reqs = document.getElementById("reqs");
@@ -214,7 +221,7 @@
                                     </div>
                                     <div class="col-md-8 col-xl-9">
                                         @Html.DropDownListFor(O => O.LeaveStatusID, ViewData["LeavetypeDropdown"] as SelectList, "select", new { @id = "LeaveStatusID", @class = "form-control" })
-                                        @*@Html.ValidationMessageFor(model => model.LeaveStatusID, "", new { @class = "text-danger" })*@
+                                       
                                     </div>
                                 </div>
                             </div>
@@ -253,8 +260,6 @@
                            
                             <label for="coupon_question">Do you want to take half day leave?</label>
                            
-                            @*<input type="checkbox" id="chkPassport" class="always" />*@
-                            @*<input type="checkbox" id="IsHalfdaySelect" class="always" />*@
                             @Html.CheckBoxFor(model => model.IsHalfdaySelect, new { id = "select_all",@class= "always" })
 
                             <span class="item-text">Yes</span>
@@ -388,7 +393,8 @@
                     function GetDynamicTextBox(value) {
                         var div = $("<div />");
 
-                        var textBox = $("<input />").attr("type", "textbox").attr("name", "DynamicTextBox").attr("placeholder", "dd/mm/yyyy").attr("id", "halfday");
+                        //var textBox = $("<input />").attr("type", "textbox").attr("name", "DynamicTextBox").attr("placeholder", "dd/mm/yyyy").attr("id", "halfday");
+                        var textBox = $("<input />").attr("type", "date").attr("name", "DynamicTextBox").attr("placeholder", "dd/mm/yyyy").attr("id", "halfday");
                         textBox.val(value);
                         div.append(textBox);
 

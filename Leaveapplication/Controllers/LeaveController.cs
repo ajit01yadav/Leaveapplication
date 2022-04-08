@@ -22,6 +22,8 @@ namespace Leaveapplication.Controllers
       
         public ActionResult Add(string User, string Message)
         {
+            int DataTagCount;
+            List<DataTags> DataTagList = new List<DataTags>();
             Leaveentiy objUser = new Leaveentiy();
             if (!String.IsNullOrEmpty(User))
                 objUser = new LeaveBLL().DisplayUsers(DecryptToInt(User));
@@ -31,6 +33,10 @@ namespace Leaveapplication.Controllers
             GetMessage(Message, User);
             BindLeavetype();
             BindStatusSelectList(objUser.Status);
+            BindDefaultDataTags(Convert.ToInt16(objUser.leaveId), (int)PageTypes.ContentPage, out DataTagCount, out DataTagList);
+            // BindDefaultDataTags(Convert.ToInt16(objContent.ContentPageID), (int)PageTypes.ContentPage, out DataTagCount, out DataTagList);
+            objUser.DataTagList = DataTagList;
+            objUser.DatTagCount = DataTagCount;
             return View(objUser); 
       
         }
@@ -40,11 +46,11 @@ namespace Leaveapplication.Controllers
         {
            objUser.halfdayid = Convert.ToInt32(Session["haldayid"]).ToString();
             // objUser.leaveId
-            if (objUser.halfdayid != "0")
-            {
+            //if (objUser.halfdayid != "0")
+            //{
                 
-                string Message = new LeaveBLL().IsDeletedRecord(objUser.leaveId);
-            }
+            //    string Message = new LeaveBLL().IsDeletedRecord(objUser.leaveId);
+            //}
 
             objUser.EmpID = Convert.ToInt32(Session["Empid"]);
             objUser.EMPCode = Convert.ToString(Session["Empcode"]);

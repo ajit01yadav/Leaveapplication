@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-public class ViewModel
-{
-    public List<Leaveentiy> ApproveRejectlist { get; set; }
-    public List<ApproveRejectEntity> FilteronAprrove { get; set; }
-}
+//public class ViewModel
+//{
+//    public List<Leaveentiy> ApproveRejectlist { get; set; }
+//    public List<ApproveRejectEntity> FilteronAprrove { get; set; }
+//}
 
 
 public class Leaveentiy
@@ -80,6 +80,17 @@ public class Leaveentiy
         public bool IsHalfdaySelect { get; set; }
        public bool IsApproved { get; set; }
        public bool IsRejected { get; set; }
+    public string DataTags { get; set; }
+
+    public string DataTagNames { get; set; }
+    public string DataTagValues { get; set; }
+    public int IsHomepage { get; set; }
+    public List<DataTags> DataTagList { get; set; }
+    public int DatTagCount { get; set; }
+    public int EntityType { get; set; }
+    public string EntityID { get; set; }
+
+    public int PageTypeID { get; set; }
 
 
 }

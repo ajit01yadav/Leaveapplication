@@ -1,0 +1,44 @@
+﻿@model List<DataTags>
+<style>
+    .buttons {
+        height: 32px;
+    }
+
+    .table > tbody > tr > td {
+        border-top: 0;
+    }
+</style>
+<div class="col-sm-12 ">
+    @Html.HiddenFor(model => model.Count, new { id = "hdfDatTagCount" })
+    <div class="table-responsive">
+        <table id="Table1" cellspacing="3" class="table">
+            @for (int i = 0; i < Convert.ToInt32(Model.Count); i++)
+            {
+                <input id="hdFlag" name="DataTagList[@(i)].TagValue" type="hidden" value="@i" />
+                <tr>
+                    <td>
+                        Tag Name:
+                        <input class="form-control txtTagName valid" id="DataTagList_@(i)__TagName" maxlength="100" name="DataTagList[@(i)].TagName" type="text" value="@Model[i].TagName">
+                    </td>
+                    <td>
+                        Tag Value:
+                        <input class="form-control txtTagValue valid" id="DataTagList_@(i)__TagValue" maxlength="100" name="DataTagList[@(i)].TagValue" type="text" value="@Model[i].TagValue">
+                    </td>
+                    <td>
+                        &nbsp;
+                        <input type="button" id="btnAddRow" class="BtnPlus buttons" onclick="addRow(event)" value="Add" />
+                    </td>
+                    <td>
+                        &nbsp;<br />
+                        <input type="button" class="BtnMinus buttons" value="Remove" />
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+<script>
+    $('.txtTagValue').keyup(function () {
+        $('input[name="' + $(this).attr('name') + '"]').val($(this).val());
+    })
+</script>

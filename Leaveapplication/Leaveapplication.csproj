@@ -423,6 +423,7 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Manage.cshtml" />
     <Content Include="Views\Role\Manage.cshtml" />
+    <Content Include="Views\Shared\DataTags.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

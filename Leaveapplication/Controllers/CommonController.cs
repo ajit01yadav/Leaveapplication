@@ -50,6 +50,17 @@ namespace Leaveapplication.Controllers
         {
             ViewData["Permission"] = new SelectList(new RoleBLL().BindRoleDropDown(), "Value", "Text", SelectedValue);
         }
+        public void BindDefaultDataTags(int EntityID, int EntityType, out int DatTagCount, out List<DataTags> Datatag)
+        {
+            List<DataTags> DatatagList = new List<DataTags>();
+            if (EntityID != 0)
+                DatatagList = new ContentBLL().DisplayDatatags(EntityID, EntityType);
+            DatTagCount = DatatagList.Count > 0 ? DatatagList.Count : 1;
+            ViewBag.DatTagCount = DatatagList.Count > 0 ? DatatagList.Count : 1;
+            if (DatatagList.Count == 0)
+                DatatagList.Add(new DataTags() { TagName = "", TagValue = "" });
+            Datatag = DatatagList;
+        }
         public void CreatePager(int? PageNo, int TotalRowCount)
         {
             int pageSize = Pager.GetPageSize();

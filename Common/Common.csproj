@@ -53,12 +53,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsEncrypt.cs" />
+    <Compile Include="Entity\DataTags.cs" />
     <Compile Include="Entity\Employeeentity.cs" />
     <Compile Include="Entity\Holidayentity.cs" />
     <Compile Include="Entity\Leaveentiy.cs" />
     <Compile Include="Entity\Leavetypeentity.cs" />
     <Compile Include="Entity\LoginEntity.cs" />
     <Compile Include="Entity\LogsEntity.cs" />
+    <Compile Include="Entity\ModuleEntity.cs" />
     <Compile Include="Entity\RoleEntity.cs" />
     <Compile Include="Entity\UserEntity.cs" />
     <Compile Include="General.cs" />
