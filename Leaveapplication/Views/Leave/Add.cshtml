@@ -41,10 +41,12 @@
                     debugger
                     var Leavetype = $('#LeaveStatusID').val();
                     var leavecount = $('#leavecount').val();
+                   
                     if (Leavetype == '2' && leavecount>'2.00')
                     {
                         alert('you cannot apply more than 2 Casual Leave');
                     }
+                  
                   
                 });
             });
@@ -365,9 +367,13 @@
 
                         $(function () {
                             $('[id*=Todate]').on('change', function () {
-
+                               
                                 var val1 = $('#Fromdate').val();
                                 var val2 = $('#Todate').val();
+                                if (val1 > val2)
+                                {
+                                    alert("To date should be greater than or equal to from date");
+                                }
 
                                 $.ajax({
                                     type: "GET",

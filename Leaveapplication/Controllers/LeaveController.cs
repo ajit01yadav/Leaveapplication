@@ -159,9 +159,6 @@ namespace Leaveapplication.Controllers
             return holiday;
             }
 
-       
-       // public string UserDetails(Leaveentiy objUser,string Rejectionreason, int Leaveid)
-         //public ActionResult UserDetails(string User, string Rejectionreason, int Leaveid)
          public ActionResult UserDetails(Leaveentiy objUser, string User, string Rejectionreason, int Leaveid)
 
         {
