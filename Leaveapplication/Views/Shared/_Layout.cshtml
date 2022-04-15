@@ -37,16 +37,21 @@
                 <ul class="nav navbar-top-links navbar-right">
                     <li class="dropdown" id="usersession">
                         @*<a href="#" data-toggle="dropdown" class="dropdown-toggle">
-                            <i class="fa fa-user fa-fw"></i>
-                            <span class="white hidden-xs">
-                                Welcome
-                                <strong>
-                                    @Html.Raw(AuthenticateBLL.FirstName() + " " + AuthenticateBLL.LastName())
-                                </strong>&nbsp;&nbsp;
-                            </span>
-                            <i class="fa fa-caret-down"></i>
-                        </a>*@
-                        <ul class="dropdown-menu dropdown-user">
+                <i class="fa fa-user fa-fw"></i>
+                <span class="white hidden-xs">
+                    Welcome
+                    <strong>
+                        @Html.Raw(AuthenticateBLL.FirstName() + " " + AuthenticateBLL.LastName())
+                    </strong>&nbsp;&nbsp;
+                </span>
+                <i class="fa fa-caret-down"></i>
+
+            </a>*@
+                    @*<li><a href="@Url.Action("Add", "Leave")">Apply Leave</a></li>
+                    <li><a href="@Url.Action("Manage", "Leave")">View Leave</a></li>
+                    <li><a href="@Url.Action("ApproveReject", "Leave")">Approve & Reject Leave</a></li>
+                    <li><a href=@Url.Action("LogOut", "Account")>Sign Out</a></li>*@
+                       
                             @*<li>
                                 <a href=@Url.Action("ChangePassword", "Account")><i class="fa fa-user fa-fw"></i>Change Password</a>
                             </li>
@@ -63,6 +68,7 @@
             <!--Start Admin Menu Section-->
             @*@Html.Partial("~/Views/Menu/AdminMenu.cshtml")*@
             <!--End Of Admin Menu Section-->
+            @*@Html.Partial("/Shared/_Menu.cshtml")*@
         </nav>
         @*</form>*@
         <div id="page-wrapper">

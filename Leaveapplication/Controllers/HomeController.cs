@@ -12,10 +12,12 @@ namespace Leaveapplication.Controllers
         public ActionResult Index()
        {
             var Empcode = Convert.ToString(Session["Empcode"]);
-            var Getroles = new LeaveBLL().GetUserRoles(Empcode.ToString());
-            TempData["Roles"] = Getroles;
+          
+             var Getroles = new LeaveBLL().GetUserRoles(Empcode.ToString());
+           // List<ModuleEntity> MenuList = new LeaveBLL().GetMenu(objUser, Empcode.ToString());
+           TempData["Roles"] = Getroles;
             return View(TempData["Roles"]);
-           // return View();
+           // return View(MenuList);
         }
 
         public ActionResult About()

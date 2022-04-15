@@ -96,16 +96,17 @@ namespace DAL
 
         //}
 
-        public List<Leaveentiy> ManageUser(Leaveentiy objUser)
+        public List<Leaveentiy> ManageUser(Leaveentiy objUser, int EmpID)
         {
-            //var parameters = new DynamicParameters(new
-            //{
-            //    EMPId
+            var parameters = new DynamicParameters(new
+            {
+                EmpID
 
-            //});
+            });
             //SPMangeLeave2
             //SPLeaveManage3
-            return this.db.Query<Leaveentiy>("SPLeaveManage3", new { objUser.Fromdate, objUser.Todate }, commandType: CommandType.StoredProcedure).ToList();
+            return this.db.Query<Leaveentiy>("SPMangeLeave2", new {  objUser.Fromdate, objUser.Todate, EmpID }, commandType: CommandType.StoredProcedure).ToList();
+           // return this.db.Query<NewUserEntity>("SPUserManage", new { objUser.Firstname, objUser.Lastname, objUser.Status }, commandType: CommandType.StoredProcedure).ToList();
         }
         public List<Leaveentiy> ManageUserByEmpcode(int EMPId)
         {
@@ -187,7 +188,7 @@ namespace DAL
                 empid
 
             });
-            return this.db.Query<decimal>("Sp_TotalPLBalance", new { empid }, commandType: CommandType.StoredProcedure).SingleOrDefault();
+            return this.db.Query<decimal>("Sp_TotalPLBalance", new { empid }, commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
         public Leaveentiy DisplayUsers(int leaveid)
         {
@@ -360,6 +361,10 @@ namespace DAL
             });
             return this.db.Query<string>("Sp_IsApproved", new { leaveid, IsApproved, IsRejected }, commandType: CommandType.StoredProcedure).FirstOrDefault();
 
+        }
+        public List<ModuleEntity> GetMenu(ModuleEntity objUser, string EmpId)
+        {
+            return this.db.Query<ModuleEntity>("USP_GetMenuItemDataNew", new { EmpId }, commandType: CommandType.StoredProcedure).ToList();
         }
         //IsApproved
 

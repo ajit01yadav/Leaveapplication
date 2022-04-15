@@ -22,8 +22,8 @@ namespace Leaveapplication.Controllers
       
         public ActionResult Add(string User, string Message)
         {
-            int DataTagCount;
-            List<DataTags> DataTagList = new List<DataTags>();
+           // int DataTagCount;
+          //  List<DataTags> DataTagList = new List<DataTags>();
             Leaveentiy objUser = new Leaveentiy();
             if (!String.IsNullOrEmpty(User))
                 objUser = new LeaveBLL().DisplayUsers(DecryptToInt(User));
@@ -33,10 +33,10 @@ namespace Leaveapplication.Controllers
             GetMessage(Message, User);
             BindLeavetype();
             BindStatusSelectList(objUser.Status);
-            BindDefaultDataTags(Convert.ToInt16(objUser.leaveId), (int)PageTypes.ContentPage, out DataTagCount, out DataTagList);
+         //   BindDefaultDataTags(Convert.ToInt16(objUser.leaveId), (int)PageTypes.ContentPage, out DataTagCount, out DataTagList);
             // BindDefaultDataTags(Convert.ToInt16(objContent.ContentPageID), (int)PageTypes.ContentPage, out DataTagCount, out DataTagList);
-            objUser.DataTagList = DataTagList;
-            objUser.DatTagCount = DataTagCount;
+           // objUser.DataTagList = DataTagList;
+           // objUser.DatTagCount = DataTagCount;
             return View(objUser); 
       
         }
@@ -62,6 +62,7 @@ namespace Leaveapplication.Controllers
             }
               bool result = false;
             result = SendMail(objUser.Fromdate, objUser.Todate, objUser.leavecount, objUser.DynamicTextBox);
+           // ModelState.Clear();
 
             return (Output == "Update" ? RedirectToAction("Manage", "Leave", new { Message = "Update" }) : RedirectToAction("Add", "Leave", new { Message = Output }));
 
@@ -69,16 +70,21 @@ namespace Leaveapplication.Controllers
         
         public ActionResult Manage(Leaveentiy objUser, string Message, int? page)
         {
+           // ModelState.Clear();
             objUser.EmpID =Convert.ToInt32(Session["Empid"]);
+            // var empids = Convert.ToInt32(Session["Empid"]);
+            // List<Leaveentiy> UserList = new LeaveBLL().ManageUserByEmpcode(objUser.EmpID);
            
-               List<Leaveentiy> UserList = new LeaveBLL().ManageUserByEmpcode(objUser.EmpID);
-               // List<Leaveentiy> UserList = new LeaveBLL().ManageUser(objUser);
+            List<Leaveentiy> UserList = new LeaveBLL().ManageUser(objUser, objUser.EmpID);
                 GetMessage(UserList.Count == 0 ? "NoRecord" : Message, "");
                 CreatePager(page, UserList.Count);
-               // return View(UserList);
+            // return View(UserList);
             //  BindCountryDropdown();
+           // ModelState.Clear();
             PagedList<Leaveentiy> model = new PagedList<Leaveentiy>(UserList, page.HasValue ? Convert.ToInt32(page) : 1, Pager.GetPageSize());
-             return View(model);
+            ModelState.Clear();
+            return View(model);
+            
         }
         public ActionResult ApproveReject(Leaveentiy objUser, string Message, int? page)
         {
@@ -90,6 +96,7 @@ namespace Leaveapplication.Controllers
             GetMessage(UserList.Count == 0 ? "NoRecord" : Message, "");
                 CreatePager(page, UserList.Count);
             PagedList<Leaveentiy> model = new PagedList<Leaveentiy>(UserList, page.HasValue ? Convert.ToInt32(page) : 1, Pager.GetPageSize());
+            ModelState.Clear();
             return View(model);
         }
               
@@ -138,7 +145,10 @@ namespace Leaveapplication.Controllers
         public decimal GetPLBalance(string empid)
         {
             var empids = Session["Empid"].ToString();
-            decimal PL = new LeaveBLL().GetPLBalance(empids);
+          //  decimal? a = null;
+           // decimal PL = a.GetValueOrDefault(0m);
+
+            decimal PL  = new LeaveBLL().GetPLBalance(empids);
             return PL;
         }
         [HttpGet]

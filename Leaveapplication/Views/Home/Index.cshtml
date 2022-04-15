@@ -22,26 +22,26 @@
                 </div>
                 <div class="panel-body">
                     <ul class="nav navbar-nav">
-                   @*@if (TempData["Roles"].ToString() == "Manager")*@
-                    @if (TempData["Roles"].ToString() == @System.Configuration.ConfigurationManager.AppSettings["ManagerRole"])
-                    {
-                    <li><a href="@Url.Action("Add", "Leave")">Apply Leave</a></li>
-                        <li><a href="@Url.Action("Manage", "Leave")">View Leave</a></li>
-                        <li><a href="@Url.Action("ApproveReject", "Leave")">Approve & Reject Leave</a></li>
-                        <li><a href=@Url.Action("LogOut", "Account")>Sign Out</a></li>
-                   }
-                 
-                    @if (TempData["Roles"].ToString() == @System.Configuration.ConfigurationManager.AppSettings["EmployeeRole"])
-                    {
-                    <li><a href="@Url.Action("Add", "Leave")">Apply Leave</a></li>
-                        <li><a href="@Url.Action("Manage", "Leave")">View Leave</a></li>
-                       
-                        <li><a href=@Url.Action("LogOut", "Account")>Sign Out</a></li>
-                   }
+                        @*@if (TempData["Roles"].ToString() == "Manager")*@
+                        @if (TempData["Roles"].ToString() == @System.Configuration.ConfigurationManager.AppSettings["ManagerRole"])
+                        {
+                            <li><a href="@Url.Action("Add", "Leave")">Apply Leave</a></li>
+                            <li><a href="@Url.Action("Manage", "Leave")">View Leave</a></li>
+                            <li><a href="@Url.Action("ApproveReject", "Leave")">Approve & Reject Leave</a></li>
+                            <li><a href=@Url.Action("LogOut", "Account")>Sign Out</a></li>
+                        }
+
+                        @if (TempData["Roles"].ToString() == @System.Configuration.ConfigurationManager.AppSettings["EmployeeRole"])
+                        {
+                            <li><a href="@Url.Action("Add", "Leave")">Apply Leave</a></li>
+                            <li><a href="@Url.Action("Manage", "Leave")">View Leave</a></li>
+
+                            <li><a href=@Url.Action("LogOut", "Account")>Sign Out</a></li>
+                        }
                         @*<li><a href="@Url.Action("Add", "Leave")">Apply Leave</a></li>
-                        <li><a href="@Url.Action("Manage", "Leave")">View Leave</a></li>
-                        <li><a href="@Url.Action("ApproveReject", "Leave")">Approve & Reject Leave</a></li>
-                        <li><a href=@Url.Action("LogOut", "Account")>Sign Out</a></li>*@
+                            <li><a href="@Url.Action("Manage", "Leave")">View Leave</a></li>
+                            <li><a href="@Url.Action("ApproveReject", "Leave")">Approve & Reject Leave</a></li>
+                            <li><a href=@Url.Action("LogOut", "Account")>Sign Out</a></li>*@
                     </ul>
                 </div>
             </div>

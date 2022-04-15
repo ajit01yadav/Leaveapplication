@@ -19,9 +19,9 @@ namespace BLL
         //    return new LeaveDAL().InsertUpdateHalfday(objhalfday);
         //}
         //InsertUpdateHalfday
-        public List<Leaveentiy> ManageUser(Leaveentiy objUser)
+        public List<Leaveentiy> ManageUser(Leaveentiy objUser, int EmpID )
         {
-            return new LeaveDAL().ManageUser(objUser);
+            return new LeaveDAL().ManageUser( objUser, EmpID);
         }
         public List<Leaveentiy> ApproveRejectUser(Leaveentiy objUser, string ReportingToId)
         {
@@ -109,6 +109,10 @@ namespace BLL
         public String GetUserRoles(string Empcode)
         {
             return new LeaveDAL().GetUserRoles(Empcode);
+        }
+        public List<ModuleEntity> GetMenu(ModuleEntity objUser, string Empcode)
+        {
+            return new LeaveDAL().GetMenu(objUser, Empcode);
         }
 
         public decimal GetApprveRejectCLBalance(int empid, int leaveid, string leavetype, int status)

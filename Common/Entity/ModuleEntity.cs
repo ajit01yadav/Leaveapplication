@@ -7,24 +7,42 @@ using System.Threading.Tasks;
 
 public class ModuleEntity
 {
-    public int ModuleID { get; set; }
-    public string ModuleName { get; set; }
-    public string SubModuleName { get; set; }
-    public string SubSubModuleName { get; set; }
+    public int PageID { get; set; }
+    public int ParentID { get; set; }
+    public string PageName { get; set; }
+  //  public string ModuleName { get; set; }
+   // public string SubModuleName { get; set; }
+   // public string SubSubModuleName { get; set; }
     public string ControllerName { get; set; }
     public string ActionName { get; set; }
-    public string PageLink { get; set; }
-    public string LinkIcon { get; set; }
-    public int ParentID { get; set; }
-    public int ModuleLevel { get; set; }
+    public string PageNameURL { get; set; }
+    public bool IsActive { get; set; }
+    public int CreatedBy { get; set; }
+    public int MenuOrderID { get; set; }
     public int ModuleType { get; set; }
-    public int OriginalID { get; set; }
-    public int LeftSideDisplay { get; set; }
-    public bool ViewModule { get; set; }
-    public bool EditModule { get; set; }
-    public bool DeleteModule { get; set; }
-    public int SortOrder { get; set; }
-    public int Status { get; set; }
+    public DateTime CreatedDate { get; set; }
+
+
+
+
+    //public int ModuleID { get; set; }
+    //public string ModuleName { get; set; }
+    //public string SubModuleName { get; set; }
+    //public string SubSubModuleName { get; set; }
+    //public string ControllerName { get; set; }
+    //public string ActionName { get; set; }
+    //public string PageLink { get; set; }
+    //public string LinkIcon { get; set; }
+    //public int ParentID { get; set; }
+    //public int ModuleLevel { get; set; }
+    //public int ModuleType { get; set; }
+    //public int OriginalID { get; set; }
+    //public int LeftSideDisplay { get; set; }
+    //public bool ViewModule { get; set; }
+    //public bool EditModule { get; set; }
+    //public bool DeleteModule { get; set; }
+    //public int SortOrder { get; set; }
+    //public int Status { get; set; }
 }
 
 public static class GetModuleID

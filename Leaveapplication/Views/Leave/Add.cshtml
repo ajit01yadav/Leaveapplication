@@ -15,7 +15,6 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("#Fromdate").datepicker({ dateFormat: 'dd/mm/yy' });
-            //$("#halfdaydate").datepicker({ dateFormat: 'yy-mm-dd' });
             $("#Todate").datepicker({
                 dateFormat: 'dd/mm/yy',
                // onSelect: function (dateString, txtDate) {
@@ -26,19 +25,30 @@
                 }
           
             })
+            debugger
+            $("#halfday").datepicker({
+               
+                dateFormat: 'dd/mm/yy',
+                onClose: function (dateString, txtDate) {
+               
+
+                }
+
+            })
          
             $(function () {
                 $("#LeaveStatusID").change(function () {
                     debugger
                     var Leavetype = $('#LeaveStatusID').val();
                     var leavecount = $('#leavecount').val();
-                    if (Leavetype == '2' && leavecount>'2')
+                    if (Leavetype == '2' && leavecount>'2.00')
                     {
                         alert('you cannot apply more than 2 Casual Leave');
                     }
-                  //  alert($('option:selected', this).text());
+                  
                 });
             });
+           
             function removeElement(e) {
                 let button = e.target;
                 let field = button.previousSibling;
@@ -263,15 +273,16 @@
                             @Html.CheckBoxFor(model => model.IsHalfdaySelect, new { id = "select_all",@class= "always" })
 
                             <span class="item-text">Yes</span>
-
+                           
                             <div id="dates" >
                                 <br />
                                 <div id="TextBoxContainer" placeholder="dd/mm/yyyy">
+
                                     <!--Textboxes will be added here -->
                                 </div>
                                 <br />
                                 <input id="btnAdd" type="button" value="Add" onclick="AddTextBox()" />
-
+                               
 
                             </div>
 
@@ -300,7 +311,7 @@
 
                 }
 
-                <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+                @*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>*@
                 <script type="text/javascript">
                     $(document).ready(function () {
 
@@ -382,19 +393,18 @@
                                 });
                             });
                         });
+                        //
                       
-
                     });
+              
 
-
-                </script>
-                <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-                <script type="text/javascript">
+             
                     function GetDynamicTextBox(value) {
                         var div = $("<div />");
-
+                       
                         //var textBox = $("<input />").attr("type", "textbox").attr("name", "DynamicTextBox").attr("placeholder", "dd/mm/yyyy").attr("id", "halfday");
                         var textBox = $("<input />").attr("type", "date").attr("name", "DynamicTextBox").attr("placeholder", "dd/mm/yyyy").attr("id", "halfday");
+                            
                         textBox.val(value);
                         div.append(textBox);
 
@@ -424,7 +434,8 @@
                             });
                         }
                     });
-                </script>
+
+   </script>
                
 
 

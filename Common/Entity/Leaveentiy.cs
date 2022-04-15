@@ -64,9 +64,16 @@ public class Leaveentiy
         public decimal leavecount { get; set; }
         [DisplayName("Half day")]
         public string Date { get; set; }
-        public string[] DynamicTextBox { get; set; }
-       
-        public int Status { get; set; }
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
+    public string[] DynamicTextBox { get; set; }
+
+    //[DataType(DataType.Date)]
+    //[DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
+    //public DateTime? ServiceCreatedFrom { get; set; }
+
+
+    public int Status { get; set; }
         public string EMPCode { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }

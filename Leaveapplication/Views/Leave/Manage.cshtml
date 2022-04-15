@@ -7,6 +7,37 @@
     ViewBag.Title = "Manage Products";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.13.0.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Fromdate").datepicker({ dateFormat: 'dd/mm/yy' });
+        $("#Todate").datepicker({
+            dateFormat: 'dd/mm/yy',
+            // onSelect: function (dateString, txtDate) {
+            //onClose: function (dateString, txtDate) {
+                //TotalCount();
+
+
+           // }
+
+        })
+       
+
+    });
+   
+    function clearResult() {
+        debugger
+        document.getElementById("#Fromdate").value = ''
+        document.getElementById("#Todate").value = ''
+    }
+    </script>
+    }
 
 @using (Html.BeginForm("Manage", "Leave", FormMethod.Post))
 {
@@ -19,26 +50,35 @@
                     From Date:
                 </label>
                 <div class="form-group">
-                    @Html.TextBox("FromDate", "", new { @class = "form-control", @maxlength = "100" })
+                    @Html.TextBox("FromDate", "", new { @class = "form-control", @id = "Fromdate", @maxlength = "100" })
+                   
                 </div>
+
             </div>
             <div class="col-sm-4">
                 <label>
                     To date:
                 </label>
                 <div class="form-group">
-                    @Html.TextBox("ToDate", "", new { @class = "form-control", @maxlength = "100" })
+                    @Html.TextBox("ToDate", "", new { @class = "form-control", @id = "Todate", @maxlength = "100" })
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-2">
                     <label></label>
                     <div class="form-group">
                         <input type="submit" class="btn btn-primary" value="Search" />
                     </div>
                 </div>
+                <div class="col-sm-2">
+                    <label></label>
+                    <div class="form-group">
+                        <input type="reset" class="btn btn-primary" value="Reset" onclick="clearResult()"/>
+
+                    </div>
+                </div>
             </div>
-               
+
             </div>
         </div>
     </div>
@@ -61,9 +101,9 @@
                         <th class="text-center">Leave Reason</th>
                         <th class="text-center">Leave Type</th>
                         <th class="text-center">Total Days</th>
-                       
+
                             <th class="text-center">Action</th>
-                        
+
                     </tr>
                     @foreach (var item in Model)
                     {
@@ -96,7 +136,7 @@
                                 <span>
                                     <a href="@Url.Action("Delete", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" onclick="return ShowConfirmation(event,this,'You want to delete this record?')" title='Delete'>
                                         <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
-         
+
                                     </a>
                                 </span>
 
@@ -108,5 +148,5 @@
                 </table>
             </div>
         </div>
-    
+
 }
