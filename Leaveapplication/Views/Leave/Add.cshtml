@@ -14,43 +14,61 @@
     <script src="~/Scripts/jquery-ui-1.13.0.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+            $('#IncludePhotos').hide();
             $("#Fromdate").datepicker({ dateFormat: 'dd/mm/yy' });
             $("#Todate").datepicker({
                 dateFormat: 'dd/mm/yy',
                // onSelect: function (dateString, txtDate) {
                     onClose: function (dateString, txtDate) {
                     //TotalCount();
-                  
 
-                }
-          
-            })
-            debugger
-            $("#halfday").datepicker({
-               
-                dateFormat: 'dd/mm/yy',
-                onClose: function (dateString, txtDate) {
-               
 
-                }
+                    }
+
 
             })
-         
+
+
             $(function () {
                 $("#LeaveStatusID").change(function () {
-                    debugger
+                   debugger
                     var Leavetype = $('#LeaveStatusID').val();
                     var leavecount = $('#leavecount').val();
-                   
+                    var CLbalanceleave = $('#balanceleave').val();
+                    var PLbalanceleave = $('#balancePL').val();
+                    //balancePL
+
+                    var value = $(this).val();
+                    if (value == '4') {
+                        $('#IncludePhotos').show();
+                    } else {
+                        $('#IncludePhotos').hide();
+                    }
+
                     if (Leavetype == '2' && leavecount>'2.00')
                     {
                         alert('you cannot apply more than 2 Casual Leave');
+                        e.stopPropagation();
+
                     }
-                  
-                  
+                    if (Leavetype == '2' && CLbalanceleave < leavecount)
+
+                     {
+                        alert('You donot have sufficient CL balace to apply leave your leave should be deducted from PL leave please select PL leave');
+                        return false;
+                     }
+              
+                        if (Leavetype == '1' && PLbalanceleave < leavecount)
+                    {
+                        alert('You donot have sufficient PL balace to apply leave please select losss of pay from leave type');
+                        return false;
+                     }
+
+
                 });
             });
-           
+
+
             function removeElement(e) {
                 let button = e.target;
                 let field = button.previousSibling;
@@ -74,15 +92,6 @@
                 let reqs_id = allElements.getElementsByTagName("input").length;
 
                 reqs_id++;
-
-                //create textbox
-                //let input = document.createElement('input');
-                //input.type = "text";
-                //input.setAttribute("class", "w3-input w3-border");
-                //input.setAttribute('id', 'reqs' + reqs_id);
-                //input.setAttribute('value', reqs_id);
-                //let reqs = document.getElementById("reqs");
-
                 let input = document.createElement('input');
                 input.type = "date";
                 input.setAttribute("class", "form-control");
@@ -105,50 +114,42 @@
                 let br = document.createElement("br");
                 reqs.appendChild(br);
             }
+
             $(function () {
                 $('.always').change(function () {
-                    //$('#dates').toggle(!this.checked);
+
                     $('#dates').toggle(this.checked);
                 }).change(); //ensure visible state matches initially
             });
+           
 
         });
-        //leavecount
-       // let btnAdd = document.querySelector('#add');
-       // let btnAdd = document.querySelector('#btnAdd');
-       // let btnSubtract = document.querySelector('#subtract');
-       //// let input = document.querySelector('input');
-       // let input = document.querySelector('#leavecount');
-       // btnAdd.addEventListener('click', () => {
-       //     input.value = parseInt(input.value) + 1;
-       // });
-       // btnSubtract.addEventListener('click', () => {
-       //     input.value = parseInt(input.value) - 1;
-       // });
-       
+
+        //Use the id of the form instead of #change
+        $('#change').change(function () {
+            //this is just getting the value that is selected
+            var title = $(this).val();
+            $('.modal-title').html(title);
+            $('.modal').modal('show');
+        });
+
+//        $(function () {
+//            $('#LeaveStatusID').change(function () {
+//                debugger;
+
+//        var value = $(this).val();
+//        if (value == '4') {
+//            $('#IncludePhotos').show();
+//        } else {
+//            $('#IncludePhotos').hide();
+//        }
+//    });
+//});
     </script>
+    }
 
 
-}
-@*<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="style.css">
-    <title>Document</title>
-</head>
-<body>
 
-    <div>
-        <button id="subtract">-</button>
-        <input type="number" value="0">
-        <button id="add">+</button>
-    </div>
-    <script src="script.js"></script>
-</body>
-</html>*@
 
 @*<h2>Add</h2>*@
     @using (Html.BeginForm("Add", "Leave", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -232,11 +233,26 @@
                                         <span class="req">*</span>
                                     </div>
                                     <div class="col-md-8 col-xl-9">
-                                        @Html.DropDownListFor(O => O.LeaveStatusID, ViewData["LeavetypeDropdown"] as SelectList, "select", new { @id = "LeaveStatusID", @class = "form-control" })
+                                        @*@Html.DropDownListFor(O => O.LeaveStatusID, ViewData["LeavetypeDropdown"] as SelectList, "select", new { @id = "LeaveStatusID", @class = "form-control"  })*@
+                                        @Html.DropDownListFor(O => O.LeaveStatusID, ViewData["LeavetypeDropdown"] as SelectList, "select", new { @id = "LeaveStatusID", @onchange = "DropDownProductList();", @class = "form-control" })
                                        
                                     </div>
                                 </div>
                             </div>
+                            @*<div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-4 col-xl-3">
+                                        @Html.LabelFor(model => model.Description, new { @class = "col-form-label required-label" })
+                                        <span class="req">*</span>
+                                    </div>
+                                    <div class="col-md-8 col-xl-9">
+                                      
+                                        @Html.TextBoxFor(model => model.Description, new { @id = "IncludePhotos", @class = "form-control", @maxlength = "25" })
+
+                                    </div>
+                                </div>
+                            </div>*@
+                            
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-4 col-xl-3">
@@ -255,7 +271,7 @@
                                         @Html.LabelFor(model => model.Casual_Leave, new { @class = "col-form-label" })
                                     </div>
                                     <div class="col-md-4 col-xl-3">
-                                        @Html.TextBoxFor(model => model.Casual_Leave, new { @id = "balanceleave", @class = "form-control", @maxlength = "25" })
+                                        @Html.TextBoxFor(model => model.Casual_Leave, new { @id = "balanceleave", @class = "form-control", @min = "0.00",  @maxlength = "25" })
 
                                     </div>
                                     <div class="col-md-2 col-xl-2">
@@ -263,7 +279,7 @@
                                         @Html.LabelFor(model => model.PL, new { @class = "col-form-label" })
                                     </div>
                                     <div class="col-md-4 col-xl-4">
-                                        @Html.TextBoxFor(model => model.PL, new { @id = "balancePL", @class = "form-control", @maxlength = "25" })
+                                        @Html.TextBoxFor(model => model.PL, new { @id = "balancePL", @class = "form-control",@min = "0.00", @maxlength = "25" })
 
                                     </div>
                                 </div>
@@ -287,15 +303,14 @@
                                
 
                             </div>
-
-       
+                           
                             <div class="panel-footer save-panel">
                            
                                 <div class="pull-right">
                                     <a href="@Url.Action("Manage", "Leave")" class="@Validations.ButtonCss.btnCancelMD">
                                         <i class="fa fa-times"></i> Cancel
                                     </a>
-                                    <button type="submit" class="@Validations.ButtonCss.btnSaveLG">
+                                    <button type="submit" class="@Validations.ButtonCss.btnSaveLG" onclick="return HalfdayValidation();">
                                         <i class="fa fa-save"></i> Save
                                     </button>
                                 </div>
@@ -329,10 +344,11 @@
 
                                 if (data != null) {
                                     $('[id*=balanceleave]').val(data);
-                                    //$('#balanceleave').val(response.balanceleave);
+                                   
 
-                                } else {
-                                    alert("Something went wrong");
+                                }
+                                else  {
+                                    alert("You donot have sufficient CL balance to apply");
                                 }
                             },
                             failure: function (response) {
@@ -373,8 +389,9 @@
                                 if (val1 > val2)
                                 {
                                     alert("To date should be greater than or equal to from date");
+                                    return false;
                                 }
-
+                              
                                 $.ajax({
                                     type: "GET",
                                     url: "/Leave/CalculateleaveDays",
@@ -384,7 +401,7 @@
                                     data: JSON.stringify({ val1: val2 }),
                                     data: "Fromdate=" + val1 + "&Todate=" + val2,
                                     success: function (data) {
-                                        debugger
+                                    
 
                                         if (data != "") {
                                             console.log(data);
@@ -420,8 +437,7 @@
 
                         return div;
                     }
-                    //
-                    //
+                   
                     function AddTextBox() {
                         var div = GetDynamicTextBox("");
                         $("#TextBoxContainer").append(div);
@@ -430,6 +446,7 @@
                     function RemoveTextBox(button) {
                         $(button).parent().remove();
                     }
+                  
 
                     $(function () {
                         var values = eval('@Html.Raw(ViewBag.Values)');
@@ -442,6 +459,36 @@
                     });
 
    </script>
+<script type="text/javascript">
+    function HalfdayValidation()
+    {
+
+        var Fromdate = $('#Fromdate').val();
+        var Todate = $('#Todate').val();
+        var halfday = $('#halfday').val();
+        date = halfday;
+        var newdate = date.split("-").reverse().join("/");
+
+        if (newdate >= Fromdate && newdate <= Todate  ) {
+
+        }
+        else
+        {
+            alert('Please select halfday date between to date and from date')
+            return false;
+        }
+
+
+    }
+  
+ 
+</script>
+   
+
+
+
+
+
                
 
 

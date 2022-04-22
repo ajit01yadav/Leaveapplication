@@ -120,6 +120,11 @@ namespace BLL
             return new LeaveDAL().GetApprveRejectCLBalance(empid, leaveid, leavetype, status);
 
         }
+        public decimal GetApprveRejectCLPLBalance(int empid, int leaveid, string leavetype, int status)
+        {
+            return new LeaveDAL().GetApprveRejectCLPLBalance(empid, leaveid, leavetype, status);
+
+        }
         public Leaveentiy DisplayUser(int leaveid)
         {
             return new LeaveDAL().DisplayUser(leaveid);

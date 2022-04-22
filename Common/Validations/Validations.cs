@@ -69,6 +69,10 @@ public class Validations
         public const string leavetypeRequired = RequiredTextInitials + leavetype;
         public const string leavetypeError = ErrorTextInitials + leavetype;
 
+        public const string Compoffleave = "Leave Type";
+        public const string CompoffleaveRequired = RequiredTextInitials + Compoffleave;
+        public const string CompoffleaveError = ErrorTextInitials + Compoffleave;
+
         public const string Rejectionreason = "Rejection Reason";
         public const string RejectionreasonRequired = RequiredTextInitials + Rejectionreason;
         public const string RejectionreasonError = ErrorTextInitials + Rejectionreason;

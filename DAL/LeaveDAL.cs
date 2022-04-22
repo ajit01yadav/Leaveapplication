@@ -188,7 +188,7 @@ namespace DAL
                 empid
 
             });
-            return this.db.Query<decimal>("Sp_TotalPLBalance", new { empid }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+            return this.db.Query<decimal>("Sp_TotalPLBalance", new { empid }, commandType: CommandType.StoredProcedure).SingleOrDefault();
         }
         public Leaveentiy DisplayUsers(int leaveid)
         {
@@ -321,6 +321,7 @@ namespace DAL
         }
         public decimal GetApprveRejectCLBalance(int empid, int leaveid, string leavetype, int status)
         {
+            //Sp_TotalCLBalance_New1
             var parameters = new DynamicParameters(new
             {
                 empid,
@@ -329,7 +330,21 @@ namespace DAL
                 status
 
             });
-            return this.db.Query<decimal>("Sp_TotalCLBalance_New", new { empid, leaveid, leavetype, status }, commandType: CommandType.StoredProcedure).SingleOrDefault();
+            return this.db.Query<decimal>("Sp_TotalCLBalance_New1", new { empid, leaveid, leavetype, status }, commandType: CommandType.StoredProcedure).SingleOrDefault();
+
+        }
+        public decimal GetApprveRejectCLPLBalance(int empid, int leaveid, string leavetype, int status)
+        {
+            //Sp_TotalCLBalance_New1
+            var parameters = new DynamicParameters(new
+            {
+                empid,
+                leaveid,
+                leavetype,
+                status
+
+            });
+            return this.db.Query<decimal>("Sp_TotalCLPLleave", new { empid, leaveid, leavetype, status }, commandType: CommandType.StoredProcedure).SingleOrDefault();
 
         }
         public Leaveentiy DisplayUser(int leaveid)

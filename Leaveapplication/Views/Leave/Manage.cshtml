@@ -50,9 +50,11 @@
                     From Date:
                 </label>
                 <div class="form-group">
-                    @Html.TextBox("FromDate", "", new { @class = "form-control", @id = "Fromdate", @maxlength = "100" })
-                   
-                </div>
+                    <span class="glyphicon glyphicon-calendar"></span>
+
+                        @Html.TextBox("FromDate", "", new { @class = "form-control", @id = "Fromdate", @maxlength = "100" })
+
+</div>
 
             </div>
             <div class="col-sm-4">
@@ -60,6 +62,8 @@
                     To date:
                 </label>
                 <div class="form-group">
+                    <span class="glyphicon glyphicon-calendar"></span>
+
                     @Html.TextBox("ToDate", "", new { @class = "form-control", @id = "Todate", @maxlength = "100" })
                 </div>
             </div>

@@ -28,9 +28,9 @@ namespace BLL
         //    return GetProductCategory(Contentlist, items);
         //}
 
-        public List<SelectListItem> CountryDropdown()
+        public List<SelectListItem> LeaveTypeDropdown()
         {
-            List<Leaveentiy> Contentlist = new LeaveTypeDAL().CountryDropdown();
+            List<Leaveentiy> Contentlist = new LeaveTypeDAL().LeaveTypeDropdown();
             List<SelectListItem> items = new List<SelectListItem>();
             return GetProductCategory(Contentlist, items);
         }

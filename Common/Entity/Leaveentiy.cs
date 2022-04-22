@@ -54,8 +54,8 @@ public class Leaveentiy
         public DateTime? createdon { get; set; }
         // public DateTime? updatedon { get; set; }
         public string updatedby { get; set; }
-        //  public string Leavetypeid { get; set; }
-
+    //  public string Leavetypeid { get; set; }
+        [Display(Name = Validations.Leave.Compoffleave)]
         public string Description { get; set; }
         public int EmpID { get; set; }
         [AllowHtml]
@@ -68,34 +68,33 @@ public class Leaveentiy
     [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
     public string[] DynamicTextBox { get; set; }
 
-    //[DataType(DataType.Date)]
-    //[DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
-    //public DateTime? ServiceCreatedFrom { get; set; }
+        public int Status { get; set; }
 
-
-    public int Status { get; set; }
         public string EMPCode { get; set; }
+
         public string FirstName { get; set; }
+
         public string MiddleName { get; set; }
+
         public string LastName { get; set; }
+
         public string FullName { get; set; }
 
         public string Rejectionreason { get; set; }
 
         public string halfdayid { get; set; }
-        public string ReportingToId { get; set; }
-        public bool IsHalfdaySelect { get; set; }
-       public bool IsApproved { get; set; }
-       public bool IsRejected { get; set; }
-    public string DataTags { get; set; }
 
-    public string DataTagNames { get; set; }
-    public string DataTagValues { get; set; }
-    public int IsHomepage { get; set; }
-    public List<DataTags> DataTagList { get; set; }
-    public int DatTagCount { get; set; }
-    public int EntityType { get; set; }
-    public string EntityID { get; set; }
+        public string ReportingToId { get; set; }
+
+        public bool IsHalfdaySelect { get; set; }
+
+       public bool IsApproved { get; set; }
+
+       public bool IsRejected { get; set; }
+
+       public int IsHomepage { get; set; }
+       public int EntityType { get; set; }
+       public string EntityID { get; set; }
 
     public int PageTypeID { get; set; }
 
