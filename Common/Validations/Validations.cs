@@ -69,7 +69,7 @@ public class Validations
         public const string leavetypeRequired = RequiredTextInitials + leavetype;
         public const string leavetypeError = ErrorTextInitials + leavetype;
 
-        public const string Compoffleave = "Leave Type";
+        public const string Compoffleave = "Comp Off Type";
         public const string CompoffleaveRequired = RequiredTextInitials + Compoffleave;
         public const string CompoffleaveError = ErrorTextInitials + Compoffleave;
 
@@ -241,7 +241,7 @@ public class Validations
                 Class = "alert alert-danger alert-dismissable col-lg-12";
                 break;
             case "Approve":
-                ReturnMessage = "Your leave has been approved successfully.";
+                ReturnMessage = "leave has been approved.";
                 Class = "alert alert-success alert-dismissable col-lg-12";
                 break;
             case "Reject":

@@ -25,12 +25,15 @@ public class Leaveentiy
         [Display(Name = Validations.Leave.FromDate)]
 
         public string Fromdate { get; set; }
-        [RegularExpression(Validations.RegularExpression.DateFormat, ErrorMessage = Validations.Leave.ToDateError)]
+       // public DateTime Fromdate { get; set; }
+       [RegularExpression(Validations.RegularExpression.DateFormat, ErrorMessage = Validations.Leave.ToDateError)]
         [Required(ErrorMessage = Validations.Leave.Todate)]
       
         [Display(Name = Validations.Leave.Todate)]
        
         public string Todate { get; set; }
+
+      // public DateTime Todate { get; set; }
 
         [Required(ErrorMessage = Validations.Leave.leavereason)]
         [AllowHtml]
@@ -96,7 +99,7 @@ public class Leaveentiy
        public int EntityType { get; set; }
        public string EntityID { get; set; }
 
-    public int PageTypeID { get; set; }
+       public int PageTypeID { get; set; }
 
 
 }

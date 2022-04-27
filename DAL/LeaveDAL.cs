@@ -42,7 +42,7 @@ namespace DAL
                     // objUsers.ReportingToId
 
                 });
-            //SPUsersInsertUpdate1
+            //SPUsersInsertUpdate3
             parameters.Add("@Output", dbType: DbType.String, direction: ParameterDirection.Output, size: 50);
             this.db.Execute("SPUsersInsertUpdate3", parameters, commandType: CommandType.StoredProcedure);
             if (objUsers.DynamicTextBox != null)
@@ -62,7 +62,7 @@ namespace DAL
                         cmd.Connection = con;
                         cmd.Parameters.AddWithValue("@EMPId", objUsers.EmpID);
                         cmd.Parameters.AddWithValue("@leaveid", objUsers.leaveId);
-                         cmd.Parameters.AddWithValue("@halfdayid", objUsers.halfdayid);
+                        // cmd.Parameters.AddWithValue("@halfdayid", objUsers.halfdayid);
                         cmd.Parameters.AddWithValue("@Date", textboxValue);
 
                         con.Open();

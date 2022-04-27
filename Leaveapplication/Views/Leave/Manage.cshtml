@@ -7,6 +7,28 @@
     ViewBag.Title = "Manage Products";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .input-icons i {
+        position: absolute;
+    }
+
+    .input-icons {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .icon {
+        padding: 10px;
+        min-width: 40px;
+    }
+
+    .input-field {
+        width: 100%;
+        padding: 10px;
+        text-align: center;
+    }
+</style>
+
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 
 
@@ -49,10 +71,11 @@
                 <label>
                     From Date:
                 </label>
-                <div class="form-group">
-                    <span class="glyphicon glyphicon-calendar"></span>
-
+                <div class="form-group has-feedback">
+                    <i class="input-icons"></i>
+                    <i class="glyphicon glyphicon-calendar"></i>
                         @Html.TextBox("FromDate", "", new { @class = "form-control", @id = "Fromdate", @maxlength = "100" })
+                    
 
 </div>
 

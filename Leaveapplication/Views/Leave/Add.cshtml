@@ -24,8 +24,6 @@
 
 
                     }
-
-
             })
 
 
@@ -48,19 +46,22 @@
                     if (Leavetype == '2' && leavecount>'2.00')
                     {
                         alert('you cannot apply more than 2 Casual Leave');
-                        e.stopPropagation();
+                        // e.stopPropagation();
+                        return false;
 
                     }
-                    if (Leavetype == '2' && CLbalanceleave < leavecount)
+                   // if (Leavetype == '2' && CLbalanceleave < leavecount)
+                    if (Leavetype == '2' && leavecount > CLbalanceleave)
 
                      {
-                        alert('You donot have sufficient CL balace to apply leave your leave should be deducted from PL leave please select PL leave');
+                        alert('You do not have sufficient CL balace to apply leave your leave should be deducted from PL leave please select PL leave');
                         return false;
                      }
               
-                        if (Leavetype == '1' && PLbalanceleave < leavecount)
+                    //if (Leavetype == '1' && PLbalanceleave < leavecount)
+                    if (Leavetype == '1' && leavecount > PLbalanceleave)
                     {
-                        alert('You donot have sufficient PL balace to apply leave please select losss of pay from leave type');
+                        alert('You donot have sufficient PL balace to apply leave please select loss of pay from leave type');
                         return false;
                      }
 
@@ -133,6 +134,7 @@
             $('.modal').modal('show');
         });
 
+
 //        $(function () {
 //            $('#LeaveStatusID').change(function () {
 //                debugger;
@@ -152,9 +154,13 @@
 
 
 @*<h2>Add</h2>*@
-    @using (Html.BeginForm("Add", "Leave", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+
+    @using (Html.BeginForm("Add", "Leave", FormMethod.Post, new { enctype = "multipart/form-data",
+        onsubmit = "javascript:return checkfile(document.getElementById('fileAuthorization'))"}))
     {
-       
+
+
         <div class="row">
             <div class="form-horizontal" role="form">
                 <div class="col-sm-12">
@@ -234,7 +240,7 @@
                                     </div>
                                     <div class="col-md-8 col-xl-9">
                                         @*@Html.DropDownListFor(O => O.LeaveStatusID, ViewData["LeavetypeDropdown"] as SelectList, "select", new { @id = "LeaveStatusID", @class = "form-control"  })*@
-                                        @Html.DropDownListFor(O => O.LeaveStatusID, ViewData["LeavetypeDropdown"] as SelectList, "select", new { @id = "LeaveStatusID", @onchange = "DropDownProductList();", @class = "form-control" })
+                                        @Html.DropDownListFor(O => O.LeaveStatusID, ViewData["LeavetypeDropdown"] as SelectList, "select", new { @id = "LeaveStatusID", onchange = "checkfile(this);", @class = "form-control" })
                                        
                                     </div>
                                 </div>
@@ -462,23 +468,47 @@
 <script type="text/javascript">
     function HalfdayValidation()
     {
+        
 
+        debugger
+       // CLPLValidation();
         var Fromdate = $('#Fromdate').val();
         var Todate = $('#Todate').val();
         var halfday = $('#halfday').val();
         date = halfday;
         var newdate = date.split("-").reverse().join("/");
-
-        if (newdate >= Fromdate && newdate <= Todate  ) {
+        if (newdate >= Fromdate && newdate <= Todate) {
 
         }
-        else
-        {
-            alert('Please select halfday date between to date and from date')
+        else {
+             alert('Please select half-day date between to-date and from-date of leave.')
+            //alert("Please select halfday date between"  +Fromdate +  "and" + Todate);
+            return false;
+        }
+    }
+       
+    function CLPLValidation()
+    {
+        var Leavetype = $('#LeaveStatusID').val();
+        var leavecount = $('#leavecount').val();
+        var CLbalanceleave = $('#balanceleave').val();
+        var PLbalanceleave = $('#balancePL').val();
+       
+        if (Leavetype == '2' && leavecount > '2.00') {
+            alert('you cannot apply more than 2 Casual Leave');
+            return false;
+
+        }
+        if (Leavetype == '2' && CLbalanceleave < leavecount) {
+            alert('You do not have sufficient CL balance. Please select PL.');
             return false;
         }
 
-
+        if (Leavetype == '1' && PLbalanceleave < leavecount) {
+            alert('You do not have sufficient PL balance. Please select Loss of Pay.');
+            return false;
+        }
+     
     }
   
  

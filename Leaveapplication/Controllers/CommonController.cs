@@ -113,8 +113,10 @@ namespace Leaveapplication.Controllers
            // if (!String.IsNullOrEmpty(User))
              objUser = new LeaveBLL().DisplayUsers(DecryptToInt(User));
             decimal leavecount = objUser.leavecount;
+            //  DateTime todate = objUser.Todate;
+            // DateTime fromdate= objUser.Fromdate;
             string todate = objUser.Todate;
-            string fromdate= objUser.Fromdate;
+            string fromdate = objUser.Fromdate;
             string approvalreason = objUser.leavereason;
             Employeeentity objemp = new LeaveBLL().GetUserEmail(objUser.EmpID);
             HRentity objhr = new LeaveBLL().GetHREmail();

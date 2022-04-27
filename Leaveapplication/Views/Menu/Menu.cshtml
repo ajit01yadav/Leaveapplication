@@ -1,0 +1,13 @@
+﻿@model List<ModuleEntity>
+
+<ul id="menu">
+    @foreach (var item in Model)
+
+    {
+        <li>
+            @Html.ActionLink(@item.PageName, @item.ActionName,
+              @item.ControllerName)
+        </li>
+    }
+</ul>
+

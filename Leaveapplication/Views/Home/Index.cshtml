@@ -1,4 +1,4 @@
-﻿@{
+﻿@*@{
     ViewBag.Title = "Dashboard";
 }
 
@@ -18,11 +18,11 @@
         <div class="col-sm-8">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    @*<h3 class="panel-title"><i class="fa fa-file-o fa-fw"></i> Content</h3>*@
+                  
                 </div>
                 <div class="panel-body">
                     <ul class="nav navbar-nav">
-                        @*@if (TempData["Roles"].ToString() == "Manager")*@
+                       
                         @if (TempData["Roles"].ToString() == @System.Configuration.ConfigurationManager.AppSettings["ManagerRole"])
                         {
                             <li><a href="@Url.Action("Add", "Leave")">Apply Leave</a></li>
@@ -38,12 +38,59 @@
 
                             <li><a href=@Url.Action("LogOut", "Account")>Sign Out</a></li>
                         }
-                        @*<li><a href="@Url.Action("Add", "Leave")">Apply Leave</a></li>
-                            <li><a href="@Url.Action("Manage", "Leave")">View Leave</a></li>
-                            <li><a href="@Url.Action("ApproveReject", "Leave")">Approve & Reject Leave</a></li>
-                            <li><a href=@Url.Action("LogOut", "Account")>Sign Out</a></li>*@
+                       
                     </ul>
                 </div>
+               
+            </div>
+        </div>
+    </div>
+</div>*@
+
+
+@*<ul id="menu">
+    @foreach (var item in Model)
+
+    {
+        <li>
+            @Html.ActionLink(@item.PageName, @item.ActionName,
+              @item.ControllerName)
+        </li>
+    }
+</ul>*@
+@model List<ModuleEntity>
+<div class="row">
+    <div class="col-xs-12 page-header">
+        <div class="row">
+            <div id="ModuleHead" class="col-xs-12">
+                <h1>
+                    <i class="fa fa-dashboard fa-fw"></i>&nbsp;Dashboard
+                </h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-sm-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+
+                </div>
+                <div class="panel-body">
+                    <ul class="nav navbar-nav">
+
+                        @foreach (var item in Model)
+
+                        {
+                            <li>
+                                @Html.ActionLink(@item.PageName, @item.ActionName,
+                               @item.ControllerName)
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+
             </div>
         </div>
     </div>

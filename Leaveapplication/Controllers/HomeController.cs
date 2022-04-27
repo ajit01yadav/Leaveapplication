@@ -9,15 +9,17 @@ namespace Leaveapplication.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
-       {
+       // public ActionResult Index()
+              public ActionResult Index(ModuleEntity objUser)
+        {
             var Empcode = Convert.ToString(Session["Empcode"]);
-          
-             var Getroles = new LeaveBLL().GetUserRoles(Empcode.ToString());
-           // List<ModuleEntity> MenuList = new LeaveBLL().GetMenu(objUser, Empcode.ToString());
-           TempData["Roles"] = Getroles;
-            return View(TempData["Roles"]);
-           // return View(MenuList);
+            var Empid = Convert.ToString(Session["Empid"]);
+
+            // var Getroles = new LeaveBLL().GetUserRoles(Empcode.ToString());
+            List<ModuleEntity> MenuList = new LeaveBLL().GetMenu(objUser, Empid.ToString());
+          // TempData["Roles"] = Getroles;
+           // return View(TempData["Roles"]);
+            return View(MenuList);
         }
 
         public ActionResult About()

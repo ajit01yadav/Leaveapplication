@@ -28,8 +28,8 @@ namespace Leaveapplication.Controllers
             if (!String.IsNullOrEmpty(User))
                 objUser = new LeaveBLL().DisplayUsers(DecryptToInt(User));
             ViewBag.leaveid = objUser.leaveId;
-            ViewBag.halfdayid = objUser.halfdayid;
-            Session["haldayid"] = ViewBag.halfdayid;
+          //  ViewBag.halfdayid = objUser.halfdayid;
+          //  Session["haldayid"] = ViewBag.halfdayid;
             GetMessage(Message, User);
             BindLeavetype();
             BindStatusSelectList(objUser.Status);
@@ -41,13 +41,14 @@ namespace Leaveapplication.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Add(Leaveentiy objUser,Halfdayentity objhalfday, string Output)
         {
-           objUser.halfdayid = Convert.ToInt32(Session["haldayid"]).ToString();
+          // objUser.halfdayid = Convert.ToInt32(Session["haldayid"]).ToString();
            
 
             objUser.EmpID = Convert.ToInt32(Session["Empid"]);
             objUser.EMPCode = Convert.ToString(Session["Empcode"]);
-           
-            if (ModelState.IsValid)
+          
+
+                if (ModelState.IsValid)
             {
                 Output = new LeaveBLL().InsertUpdateUsers(objUser);
               
