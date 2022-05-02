@@ -51,14 +51,17 @@ namespace Leaveapplication.Controllers
             ViewData["Permission"] = new SelectList(new RoleBLL().BindRoleDropDown(), "Value", "Text", SelectedValue);
         }
         public void BindDefaultDataTags(int EntityID, int EntityType, out int DatTagCount, out List<DataTags> Datatag)
+       // public void BindDefaultDataTags(int halfdayid, int leaveid, out int DatTagCount, out List<Halfdayentity> Datatag)
         {
+            //int halfdayid, int leaveid List<DataTags> DatatagList = new List<DataTags>();
             List<DataTags> DatatagList = new List<DataTags>();
             if (EntityID != 0)
                 DatatagList = new ContentBLL().DisplayDatatags(EntityID, EntityType);
             DatTagCount = DatatagList.Count > 0 ? DatatagList.Count : 1;
             ViewBag.DatTagCount = DatatagList.Count > 0 ? DatatagList.Count : 1;
             if (DatatagList.Count == 0)
-                DatatagList.Add(new DataTags() { TagName = "", TagValue = "" });
+               // DatatagList.Add(new Halfdayentity() { halfdayid = 0, Date = "" });
+            DatatagList.Add(new DataTags() { TagName = "", TagValue = "" });
             Datatag = DatatagList;
         }
         public void CreatePager(int? PageNo, int TotalRowCount)
@@ -87,24 +90,29 @@ namespace Leaveapplication.Controllers
            // Employeeentity objemp = new LeaveBLL().GetEmailId(empids);
             HRentity objhr = new LeaveBLL().GetHREmail();
             string strSubject = "", strMessage = "";
-           // foreach (var reportingmail in objemp)
+            // foreach (var reportingmail in objemp)
+            if (empids != 0)
+            {
                 foreach (var reportingmail in objemp)
                 {
-              
+
                     strSubject = "Application For Leave";
                     strMessage = "<table border='0' style=' font-family:Arial; font-size:13px;'><tr><td style='text-align:justify'>";
                     // strMessage += "Dear " + objemp.FirstName + " " + objemp.LastName + "," + "<br/><br/>";
                     strMessage += "Dear " + reportingmail.FirstName + " " + reportingmail.LastName + "," + "<br/><br/>";
                     strMessage += "Please approve my leave for " + leavecount + " day/s from" + fromdate + "  to " + todate + ". :" + "<br/><br/>";
                     strMessage += "Regards," + "<br/>";
-                   // strMessage += "NEC Technologies.";
-                   // strMessage += objemp[0].FirstName + " " + reportingmail.FirstName;
-                   strMessage += FirstName + " " + LastName;
-                new General().SendMail(reportingmail.EmailId.ToString(), objhr.Emailid.ToString(), "", strSubject, strMessage, 0, "", true, "", FromEmail.ToString());
+                    // strMessage += "NEC Technologies.";
+                    // strMessage += objemp[0].FirstName + " " + reportingmail.FirstName;
+                    strMessage += FirstName + " " + LastName;
+                    new General().SendMail(reportingmail.EmailId.ToString(), objhr.Emailid.ToString(), "", strSubject, strMessage, 0, "", true, "", FromEmail.ToString());
+
+                }
+
                
             }
-
             return true;
+
         }
         public bool SendMail(string User )
         {

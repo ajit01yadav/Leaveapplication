@@ -16,7 +16,7 @@ namespace DAL
    public class LeaveDAL
     {
         private IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString);
-        public string InsertUpdateUsers(Leaveentiy objUsers)
+        public string InsertUpdateUsers(Leaveentiy objUsers,Halfdayentity objhalfday)
       {
 
                 var parameters = new DynamicParameters(new
@@ -39,16 +39,16 @@ namespace DAL
                //objUsers.halfdaythree,
                     objUsers.updatedby,
                     objUsers.IsHalfdaySelect
-                    // objUsers.ReportingToId
+                   // objUsers.DataTags
 
                 });
             //SPUsersInsertUpdate3
             parameters.Add("@Output", dbType: DbType.String, direction: ParameterDirection.Output, size: 50);
             this.db.Execute("SPUsersInsertUpdate3", parameters, commandType: CommandType.StoredProcedure);
-            if (objUsers.DynamicTextBox != null)
+            if (objUsers.DynamicTextBox != null && objUsers.IsHalfdaySelect == true)
             {
 
-                foreach (string textboxValue in objUsers.DynamicTextBox)
+                foreach (string textboxValue in objUsers.DynamicTextBox )
                 {
 
                     string constr = ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString;
@@ -56,15 +56,30 @@ namespace DAL
                     //SP_HalfdayInsertUpdate
                     //SP_HalfdaydateInsertUpdate
                     {
-                        SqlCommand cmd = new SqlCommand("SP_HalfdayInsertUpdate", con);
+                        SqlCommand cmd = new SqlCommand("SP_HalfdayInsertUpdate2", con);
                         cmd.CommandType = CommandType.StoredProcedure;
 
                         cmd.Connection = con;
-                        cmd.Parameters.AddWithValue("@EMPId", objUsers.EmpID);
-                        cmd.Parameters.AddWithValue("@leaveid", objUsers.leaveId);
-                        // cmd.Parameters.AddWithValue("@halfdayid", objUsers.halfdayid);
-                        cmd.Parameters.AddWithValue("@Date", textboxValue);
+                        if (objUsers.leaveId == 0)
+                        {
+                            cmd.Parameters.AddWithValue("@option", "insert");
+                            cmd.Parameters.AddWithValue("@EMPId", objUsers.EmpID);
+                            cmd.Parameters.AddWithValue("@leaveid", objUsers.leaveId);
+                            cmd.Parameters.AddWithValue("@halfdayid", objUsers.halfdayid);
+                            cmd.Parameters.AddWithValue("@Date", textboxValue);
+                        }
+                        else
+                        {
+                            cmd.Parameters.AddWithValue("@option", "update");
+                            cmd.Parameters.AddWithValue("@EMPId", objUsers.EmpID);
+                            cmd.Parameters.AddWithValue("@leaveid", objUsers.leaveId);
+                            cmd.Parameters.AddWithValue("@halfdayid", objUsers.halfdayid);
+                            cmd.Parameters.AddWithValue("@Date", textboxValue);
 
+                        }
+                        
+                       
+                        
                         con.Open();
                         cmd.ExecuteNonQuery();
                         // objUsers.halfdayid="";
@@ -77,25 +92,8 @@ namespace DAL
             return parameters.Get<string>("@Output");
 
         }
-        //public string InsertUpdateHalfday(Halfdayentity objhalfday)
-        //{
-
-        //    var parameters = new DynamicParameters(new
-        //    {
-
-        //        objhalfday.halfdayid,
-        //        objhalfday.Date,
-        //        objhalfday.DynamicTextBox,
-        //        objhalfday.Createdon
-
-        //    });
-        //    //SPUsersInsertUpdate1
-        //    parameters.Add("@Output", dbType: DbType.String, direction: ParameterDirection.Output, size: 50);
-        //    this.db.Execute("SP_HalfdayInsertUpdate", parameters, commandType: CommandType.StoredProcedure);
-        //    return parameters.Get<string>("@Output");
-
-        //}
-
+       
+      
         public List<Leaveentiy> ManageUser(Leaveentiy objUser, int EmpID)
         {
             var parameters = new DynamicParameters(new
@@ -106,8 +104,19 @@ namespace DAL
             //SPMangeLeave2
             //SPLeaveManage3
             return this.db.Query<Leaveentiy>("SPMangeLeave2", new {  objUser.Fromdate, objUser.Todate, EmpID }, commandType: CommandType.StoredProcedure).ToList();
-           // return this.db.Query<NewUserEntity>("SPUserManage", new { objUser.Firstname, objUser.Lastname, objUser.Status }, commandType: CommandType.StoredProcedure).ToList();
+          
         }
+        public List<Halfdayentity> HalfdayCount(int leaveid)
+        {
+            var parameters = new DynamicParameters(new
+            {
+                leaveid
+
+            });
+            return this.db.Query<Halfdayentity>("Select halfdayid,leaveid from T_halfdayLeave where leaveid=@leaveid", new { leaveid }, commandType: CommandType.Text).ToList();
+        }
+           
+         
         public List<Leaveentiy> ManageUserByEmpcode(int EMPId)
         {
             //Sp_DisplayUserByEmpid_New
@@ -128,7 +137,7 @@ namespace DAL
 
             });
             return this.db.Query<Leaveentiy>("SP_GetApproveRejectDataNew", parameters, commandType: CommandType.StoredProcedure).ToList();
-           // return this.db.Query<SelectBoothEntity>("sp_searchdesigndetails", Parameters, commandType: CommandType.StoredProcedure).ToList();
+          
         }
 
         // //ManageApproveReject

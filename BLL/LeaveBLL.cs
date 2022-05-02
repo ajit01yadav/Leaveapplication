@@ -10,19 +10,24 @@ namespace BLL
 {
   public  class LeaveBLL
     {
-        public string InsertUpdateUsers(Leaveentiy objUsers)
+        public string InsertUpdateUsers(Leaveentiy objUsers,Halfdayentity objhalfday)
         {
-            return new LeaveDAL().InsertUpdateUsers(objUsers);
+            return new LeaveDAL().InsertUpdateUsers(objUsers, objhalfday);
         }
-        //public string InsertUpdateHalfday(Halfdayentity objhalfday)
+        //public int InsertUpdateHalfday(Halfdayentity objhalfday, Leaveentiy objUsers)
         //{
-        //    return new LeaveDAL().InsertUpdateHalfday(objhalfday);
+        //    return new LeaveDAL().InsertUpdateHalfday(objhalfday, objUsers);
         //}
         //InsertUpdateHalfday
         public List<Leaveentiy> ManageUser(Leaveentiy objUser, int EmpID )
         {
             return new LeaveDAL().ManageUser( objUser, EmpID);
         }
+        public List<Halfdayentity> HalfdayCount(int leaveid)
+        {
+            return new LeaveDAL().HalfdayCount(leaveid);
+        }
+        //HalfdayCount
         public List<Leaveentiy> ApproveRejectUser(Leaveentiy objUser, string ReportingToId)
         {
             return new LeaveDAL().ApproveRejectUser(objUser, ReportingToId);

@@ -18,12 +18,12 @@
                 <tr>
                     <td>
                         Tag Name:
-                        <input class="form-control txtTagName valid" id="DataTagList_@(i)__TagName" maxlength="100" name="DataTagList[@(i)].TagName" type="text" value="@Model[i].TagName">
+                        <input class="form-control txtTagName valid" id="DataTagList_@(i)__TagName" maxlength="100" name="DataTagList[@(i)].TagName" type="date" value="@Model[i].TagName">
                     </td>
-                    <td>
+                    @*<td>
                         Tag Value:
                         <input class="form-control txtTagValue valid" id="DataTagList_@(i)__TagValue" maxlength="100" name="DataTagList[@(i)].TagValue" type="text" value="@Model[i].TagValue">
-                    </td>
+                    </td>*@
                     <td>
                         &nbsp;
                         <input type="button" id="btnAddRow" class="BtnPlus buttons" onclick="addRow(event)" value="Add" />

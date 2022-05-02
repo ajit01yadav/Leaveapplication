@@ -19,7 +19,7 @@ public class Leaveentiy
     {   
         [ScaffoldColumn(false)]
         public int leaveId { get; set; }
-        //[RegularExpression(Validations.RegularExpression.DateFormat)]
+
         [RegularExpression(Validations.RegularExpression.DateFormat, ErrorMessage = Validations.Leave.FromDateError)]
         [Required(ErrorMessage = Validations.Leave.FromDate)]
         [Display(Name = Validations.Leave.FromDate)]
@@ -44,7 +44,7 @@ public class Leaveentiy
         [AllowHtml]
         [Display(Name = Validations.Leave.leavetype)]
         public string LeaveStatusID { get; set; }
-       // [Required(ErrorMessage = Validations.Leave.leavetype)]
+      
         [AllowHtml]
         [Display(Name = Validations.Leave.leavetype)]
         public string leavetype { get; set; }
@@ -67,9 +67,9 @@ public class Leaveentiy
         public decimal leavecount { get; set; }
         [DisplayName("Half day")]
         public string Date { get; set; }
-    [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
-    public string[] DynamicTextBox { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
+         public string[] DynamicTextBox { get; set; }
 
         public int Status { get; set; }
 
@@ -100,6 +100,11 @@ public class Leaveentiy
        public string EntityID { get; set; }
 
        public int PageTypeID { get; set; }
+       public string Halfdayentity { get; set; }
+       public List<DataTags> DataTagList { get; set; }
+      //public List<Halfdayentity> DataTagList { get; set; }
+    public int DatTagCount { get; set; }
+     public string DataTags { get; set; }
 
 
 }
@@ -166,6 +171,18 @@ public class ApproveRejectEntity
     public string halfdayid { get; set; }
     public string ReportingToId { get; set; }
 
+    public string DataTags { get; set; }
+
+    public string DataTagNames { get; set; }
+    public string DataTagValues { get; set; }
+    public int IsHomepage { get; set; }
+    //public List<DataTags> DataTagList { get; set; }
+    public int DatTagCount { get; set; }
+    public int EntityType { get; set; }
+    public string EntityID { get; set; }
+
+    public int PageTypeID { get; set; }
+
 
 }
 
@@ -177,10 +194,15 @@ public class ApproveStatusentity
 public class Halfdayentity
 {
     public string[] DynamicTextBox { get; set; }
+   // public string[] DynamicTextBox { get; set; }
     public int halfdayid { get; set; }
+   // public int[] halfdayid { get; set; }
     public string Date { get; set; }
     public DateTime? Createdon { get; set; }
     public DateTime? Updatedon { get; set; }
+    public int leaveid { get; set; }
+    public bool IsDeleted { get; set; }
+    public int EmpID { get; set; }
 
 
 }

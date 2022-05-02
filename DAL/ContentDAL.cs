@@ -42,6 +42,7 @@ public class ContentDAL
 
     public List<DataTags> DisplayDatatags(int EntityID, int EntityType)
     {
+      //  return this.db.Query<Halfdayentity>("Select halfdayid,Date,leaveid,IsDeleted from T_halfdayLeave1 where leaveid=@leaveid and halfdayid=@halfdayid", new { halfdayid, leaveid }, commandType: CommandType.Text).ToList();
         return this.db.Query<DataTags>("Select * from DataTag where EntityID = @EntityID and EntityType = @EntityType", new { EntityID, EntityType }, commandType: CommandType.Text).ToList();
     }
 }
