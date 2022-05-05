@@ -376,6 +376,7 @@ namespace DAL
             return this.db.Query<string>("Sp_GetIsDeltedReocrd", new { leaveid }, commandType: CommandType.StoredProcedure).FirstOrDefault();
 
         }
+       
         public string IsApproved(int leaveid, Boolean IsApproved, Boolean IsRejected)
         {
             var parameters = new DynamicParameters(new
@@ -390,7 +391,17 @@ namespace DAL
         {
             return this.db.Query<ModuleEntity>("USP_GetMenuItemDataNew", new { EmpId }, commandType: CommandType.StoredProcedure).ToList();
         }
-        //IsApproved
+        public int GetHalfdaycount(int leaveid, Boolean IsDeleted)
+        {
+            var parameters = new DynamicParameters(new
+            {
+                leaveid
+
+            });
+            return this.db.Query<int>("Sp_GetHalfdaycount", new { leaveid, IsDeleted }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+
+        }
+        //GetHalfdaycount
 
     }
 }

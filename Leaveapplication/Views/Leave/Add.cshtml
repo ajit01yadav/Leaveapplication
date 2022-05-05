@@ -7,56 +7,7 @@
 
 
 @section Scripts{
-<script language="javascript">
-        $(document).ready(function () {
-            if ('@ViewBag.Mode' != "Edit")
-                $('#Status').val("1");
-            if ($("[id$='ContentPageID']").val() == 0) {
-                $("[id$='PageTitle']").blur(function () {
-                    var PageTitle = $(this).val();
-                    PageTitle = PageTitle.toLowerCase().replace(/[^a-z0-9-\s]/gi, '').replace(/[\s]+/g, '-');
-                    PageTitle = PageTitle;
-                    $("[id$='txtPageURL']").val(PageTitle)
-                }); //txtPageTitle click
-            }
-        });  //document ready
-</script>
-<script type="text/javascript">
-        $(document).ready(function () {
-            function addRow(event) {
-                var DatatagCount = $('#hdfDatTagCount').val();
-                DatatagCount = parseInt(DatatagCount) + 1;
-                $('#hdfDatTagCount').val(DatatagCount);
-                $("#Table1 tbody tr:first").clone().find("input").each(function () {
-                    $(this).val('');
-                    //if ($(this).hasClass('txtTagValue'))
-                    //    $(this).attr('name', 'DataTagList[' + (DatatagCount - 1) + '].TagValue')
-                    if ($(this).hasClass('txtTagName'))
-                        $(this).attr('name', 'DataTagList[' + (DatatagCount - 1) + '].halfdayid')
 
-                    //if ($(this).hasClass('txtTagValue'))
-                    //    $(this).attr('name', 'DataTagList[' + (DatatagCount - 1) + '].TagValue')
-                    //if ($(this).hasClass('txtTagName'))
-                    //    $(this).attr('name', 'DataTagList[' + (DatatagCount - 1) + '].TagName')
-
-                    if ($(this).hasClass('BtnPlus'))
-                        $(this).val('Add')
-                    if ($(this).hasClass('BtnMinus'))
-                        $(this).val('Remove')
-                }).end().appendTo("#Table1")
-            };
-            $("#Table1").on("click", ".BtnPlus", addRow);
-            function deleteRow() {
-                if ($("#Table1 > tbody > tr").length > 1) {
-                    debugger;
-                    var par = $(this).parent().parent();
-                    par.remove();
-                }
-            };
-            $("#Table1").on("click", ".BtnMinus", deleteRow);
-        });
-
-</script>
     @Scripts.Render("~/bundles/jqueryval")
 
 
@@ -70,12 +21,14 @@
                 dateFormat: 'dd/mm/yy',
                // onSelect: function (dateString, txtDate) {
                     onClose: function (dateString, txtDate) {
-                    //TotalCount();
+                        //TotalCount();
+                        
+
 
 
                     }
             })
-
+            $('#leavcountid').hide();
 
             $(function () {
                 $("#LeaveStatusID").change(function () {
@@ -111,7 +64,7 @@
                    
                     if (Leavetype == '1' && (parseInt(leavecount)) > (parseInt(PLbalanceleave)))
                     {
-                        alert('You do not have sufficient PL balance. Please select Loss of Pay');
+                        alert('You do not have sufficient PL balance.');
                         return false;
                      }
 
@@ -184,19 +137,6 @@
             $('.modal').modal('show');
         });
 
-
-//        $(function () {
-//            $('#LeaveStatusID').change(function () {
-//                debugger;
-
-//        var value = $(this).val();
-//        if (value == '4') {
-//            $('#IncludePhotos').show();
-//        } else {
-//            $('#IncludePhotos').hide();
-//        }
-//    });
-//});
     </script>
     }
 
@@ -268,7 +208,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" >
                                 <div class="row">
                                     <div class="col-md-4 col-xl-3">
 
@@ -308,7 +248,7 @@
                                 </div>
                             </div>*@
                             
-                            <div class="form-group">
+                            <div class="form-group"id="leavcountid">
                                 <div class="row">
                                     <div class="col-md-4 col-xl-3">
                                         @Html.LabelFor(model => model.leavecount, new { @class = "col-form-label" })
@@ -456,7 +396,11 @@
                         });
 
                         $(function () {
+                            
                             $('[id*=Todate]').on('change', function () {
+                               // debugger;
+                               // DateCheck();
+                              
                                
                                 var val1 = $('#Fromdate').val();
                                 var val2 = $('#Todate').val();
@@ -520,7 +464,22 @@
                     function RemoveTextBox(button) {
                         $(button).parent().remove();
                     }
-                  
+                    //
+                    function DateCheck() {
+                        debugger;
+                        //if (val1 > val2)
+                        var StartDate = document.getElementById('Fromdate').value;
+                        var EndDate = document.getElementById('Todate').value;
+                        var eDate = new Date(EndDate);
+                        var sDate = new Date(StartDate);
+                        if (StartDate != '' && EndDate != '' && sDate > eDate) {
+                           // if (sDate > eDate) {
+                            alert("Please ensure that the End Date is greater than or equal to the Start Date.");
+                            return false;
+                        }
+                    }
+
+                  //
 
                     $(function () {
                         var values = eval('@Html.Raw(ViewBag.Values)');
@@ -545,7 +504,10 @@
         var halfday = $('#halfday').val();
         date = halfday;
         var newdate = date.split("-").reverse().join("/");
-        if (newdate >= Fromdate && newdate <= Todate) {
+
+
+
+        if (newdate!="" && newdate >= Fromdate && newdate <= Todate) {
 
         }
         else {
@@ -554,34 +516,49 @@
             return false;
         }
     }
+
+
+    // Get value
+    //var minDate = $("#Fromdate").val();
+    //var maxDate = $("#Todate").val();
+
+    //// Set minDate and maxDate
+    //if(minDate != ''){
+    //    $('#datepicker').datepicker('option', 'minDate', new Date(minDate));
+    //}
+ 
+    //if(maxDate != ''){
+    //    $('#datepicker').datepicker('option', 'maxDate', new Date(maxDate));
+    //}
+    //});
        
-    function CLPLValidation()
-    {
-        var Leavetype = $('#LeaveStatusID').val();
-        var leavecount = $('#leavecount').val();
-        var CLbalanceleave = $('#balanceleave').val();
-        var PLbalanceleave = $('#balancePL').val();
-        //if (parseFloat(l,10) > parseFloat(h,10))
-        //if (parseInt(l,10) > parseInt(h,10))
+    //function CLPLValidation()
+    //{
+    //    var Leavetype = $('#LeaveStatusID').val();
+    //    var leavecount = $('#leavecount').val();
+    //    var CLbalanceleave = $('#balanceleave').val();
+    //    var PLbalanceleave = $('#balancePL').val();
+    //    //if (parseFloat(l,10) > parseFloat(h,10))
+    //    //if (parseInt(l,10) > parseInt(h,10))
 
-        if (Leavetype == '2' && leavecount > '2.00') {
-            alert('You cannot apply more than 2 Casual Leaves');
-            return false;
+    //    if (Leavetype == '2' && leavecount > '2.00') {
+    //        alert('You cannot apply more than 2 Casual Leaves');
+    //        return false;
 
-        }
-       // if (Leavetype == '2' && CLbalanceleave < leavecount) {
-        if (Leavetype == '2' && parseFloat(CLbalanceleave, 10) < parseFloat(leavecount, 10)) {
-            alert('You do not have sufficient CL balance. Please select PL.');
-            return false;
-        }
+    //    }
+      
+    //    if (Leavetype == '2' && parseFloat(CLbalanceleave, 10) < parseFloat(leavecount, 10)) {
+    //        alert('You do not have sufficient CL balance. Please select PL.');
+    //        return false;
+    //    }
 
-       // if (Leavetype == '1' && PLbalanceleave < leavecount) {
-        if (Leavetype == '1' && parseFloat(PLbalanceleave, 10) < parseFloat(leavecount, 10)) {
-            alert('You do not have sufficient PL balance.');
-            return false;
-        }
+      
+    //    if (Leavetype == '1' && parseFloat(PLbalanceleave, 10) < parseFloat(leavecount, 10)) {
+    //        alert('You do not have sufficient PL balance.');
+    //        return false;
+    //    }
      
-    }
+    //}
   
  
 </script>

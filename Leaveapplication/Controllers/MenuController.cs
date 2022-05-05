@@ -15,7 +15,7 @@ namespace Leaveapplication.Controllers
     public class MenuController : CommonController
     {
        // public ActionResult AdminMenu()
-        public ActionResult AdminMenu(ModuleEntity objUser)
+        public ActionResult AdminMenu(ModuleEntity objUser, int? page)
         {
           //  string Menu = new ModuleBLL().BackOfficeMainMenu();
            // ModuleEntity objMainMenu = new ModuleEntity();
@@ -26,10 +26,12 @@ namespace Leaveapplication.Controllers
             var Empcode = Convert.ToString(Session["Empid"]);
 
             List<ModuleEntity> MenuList = new LeaveBLL().GetMenu(objUser, Empcode.ToString());
-           
+            CreatePager(page, MenuList.Count);
+            PagedList<ModuleEntity> model = new PagedList<ModuleEntity>(MenuList, page.HasValue ? Convert.ToInt32(page) : 1, Pager.GetPageSize());
+
             //return View(MenuList);
-           // return PartialView("~/Views/Menu/AdminMenu.cshtml", MenuList);
-            return PartialView("_Menu.cshtml", MenuList);
+            // return PartialView("~/Views/Menu/AdminMenu.cshtml", MenuList);
+            return PartialView("_Menu.cshtml", model);
 
 
             //string Menu = new ModuleBLL().BackOfficeMainMenu();

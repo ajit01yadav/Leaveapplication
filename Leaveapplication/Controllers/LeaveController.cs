@@ -42,22 +42,35 @@ namespace Leaveapplication.Controllers
             return View(objUser); 
       
         }
+       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Add(Leaveentiy objUser,Halfdayentity objhalfday, string Output)
         {
-        
-           // objUser.halfdayid = Convert.ToInt32(Session["haldayid"]).ToString();
-
-            if (objUser.halfdayid != null && objUser.halfdayid != "0")
+            var totalCount = 0;
+            decimal Totalleave = objUser.leavecount;
+            string[] strre = objUser.DynamicTextBox;
+            Decimal totalleavecount = 0;
+            if (strre != null && objUser.leaveId==0)
             {
-               // string Deleted;
-                //Deleted = new LeaveBLL().IsDeletedRecord(leaveid);
-               // objUser.halfdayid = null;
-            }
-           
-            // Deleted = new LeaveBLL().InsertHalfday(leaveid);
+                totalCount = strre.Count();
 
+                 totalleavecount = Convert.ToDecimal(totalCount * 0.5);
+                objUser.leavecount = Totalleave - totalleavecount;
+            }
+            if (strre != null && objUser.leaveId != 0)
+            {
+              
+           var totalcounts=   CalculateleaveDays(objUser.Fromdate,objUser.Todate);
+
+                
+                totalCount = strre.Count();
+
+                 totalleavecount = Convert.ToDecimal(totalCount * 0.5);
+                objUser.leavecount = totalcounts - totalleavecount;
+               
+            }
             objUser.EmpID = Convert.ToInt32(Session["Empid"]);
             objUser.EMPCode = Convert.ToString(Session["Empcode"]);
           
@@ -67,7 +80,6 @@ namespace Leaveapplication.Controllers
                 
                 Output = new LeaveBLL().InsertUpdateUsers(objUser, objhalfday);
               
-
             }
               bool result = false;
             result = SendMail(objUser.Fromdate, objUser.Todate, objUser.leavecount, objUser.DynamicTextBox);
@@ -79,17 +91,13 @@ namespace Leaveapplication.Controllers
         
         public ActionResult Manage(Leaveentiy objUser, string Message, int? page)
         {
-           // ModelState.Clear();
+        
             objUser.EmpID =Convert.ToInt32(Session["Empid"]);
-            // var empids = Convert.ToInt32(Session["Empid"]);
-            // List<Leaveentiy> UserList = new LeaveBLL().ManageUserByEmpcode(objUser.EmpID);
-           
+          
             List<Leaveentiy> UserList = new LeaveBLL().ManageUser(objUser, objUser.EmpID);
                 GetMessage(UserList.Count == 0 ? "NoRecord" : Message, "");
                 CreatePager(page, UserList.Count);
-            // return View(UserList);
-            //  BindCountryDropdown();
-           // ModelState.Clear();
+           
             PagedList<Leaveentiy> model = new PagedList<Leaveentiy>(UserList, page.HasValue ? Convert.ToInt32(page) : 1, Pager.GetPageSize());
             ModelState.Clear();
             return View(model);
@@ -101,7 +109,6 @@ namespace Leaveapplication.Controllers
             // Employeeentity objemp = new LeaveBLL().GetEmailId(empids);
            var Reportingid = Convert.ToString(Session["ReportingToId"]);
             List<Leaveentiy> UserList = new LeaveBLL().ApproveRejectUser(objUser, empids.ToString());
-          // List<Leaveentiy> UserList = new LeaveBLL().ManageApproveReject(empids.ToString());
             GetMessage(UserList.Count == 0 ? "NoRecord" : Message, "");
                 CreatePager(page, UserList.Count);
             PagedList<Leaveentiy> model = new PagedList<Leaveentiy>(UserList, page.HasValue ? Convert.ToInt32(page) : 1, Pager.GetPageSize());
@@ -133,14 +140,12 @@ namespace Leaveapplication.Controllers
           
             GetApprveRejectCLBalance(empid, leaveid, leavetype, status);
            return RedirectToAction("ApproveReject", "Leave", new { Message = Message });
-           // return RedirectToAction( Message );
-
+       
         }
 
         [HttpGet]
         public decimal GetCLBalance(string empid)
         {
-            // var empids = Session["Empid"].ToString();
             var empids = Convert.ToString(Session["Empid"]);
             decimal CL = new LeaveBLL().GetCLBalance(empids);
             return CL;
@@ -156,8 +161,7 @@ namespace Leaveapplication.Controllers
         public decimal GetPLBalance(string empid)
         {
             var empids = Convert.ToString(Session["Empid"]);
-           // var empids = Session["Empid"].ToString();
-
+          
             decimal PL  = new LeaveBLL().GetPLBalance(empids);
             return PL;
         }

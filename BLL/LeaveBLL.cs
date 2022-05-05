@@ -142,8 +142,13 @@ namespace BLL
         {
             return new LeaveDAL().IsApproved(leaveid, IsApproved, IsRejected);
         }
+        public int GetHalfdaycount( int leaveid, Boolean IsDeleted)
+        {
+            return new LeaveDAL().GetHalfdaycount(leaveid, IsDeleted);
 
-        //IsApproved
+        }
+
+        //GetHalfdaycount
 
 
     }

@@ -35,7 +35,8 @@ namespace Leaveapplication.Controllers
                 Session["ReportingToId"] = objLogin.ReportingToId;
                 Session["FirstName"] = objLogin.FirstName;
                 Session["LastName"] = objLogin.LastName;
-                return RedirectToAction("Index", "Home");
+               return RedirectToAction("Index", "Home");
+               // return RedirectToAction("~/Views/Shared/_Menu.cshtml");
             }
             else
             {

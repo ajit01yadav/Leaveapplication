@@ -10,7 +10,7 @@ namespace Leaveapplication.Controllers
     public class HomeController : Controller
     {
        // public ActionResult Index()
-              public ActionResult Index(ModuleEntity objUser)
+             public ActionResult Index(ModuleEntity objUser)
         {
             var Empcode = Convert.ToString(Session["Empcode"]);
             var Empid = Convert.ToString(Session["Empid"]);
