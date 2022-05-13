@@ -129,6 +129,8 @@ namespace Leaveapplication.Controllers
             Employeeentity objemp = new LeaveBLL().GetUserEmail(objUser.EmpID);
             HRentity objhr = new LeaveBLL().GetHREmail();
             var FromEmail = Session["Emial"];
+            var FirstName = Session["FirstName"];
+            var LastName = Session["LastName"];
             string strSubject = "", strMessage = "";
             if (objemp != null)
             {
@@ -139,8 +141,8 @@ namespace Leaveapplication.Controllers
                 strMessage += "Reason for leave is"  + approvalreason +  "<br/>";
                 strMessage += "Regards," + "<br/>";
                // strMessage += "NEC Technologies.";
-                strMessage += objemp.FirstName + " " + objemp.LastName;
-                new General().SendMail(objemp.EmailId.ToString(), objhr.Emailid.ToString(), "", strSubject, strMessage, 0, "", true, "", FromEmail.ToString());
+                strMessage += FirstName + " " + LastName;
+                new General().SendMail(objemp.EmailId.ToString(), objhr.Emailid.ToString(), "", strSubject, strMessage, 0, "", true, "", Convert.ToString(FromEmail));
             }
             return true;
         }
@@ -157,6 +159,8 @@ namespace Leaveapplication.Controllers
             Employeeentity objemp = new LeaveBLL().GetUserEmail(objUser.EmpID);
             HRentity objhr = new LeaveBLL().GetHREmail();
             var FromEmail = Session["Emial"].ToString();
+            var FirstName = Convert.ToString(Session["FirstName"]);
+            var LastName = Convert.ToString(Session["LastName"]);
             string strSubject = "", strMessage = "";
             if (objemp != null)
             {
@@ -167,11 +171,17 @@ namespace Leaveapplication.Controllers
                 strMessage += "" + Rejectionreason + ". :" + "<br/><br/>";
                 strMessage += "Regards," + "<br/>";
                 // strMessage += "NEC Technologies.";
-                strMessage += objemp.FirstName + " " + objemp.LastName;
-                new General().SendMail(objemp.EmailId.ToString(), objhr.Emailid.ToString(), "", strSubject, strMessage, 0, "", true, "", FromEmail.ToString());
+                strMessage += FirstName + " " + LastName;
+                new General().SendMail(objemp.EmailId.ToString(), objhr.Emailid.ToString(), "", strSubject, strMessage, 0, "", true, "", Convert.ToString(FromEmail));
             }
             return true;
         }
+    
+        public ActionResult Home()
+        {
+            return View("home");
+        }
+
 
     }
 }

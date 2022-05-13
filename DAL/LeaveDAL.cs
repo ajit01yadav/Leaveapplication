@@ -44,7 +44,7 @@ namespace DAL
                 });
             //SPUsersInsertUpdate3
             parameters.Add("@Output", dbType: DbType.String, direction: ParameterDirection.Output, size: 50);
-            this.db.Execute("SPUsersInsertUpdate3", parameters, commandType: CommandType.StoredProcedure);
+            this.db.Execute("SPUsersInsertUpdate", parameters, commandType: CommandType.StoredProcedure);
             if (objUsers.DynamicTextBox != null && objUsers.IsHalfdaySelect == true)
             {
 
@@ -387,9 +387,17 @@ namespace DAL
             return this.db.Query<string>("Sp_IsApproved", new { leaveid, IsApproved, IsRejected }, commandType: CommandType.StoredProcedure).FirstOrDefault();
 
         }
-        public List<ModuleEntity> GetMenu(ModuleEntity objUser, string EmpId)
+       public  List<ModuleEntity> GetMenu(ModuleEntity objUser, string EmpId)
         {
             return this.db.Query<ModuleEntity>("USP_GetMenuItemDataNew", new { EmpId }, commandType: CommandType.StoredProcedure).ToList();
+          
+        }
+        public List<MenuModel> GetMenu1()
+        // public List<ModuleEntity> GetMenu(string EmpId)
+        {
+            return this.db.Query<MenuModel>("Select * from Menus_MVC",  commandType: CommandType.Text).ToList();
+           // return this.db.Query<Menu_List>("USP_GetMenuItemDataNew", new { EmpId }, commandType: CommandType.StoredProcedure).ToList();
+           
         }
         public int GetHalfdaycount(int leaveid, Boolean IsDeleted)
         {

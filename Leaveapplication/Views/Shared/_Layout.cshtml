@@ -6,7 +6,8 @@
     @*<title>@ViewBag.Title :: @System.Configuration.ConfigurationManager.AppSettings["SiteName"]</title>*@
     @Styles.Render("~/PluginCss")
     @Scripts.Render("~/bundles/modernizr")
-    <link href="http://pentaglobal.1.myunlockcommerce.com/assets/css/unlock.css" rel="stylesheet">
+    <link href="http://pentaglobal.1.myunlockcommerce.com/assets/Css/unlock.css" rel="stylesheet">
+    <link href="@Url.Content("~/assets/Css/menu.css")" type="text/css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" />
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -34,46 +35,60 @@
                 </button>
                 <a class="navbar-brand hidden-xs" href="~/">Leave Application</a>
                 <a class="navbar-brand show-xs hidden-sm hidden-md hidden-lg" href="~/">Leave Application</a>
-                <ul class="nav navbar-top-links navbar-right">
-                    <li class="dropdown" id="usersession">
-                        @*<a href="#" data-toggle="dropdown" class="dropdown-toggle">
-                <i class="fa fa-user fa-fw"></i>
-                <span class="white hidden-xs">
-                    Welcome
-                    <strong>
-                        @Html.Raw(AuthenticateBLL.FirstName() + " " + AuthenticateBLL.LastName())
-                    </strong>&nbsp;&nbsp;
-                </span>
-                <i class="fa fa-caret-down"></i>
-
-            </a>*@
-                    @*<li><a href="@Url.Action("Add", "Leave")">Apply Leave</a></li>
-                    <li><a href="@Url.Action("Manage", "Leave")">View Leave</a></li>
-                    <li><a href="@Url.Action("ApproveReject", "Leave")">Approve & Reject Leave</a></li>
-                    <li><a href=@Url.Action("LogOut", "Account")>Sign Out</a></li>*@
-                       
-                            @*<li>
-                                <a href=@Url.Action("ChangePassword", "Account")><i class="fa fa-user fa-fw"></i>Change Password</a>
-                            </li>
-                            <li class="divider"></li>*@
-                            <li>
-                                <a href=@Url.Action("LogOut", "Account")><i class="fa fa-sign-out fa-fw"></i>Sign Out</a>
-                            </li>
-                        </ul>
-                        <!-- /.dropdown-user -->
-                   
-                    <!-- /.dropdown -->
                
             </div>
+            <div class="content-wrapper">
+               
+         @helper GetTreeMenus(IEnumerable<ModuleEntity> siteMenu, int ?  parentID)
+           {
+
+foreach (var i in siteMenu.Where(a => a.ParentID.Equals(parentID)))
+{
+  
+    var submenu = siteMenu.Where(a => a.ParentID.Equals(i.PageID)).Count();
+
+    string action = i.ActionName;
+    string controller = i.ControllerName;
+
+                  @*<ul class="float-right menu-bg">*@
+                      <ul>
+                          @*<li class="treeview">*@
+                          <li>
+                              <a href="/@i.ControllerName/@i.ActionName">
+                                  @*<i class="fa fa-angle-double-right"></i> <span>@i.PageName</span>
+                                  <i class="fa fa-angle-left pull-right"></i>*@
+                                 <i> </i> <span>@i.PageName</span>
+                                  <i></i>
+                              </a>
+                          </li>
+                          @GetTreeMenus(siteMenu, i.PageID)
+                      </ul>
+       }
+}
+                @{
+                    if (Session["MenuList"] != null)
+                    {
+                        <div class="sidebar-menu">
+
+                            @GetTreeMenus(Session["MenuList"] as IEnumerable<ModuleEntity>, 0)
+
+                        </div>
+                    }
+                }
+
+
+            </div>
+            @*@Html.Action("GetMenuData", "Home")*@
             <!--Start Admin Menu Section-->
             @*@Html.Partial("~/Views/Menu/AdminMenu.cshtml")*@
             @*@Html.Partial("~/Views/Shared/_Menu.cshtml");*@
             <!--End Of Admin Menu Section-->
-            @*@Html.Partial("/Shared/_Menu.cshtml")*@
+           
         </nav>
         @*</form>*@
         <div id="page-wrapper">
             @RenderBody()
+            @*@Html.Partial("/Shared/_Menu.cshtml")*@
         </div>
         <!-- /#page-wrapper -->
     </div>

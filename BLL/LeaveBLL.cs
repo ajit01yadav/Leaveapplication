@@ -115,9 +115,16 @@ namespace BLL
         {
             return new LeaveDAL().GetUserRoles(Empcode);
         }
+    
         public List<ModuleEntity> GetMenu(ModuleEntity objUser, string Empcode)
         {
+           
             return new LeaveDAL().GetMenu(objUser, Empcode);
+        }
+        public List<MenuModel> GetMenu1()
+        {
+            //return new LeaveDAL().GetMenu(Empcode);
+            return new LeaveDAL().GetMenu1();
         }
 
         public decimal GetApprveRejectCLBalance(int empid, int leaveid, string leavetype, int status)

@@ -245,7 +245,7 @@ public class Validations
                 Class = "alert alert-success alert-dismissable col-lg-12";
                 break;
             case "Reject":
-                ReturnMessage = "Your leave has been rejected successfully.";
+                ReturnMessage = "leave has been rejected.";
                 Class = "alert alert-success alert-dismissable col-lg-12";
                 break;
 

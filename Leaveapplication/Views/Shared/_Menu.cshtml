@@ -1,17 +1,53 @@
-﻿@model PagedList.IPagedList<ModuleEntity>
+﻿@*@model PagedList.IPagedList<ModuleEntity>
 @using PagedList.Mvc;
-@*@model List<ModuleEntity>*@
 
 <ul id="menu">
     @foreach (var item in Model)
 
     {
         <li>
-            @*@Html.ActionLink(@item.PageName, @item.ActionName,*@
+          
             @Html.DisplayFor(modelItem => item.ActionName)
             @Html.DisplayFor(modelItem => item.ControllerName)
-              @*@item.ControllerName)*@
+             
         </li>
     }
-</ul>
+</ul>*@
 
+@model IEnumerable<MenuModel>
+
+<link href="@Url.Content("~/Content/css/menu.css")" type="text/css" rel="stylesheet" />
+
+<div class="float-right menu-bg" id="divMenu">
+
+    <ul>
+        @{
+            foreach (var menu in Model)
+            {
+                if (menu.ParentID == 0)
+                {
+                    <li class="menu">
+                        @menu.PageName
+                    @if (menu.SubMenu != null)
+                    {
+                        <ul>
+                            @foreach (var submenu in menu.SubMenu)
+                            {
+                                if (submenu.PageName != "Start Assessment")
+                                {
+                                    @*<li><a href="@string.Concat(submenu.baseUrl, submenu.PageURL)">@submenu.PageName</a></li>*@
+                                    <li><a href="@string.Concat(submenu.PageNameURL, submenu.MenuOrderID)">@submenu.PageName</a></li>
+                                }
+                                else
+                                {
+                                    @*<li><a href="@string.Concat(submenu.baseUrl, submenu.PageURL)" onclick="window.open(this.href, 'mywin','left=20,top=20,width=screen.width,toolbar=1,resizable=0'); return false;">@submenu.PageName</a></li>*@
+                                }
+                            }
+                        </ul>
+                    }
+                </li>
+                }
+            }
+        }
+    </ul>
+    </div>

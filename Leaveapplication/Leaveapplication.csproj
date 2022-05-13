@@ -224,12 +224,14 @@
     <Content Include="Assets\Css\datepicker.css" />
     <Content Include="Assets\Css\font-awesome.css" />
     <Content Include="Assets\Css\jquery-ui-1.8.16.custom.css" />
+    <Content Include="Assets\Css\menu.css" />
     <Content Include="Assets\Css\sb-admin.css" />
     <Content Include="Assets\Css\select2.min.css" />
     <Content Include="Assets\Css\unlock.css" />
     <Content Include="Assets\Css\uploadfile.min.css" />
     <Content Include="Assets\fonts\fontawesome-webfont.svg" />
     <Content Include="Assets\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Assets\Images\TrainingModule.jpg" />
     <Content Include="Assets\Js\!jquery.validate.unobtrusive.js" />
     <Content Include="Assets\Js\!jquery.validate.unobtrusive.min.js" />
     <Content Include="Assets\Js\bootstrap-datepicker.js" />
@@ -415,13 +417,19 @@
     <Content Include="Views\Role\Manage.cshtml" />
     <Content Include="Views\Shared\DataTags.cshtml" />
     <Content Include="Views\Shared\_Menu.cshtml" />
-    <Content Include="Views\Home\_ViewStart.cshtml" />
     <Content Include="Views\Menu\AdminMenu.cshtml" />
     <Content Include="Views\Menu\Menu.cshtml" />
+    <Content Include="Views\Home\Menu.cshtml" />
+    <Content Include="Views\Home\Consulting.cshtml" />
+    <Content Include="Views\Home\Outsourcing.cshtml" />
+    <Content Include="Views\Menu\Computer_Action.cshtml" />
+    <Content Include="Views\Menu\Maths_Action.cshtml" />
+    <Content Include="Views\Menu\Marketing_Action.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="bin\" />
+    <Folder Include="Mails\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

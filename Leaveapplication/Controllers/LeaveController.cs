@@ -103,6 +103,7 @@ namespace Leaveapplication.Controllers
             return View(model);
             
         }
+        
         public ActionResult ApproveReject(Leaveentiy objUser, string Message, int? page)
         {
             var empids = Convert.ToInt32(Session["Empid"]);
@@ -196,9 +197,9 @@ namespace Leaveapplication.Controllers
             objUser.IsApproved = false;
             objUser.IsRejected = true;
             string Messages = new LeaveBLL().IsApproved(objUser.leaveId, objUser.IsApproved, objUser.IsRejected);
-          
+
             return RedirectToAction("ApproveReject", "Leave", new { Message = Message });
-           // return Rejection;
+           
 
         }
       

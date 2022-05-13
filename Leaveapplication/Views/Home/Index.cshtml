@@ -1,4 +1,12 @@
-﻿@*@{
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Index</h2>*@
+<img src="~/Assets/Images/TrainingModule.jpg">
+
+@*@{
     ViewBag.Title = "Dashboard";
 }
 
@@ -58,7 +66,9 @@
         </li>
     }
 </ul>*@
-@model List<ModuleEntity>
+@*@model PagedList.IPagedList<ModuleEntity>
+@using PagedList.Mvc;
+
 <div class="row">
     <div class="col-xs-12 page-header">
         <div class="row">
@@ -94,4 +104,4 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@
