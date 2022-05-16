@@ -38,6 +38,11 @@ namespace BLL
             return new LeaveDAL().GetCount(Fromdate, Todate);
 
         }
+        public List<Leaveentiy> Getfromdatetodate(string empid)
+        {
+            return new LeaveDAL().Getfromdatetodate(empid);
+
+        }
         public decimal GetCLBalance(string empid)
         {
             return new LeaveDAL().GetCLBalance(empid);
@@ -130,6 +135,11 @@ namespace BLL
         public decimal GetApprveRejectCLBalance(int empid, int leaveid, string leavetype, int status)
         {
             return new LeaveDAL().GetApprveRejectCLBalance(empid, leaveid, leavetype, status);
+
+        }
+        public decimal GetApprveRejectCLBalance(int empid,string leavetype, int leaveid)
+        {
+            return new LeaveDAL().GetApprveRejectCLBalance(empid, leavetype, leaveid);
 
         }
         public decimal GetApprveRejectCLPLBalance(int empid, int leaveid, string leavetype, int status)

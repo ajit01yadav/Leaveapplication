@@ -73,7 +73,9 @@ namespace Leaveapplication.Controllers
             }
             objUser.EmpID = Convert.ToInt32(Session["Empid"]);
             objUser.EMPCode = Convert.ToString(Session["Empcode"]);
-          
+           // Getfromdatetodate(objUser,Convert.ToString(objUser.EmpID));
+
+
 
                 if (ModelState.IsValid)
             {
@@ -83,9 +85,10 @@ namespace Leaveapplication.Controllers
             }
               bool result = false;
             result = SendMail(objUser.Fromdate, objUser.Todate, objUser.leavecount, objUser.DynamicTextBox);
-           // ModelState.Clear();
-
+            // ModelState.Clear();
+            GetApprveRejectCLBalance(objUser.EmpID, objUser.LeaveStatusID,objUser.leaveId);
             return (Output == "Update" ? RedirectToAction("Manage", "Leave", new { Message = "Update" }) : RedirectToAction("Add", "Leave", new { Message = Output }));
+            
 
         }
         
@@ -159,6 +162,13 @@ namespace Leaveapplication.Controllers
             return CL;
         }
         [HttpGet]
+        public decimal GetApprveRejectCLBalance(int empid, string leavetype, int leaveid)
+        {
+
+            decimal CL = new LeaveBLL().GetApprveRejectCLBalance(empid, leavetype, leaveid);
+            return CL;
+        }
+        [HttpGet]
         public decimal GetPLBalance(string empid)
         {
             var empids = Convert.ToString(Session["Empid"]);
@@ -173,8 +183,27 @@ namespace Leaveapplication.Controllers
             decimal holiday = new LeaveBLL().GetCount(Fromdate, Todate); 
             return holiday;
             }
+        [HttpGet]
+        public List<Leaveentiy> Getfromdatetodate(Leaveentiy objUse, string empid)
 
-         public ActionResult UserDetails(Leaveentiy objUser, string User, string Rejectionreason, int Leaveid)
+        {
+            var empids = Convert.ToString(Session["Empid"]);
+            List<Leaveentiy> DateList = new LeaveBLL().Getfromdatetodate(empids);
+            foreach (var word in DateList)
+            {
+                if (word.Fromdate!= objUse.Fromdate)
+                {
+
+                }
+                
+               // Console.WriteLine(word);
+            }
+
+
+            return DateList;
+        }
+
+        public ActionResult UserDetails(Leaveentiy objUser, string User, string Rejectionreason, int Leaveid)
 
         {
             string Rejection = new LeaveBLL().InsertRejectreason(Rejectionreason, Leaveid);

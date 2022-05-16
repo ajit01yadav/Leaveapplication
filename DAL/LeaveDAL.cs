@@ -190,6 +190,19 @@ namespace DAL
             return this.db.Query<decimal>("Sp_TotlaBussinessdays", new { Fromdate, Todate }, commandType: CommandType.StoredProcedure).SingleOrDefault();
 
         }
+        //Getfromdatetodate
+        public List<Leaveentiy> Getfromdatetodate(string empid)
+        {
+            //Sp_TotlaBussinessdays
+            var parameters = new DynamicParameters(new
+            {
+               
+                empid
+
+            });
+            return this.db.Query<Leaveentiy>("Sp_GetFromandToday", new { empid }, commandType: CommandType.StoredProcedure).ToList();
+
+        }
         public decimal GetPLBalance(string empid)
         {
             var parameters = new DynamicParameters(new
@@ -339,7 +352,21 @@ namespace DAL
                 status
 
             });
-            return this.db.Query<decimal>("Sp_TotalCLBalance_New1", new { empid, leaveid, leavetype, status }, commandType: CommandType.StoredProcedure).SingleOrDefault();
+            return this.db.Query<decimal>("Sp_TotalCLBalance_New", new { empid, leaveid, leavetype, status }, commandType: CommandType.StoredProcedure).SingleOrDefault();
+
+        }
+        public decimal GetApprveRejectCLBalance(int empid, string leavetype, int leaveid)
+        {
+            //Sp_TotalCLBalance_New1
+            var parameters = new DynamicParameters(new
+            {
+                empid,
+                leavetype,
+                leaveid
+
+
+            });
+            return this.db.Query<decimal>("Sp_Totalclplleavebalance", new { empid, leavetype, leaveid }, commandType: CommandType.StoredProcedure).SingleOrDefault();
 
         }
         public decimal GetApprveRejectCLPLBalance(int empid, int leaveid, string leavetype, int status)
