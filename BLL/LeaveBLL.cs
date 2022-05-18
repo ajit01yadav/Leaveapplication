@@ -142,6 +142,23 @@ namespace BLL
             return new LeaveDAL().GetApprveRejectCLBalance(empid, leavetype, leaveid);
 
         }
+        //Getleavecount
+        public decimal Getleavecount(int empid, string leavetype, int leaveid)
+        {
+            return new LeaveDAL().Getleavecount(empid, leavetype, leaveid);
+
+        }
+        public decimal updateplbalanceleave(int empid, string leavetype)
+        {
+            return new LeaveDAL().updateplbalanceleave(empid, leavetype);
+
+        }
+        //updateplbalanceleave
+        public decimal GetApprveRejectCLBalance(int empid, string leavetype)
+        {
+            return new LeaveDAL().GetApprveRejectCLBalance(empid, leavetype);
+
+        }
         public decimal GetApprveRejectCLPLBalance(int empid, int leaveid, string leavetype, int status)
         {
             return new LeaveDAL().GetApprveRejectCLPLBalance(empid, leaveid, leavetype, status);

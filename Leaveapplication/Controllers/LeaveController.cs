@@ -4,6 +4,9 @@ using PagedList;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -48,6 +51,9 @@ namespace Leaveapplication.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Add(Leaveentiy objUser,Halfdayentity objhalfday, string Output)
         {
+            var getleavecount = 0.00M;
+            var upldateplleavebalance=0;
+            decimal Previousplbalance = 0.00M;
             var totalCount = 0;
             decimal Totalleave = objUser.leavecount;
             string[] strre = objUser.DynamicTextBox;
@@ -73,38 +79,97 @@ namespace Leaveapplication.Controllers
             }
             objUser.EmpID = Convert.ToInt32(Session["Empid"]);
             objUser.EMPCode = Convert.ToString(Session["Empcode"]);
-           // Getfromdatetodate(objUser,Convert.ToString(objUser.EmpID));
-
-
-
-                if (ModelState.IsValid)
+            if (objUser.leaveId != 0)
+            {
+               getleavecount = Getleavecount(objUser.EmpID, objUser.LeaveStatusID, objUser.leaveId);
+            }
+            
+           
+            if (ModelState.IsValid)
             {
                 
                 Output = new LeaveBLL().InsertUpdateUsers(objUser, objhalfday);
+                if (Output == "Insert")
+                {
+                    GetApprveRejectCLBalance(objUser.EmpID, objUser.LeaveStatusID);
+                    
+                }
+                if (objUser.leavecount > getleavecount && Output== "Update")
+                {
+                    var leavecounts = objUser.leavecount;
+                    var totaldiffcount =  leavecounts- getleavecount;
+
+                    var updateplcount = totaldiffcount;
+                    var empids = Convert.ToString(Session["Empid"]);
+                    if (objUser.LeaveStatusID == "1")
+                    {
+                        Previousplbalance = GetPLBalance(empids);
+                    }
+                    if (objUser.LeaveStatusID == "2")
+                    {
+                        Previousplbalance = GetCLBalance(empids);
+                    }
+
+                    updateplcount = Previousplbalance - totaldiffcount;
+
+                     upldateplleavebalance = updateplbalance_Alppliedleave(objUser.EmpID, updateplcount, objUser.LeaveStatusID, objUser.leaveId);
+
+                }
+                if (objUser.leavecount < getleavecount && Output == "Update")
+                {
+                    //decimal Previousplbalance=0.00M;
+                    var leavecounts = objUser.leavecount;
+                    var totaldiffcount = getleavecount- leavecounts;
+                   
+                    var updateplcount = totaldiffcount;
+                    var empids = Convert.ToString(Session["Empid"]);
+                    if (objUser.LeaveStatusID == "1")
+                    {
+                        Previousplbalance = GetPLBalance(empids);
+                    }
+                    if (objUser.LeaveStatusID == "2")
+                    {
+                        Previousplbalance = GetCLBalance(empids);
+                    }
+
+                    updateplcount = Previousplbalance + totaldiffcount;
+                   
+                      upldateplleavebalance = updateplbalance(objUser.EmpID, updateplcount, objUser.LeaveStatusID,objUser.leaveId);
+                    
+
+
+                }
               
+
+
             }
               bool result = false;
             result = SendMail(objUser.Fromdate, objUser.Todate, objUser.leavecount, objUser.DynamicTextBox);
             // ModelState.Clear();
-            GetApprveRejectCLBalance(objUser.EmpID, objUser.LeaveStatusID,objUser.leaveId);
+          
             return (Output == "Update" ? RedirectToAction("Manage", "Leave", new { Message = "Update" }) : RedirectToAction("Add", "Leave", new { Message = Output }));
-            
+         
+
 
         }
         
         public ActionResult Manage(Leaveentiy objUser, string Message, int? page)
         {
-        
+           
             objUser.EmpID =Convert.ToInt32(Session["Empid"]);
-          
-            List<Leaveentiy> UserList = new LeaveBLL().ManageUser(objUser, objUser.EmpID);
+            if (objUser.EmpID == 0)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+                List<Leaveentiy> UserList = new LeaveBLL().ManageUser(objUser, objUser.EmpID);
                 GetMessage(UserList.Count == 0 ? "NoRecord" : Message, "");
                 CreatePager(page, UserList.Count);
-           
-            PagedList<Leaveentiy> model = new PagedList<Leaveentiy>(UserList, page.HasValue ? Convert.ToInt32(page) : 1, Pager.GetPageSize());
-            ModelState.Clear();
-            return View(model);
             
+                PagedList<Leaveentiy> model = new PagedList<Leaveentiy>(UserList, page.HasValue ? Convert.ToInt32(page) : 1, Pager.GetPageSize());
+                ModelState.Clear();
+            
+                return View(model);
+              
         }
         
         public ActionResult ApproveReject(Leaveentiy objUser, string Message, int? page)
@@ -154,6 +219,7 @@ namespace Leaveapplication.Controllers
             decimal CL = new LeaveBLL().GetCLBalance(empids);
             return CL;
         }
+      
         [HttpGet]
         public decimal GetApprveRejectCLBalance(int empid,int leaveid,string leavetype, int status)
         {
@@ -169,6 +235,74 @@ namespace Leaveapplication.Controllers
             return CL;
         }
         [HttpGet]
+        public decimal GetApprveRejectCLBalance(int empid, string leavetype)
+        {
+
+            decimal CL = new LeaveBLL().GetApprveRejectCLBalance(empid, leavetype);
+            return CL;
+        }
+        //For getting leavecount
+        [HttpGet]
+        public decimal Getleavecount(int empid, string leavetype, int leaveid)
+        {
+
+            decimal CL = new LeaveBLL().Getleavecount(empid, leavetype, leaveid);
+            return CL;
+        }
+        //Update balance leave if applied leave is greater than previous appllied leave
+        public int updateplbalance(int empid,Decimal TotalPaidLeave,string leavetype, int leaveid)
+        {
+            string constr = ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                SqlCommand cmd = new SqlCommand("Sp_UpdateBalanceleave", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Connection = con;
+
+
+                //  cmd.Parameters.AddWithValue("@option", "insert");
+                cmd.Parameters.AddWithValue("@empid", empid);
+                cmd.Parameters.AddWithValue("@TotalPaidLeave", TotalPaidLeave);
+                cmd.Parameters.AddWithValue("@leavetype", leavetype);
+                cmd.Parameters.AddWithValue("@leaveid", leaveid);
+
+                con.Open();
+              int i=  cmd.ExecuteNonQuery();
+               
+                con.Close();
+
+                return i;
+            }
+        }
+        //Update balance leave if applied leave is less than previous appllied leave
+        public int updateplbalance_Alppliedleave(int empid, Decimal TotalPaidLeave, string leavetype, int leaveid)
+        {
+            string constr = ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                SqlCommand cmd = new SqlCommand("Sp_Applyleavegreater", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Connection = con;
+
+
+                //  cmd.Parameters.AddWithValue("@option", "insert");
+                cmd.Parameters.AddWithValue("@empid", empid);
+                cmd.Parameters.AddWithValue("@TotalPaidLeave", TotalPaidLeave);
+                cmd.Parameters.AddWithValue("@leavetype", leavetype);
+                cmd.Parameters.AddWithValue("@leaveid", leaveid);
+
+                con.Open();
+                int i = cmd.ExecuteNonQuery();
+
+                con.Close();
+
+                return i;
+            }
+        }
+
+        [HttpGet]
         public decimal GetPLBalance(string empid)
         {
             var empids = Convert.ToString(Session["Empid"]);
@@ -183,25 +317,7 @@ namespace Leaveapplication.Controllers
             decimal holiday = new LeaveBLL().GetCount(Fromdate, Todate); 
             return holiday;
             }
-        [HttpGet]
-        public List<Leaveentiy> Getfromdatetodate(Leaveentiy objUse, string empid)
-
-        {
-            var empids = Convert.ToString(Session["Empid"]);
-            List<Leaveentiy> DateList = new LeaveBLL().Getfromdatetodate(empids);
-            foreach (var word in DateList)
-            {
-                if (word.Fromdate!= objUse.Fromdate)
-                {
-
-                }
-                
-               // Console.WriteLine(word);
-            }
-
-
-            return DateList;
-        }
+      
 
         public ActionResult UserDetails(Leaveentiy objUser, string User, string Rejectionreason, int Leaveid)
 
