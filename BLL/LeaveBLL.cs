@@ -14,11 +14,6 @@ namespace BLL
         {
             return new LeaveDAL().InsertUpdateUsers(objUsers, objhalfday);
         }
-        //public int InsertUpdateHalfday(Halfdayentity objhalfday, Leaveentiy objUsers)
-        //{
-        //    return new LeaveDAL().InsertUpdateHalfday(objhalfday, objUsers);
-        //}
-        //InsertUpdateHalfday
         public List<Leaveentiy> ManageUser(Leaveentiy objUser, int EmpID )
         {
             return new LeaveDAL().ManageUser( objUser, EmpID);
@@ -95,6 +90,15 @@ namespace BLL
         {
             return new LeaveDAL().UpdateStatus(leaveid);
         }
+        public string UpdateapproveType(int leaveid,int empid)
+        {
+            return new LeaveDAL().UpdateapproveType(leaveid, empid);
+        }
+        public string UpdaterejectType(int leaveid, int empid)
+        {
+            return new LeaveDAL().UpdaterejectType(leaveid, empid);
+        }
+        //UpdaterejectType
         public string UpdateRejectStatus(int leaveid)
         {
             return new LeaveDAL().UpdateRejectStatus(leaveid);
@@ -137,15 +141,21 @@ namespace BLL
             return new LeaveDAL().GetApprveRejectCLBalance(empid, leaveid, leavetype, status);
 
         }
+        public decimal AddApproveleavebalance(int empid, int leaveid, string leavetype)
+        {
+            return new LeaveDAL().AddApproveleavebalance(empid, leaveid, leavetype);
+
+        }
+        //AddApproveleavebalance
         public decimal GetApprveRejectCLBalance(int empid,string leavetype, int leaveid)
         {
             return new LeaveDAL().GetApprveRejectCLBalance(empid, leavetype, leaveid);
 
         }
         //Getleavecount
-        public decimal Getleavecount(int empid, string leavetype, int leaveid)
+        public decimal Getleavecount(int empid, int leaveid)
         {
-            return new LeaveDAL().Getleavecount(empid, leavetype, leaveid);
+            return new LeaveDAL().Getleavecount(empid, leaveid);
 
         }
         public decimal updateplbalanceleave(int empid, string leavetype)

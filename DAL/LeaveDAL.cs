@@ -30,19 +30,18 @@ namespace DAL
                // objUsers.Description,
                 //objUsers.leavetype,
                 // objUsers.leavebalance,
-                objUsers.leavecount,
+                    objUsers.leavecount,
                     objUsers.Status,
                     objUsers.createdon,
-                    // objUsers.DynamicTextBox,
                     objUsers.EmpID,
                     objUsers.EMPCode,
-               //objUsers.halfdaythree,
+                    objUsers.FullName,
                     objUsers.updatedby,
-                    objUsers.IsHalfdaySelect
-                   // objUsers.DataTags
-
+                    objUsers.IsHalfdaySelect,
+                    objUsers.ApprovalType
+                   
                 });
-            //SPUsersInsertUpdate3
+            //SPUsersInsertUpdate
             parameters.Add("@Output", dbType: DbType.String, direction: ParameterDirection.Output, size: 50);
             this.db.Execute("SPUsersInsertUpdate", parameters, commandType: CommandType.StoredProcedure);
             if (objUsers.DynamicTextBox != null && objUsers.IsHalfdaySelect == true)
@@ -80,7 +79,6 @@ namespace DAL
                         
                         con.Open();
                         cmd.ExecuteNonQuery();
-                        // objUsers.halfdayid="";
                         con.Close();
 
                     }
@@ -92,34 +90,8 @@ namespace DAL
         }
 
 
-        //public int updateplbalance(string empid)
-        //{
-        //    string constr = ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString;
-        //    using (SqlConnection con = new SqlConnection(constr))
-        //    {
-        //        SqlCommand cmd = new SqlCommand("Sp_UpdateBalanceleave", con);
-        //        cmd.CommandType = CommandType.StoredProcedure;
-
-        //        cmd.Connection = con;
-
-
-        //        //  cmd.Parameters.AddWithValue("@option", "insert");
-        //        cmd.Parameters.AddWithValue("@EMPId", objUsers.EmpID);
-        //        cmd.Parameters.AddWithValue("@leaveid", objUsers.leaveId);
-        //        cmd.Parameters.AddWithValue("@halfdayid", objUsers.halfdayid);
-        //        cmd.Parameters.AddWithValue("@Date", textboxValue);
-        //        con.Open();
-        //        cmd.ExecuteNonQuery();
-
-        //        con.Close();
-
-        //        int result = 0;
-        //        return result;
-        //    }
-        //}
-       
       
-        public List<Leaveentiy> ManageUser(Leaveentiy objUser, int EmpID)
+     public List<Leaveentiy> ManageUser(Leaveentiy objUser, int EmpID)
         {
             var parameters = new DynamicParameters(new
             {
@@ -127,7 +99,7 @@ namespace DAL
 
             });
            
-            return this.db.Query<Leaveentiy>("SPMangeLeave2", new {  objUser.Fromdate, objUser.Todate, EmpID }, commandType: CommandType.StoredProcedure).ToList();
+            return this.db.Query<Leaveentiy>("SPMangeLeave", new {  objUser.Fromdate, objUser.Todate,objUser.Status, EmpID }, commandType: CommandType.StoredProcedure).ToList();
           
         }
         public List<Halfdayentity> HalfdayCount(int leaveid)
@@ -173,10 +145,9 @@ namespace DAL
 
 
             });
-            //SPMangeLeave2
-            //SPLeaveManage3
-            //SP_GetLeaveDetails2
-            return this.db.Query<Leaveentiy>("SP_GetLeaveDetails2New", new { objUser.FirstName, objUser.Status, ReportingToId }, commandType: CommandType.StoredProcedure).ToList();
+
+            //SP_GetLeaveDetails
+            return this.db.Query<Leaveentiy>("SP_GetLeaveDetails1", new { objUser.FirstName, objUser.Status, ReportingToId }, commandType: CommandType.StoredProcedure).ToList();
         }
         public string Getdata(string empid, string leavetype)
         {
@@ -328,6 +299,33 @@ namespace DAL
             return parameters.Get<string>("@Output");
            
         }
+        public string UpdateapproveType(int leaveid,int empid)
+        {
+            var parameters = new DynamicParameters(new
+            {
+                leaveid,
+                empid
+
+            });
+            parameters.Add("@Output", dbType: DbType.String, direction: ParameterDirection.Output, size: 20);
+            this.db.Execute("sp_ApprovalType", parameters, commandType: CommandType.StoredProcedure);
+            return parameters.Get<string>("@Output");
+
+        }
+        public string UpdaterejectType(int leaveid, int empid)
+        {
+            var parameters = new DynamicParameters(new
+            {
+                leaveid,
+                empid
+
+            });
+            parameters.Add("@Output", dbType: DbType.String, direction: ParameterDirection.Output, size: 20);
+            this.db.Execute("sp_RejectType", parameters, commandType: CommandType.StoredProcedure);
+            return parameters.Get<string>("@Output");
+
+        }
+        //UpdaterejectType
         public string UpdateRejectStatus(int leaveid)
         {
             var parameters = new DynamicParameters(new
@@ -379,6 +377,20 @@ namespace DAL
             return this.db.Query<decimal>("Sp_TotalCLBalance_New", new { empid, leaveid, leavetype, status }, commandType: CommandType.StoredProcedure).SingleOrDefault();
 
         }
+        public decimal AddApproveleavebalance(int empid, int leaveid, string leavetype)
+        {
+            //Sp_TotalCLBalance_New1
+            var parameters = new DynamicParameters(new
+            {
+                empid,
+                leaveid,
+                leavetype
+                
+            });
+            return this.db.Query<decimal>("Sp_Updateleavebalance", new { empid, leaveid, leavetype}, commandType: CommandType.StoredProcedure).SingleOrDefault();
+
+        }
+        //AddApproveleavebalance
         public decimal GetApprveRejectCLBalance(int empid, string leavetype, int leaveid)
         {
             var parameters = new DynamicParameters(new
@@ -392,17 +404,17 @@ namespace DAL
             return this.db.Query<decimal>("Sp_Totalclplleavebalance", new { empid, leavetype, leaveid }, commandType: CommandType.StoredProcedure).SingleOrDefault();
 
         }
-        public decimal Getleavecount(int empid, string leavetype, int leaveid)
+        public decimal Getleavecount(int empid, int leaveid)
         {
             var parameters = new DynamicParameters(new
             {
                 empid,
-                leavetype,
+               // leavetype,
                 leaveid
 
 
             });
-            return this.db.Query<decimal>("Sp_GetLeavebalance", new { empid, leavetype, leaveid }, commandType: CommandType.StoredProcedure).SingleOrDefault();
+            return this.db.Query<decimal>("Sp_GetLeavebalance", new { empid, leaveid }, commandType: CommandType.StoredProcedure).SingleOrDefault();
 
         }
         public decimal updateplbalanceleave(int empid, string leavetype)
@@ -419,6 +431,7 @@ namespace DAL
 
         }
         //updateplbalanceleave
+        //Sp_TotalclplleavebalanceSave
         public decimal GetApprveRejectCLBalance(int empid, string leavetype)
         {
             var parameters = new DynamicParameters(new
@@ -426,7 +439,7 @@ namespace DAL
                 empid,
                 leavetype
             });
-            return this.db.Query<decimal>("Sp_TotalclplleavebalanceSave", new { empid, leavetype}, commandType: CommandType.StoredProcedure).SingleOrDefault();
+            return this.db.Query<decimal>("Sp_TotalclplleavebalanceSave1", new { empid, leavetype}, commandType: CommandType.StoredProcedure).SingleOrDefault();
 
         }
         public decimal GetApprveRejectCLPLBalance(int empid, int leaveid, string leavetype, int status)

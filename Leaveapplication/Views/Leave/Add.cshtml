@@ -16,16 +16,14 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#IncludePhotos').hide();
-            $("#Fromdate").datepicker({ dateFormat: 'dd/mm/yy' });
+            $("#Fromdate").datepicker({ dateFormat: 'dd/mm/yy'});
+            //$("#Fromdate").datepicker({ dateFormat: 'dd/mm/yy', minDate: 0 });
             $("#Todate").datepicker({
                 dateFormat: 'dd/mm/yy',
                // onSelect: function (dateString, txtDate) {
                     onClose: function (dateString, txtDate) {
                         //TotalCount();
                         
-
-
-
                     }
             })
             $('#leavcountid').hide();
@@ -136,6 +134,7 @@
             $('.modal-title').html(title);
             $('.modal').modal('show');
         });
+      
 
     </script>
     }
@@ -287,23 +286,7 @@
 
                             <span class="item-text">Yes</span>
                              <div class="panel-group">
-                            @*<div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 data-toggle="collapse" class="panel-title" data-target="#DataTags">
-                                        Data Tags
-                                        <span class="fa fa-angle-down pull-right"></span>
-                                    </h4>
-                                </div>
-                                <div id="DataTags" class="panel-collapse collapse">
-                                    <div class="panel-body">
-                                        <div class="col-sm-12">
-                                            @Html.Partial("DataTags", Model.DataTagList)
-                                        </div>
-                                    </div>
-                                    <div class="panel-footer">
-                                    </div>
-                                </div>
-                            </div>*@
+                          
                         </div>
                            
                             <div id="dates" >
@@ -398,28 +381,42 @@
                         $(function () {
                             
                             $('[id*=Todate]').on('change', function () {
-                               // debugger;
+                                debugger;
                                // DateCheck();
                               
-                               
+                                var Leavetype = $('#LeaveStatusID').val();
+
+
+
+
                                 var val1 = $('#Fromdate').val();
                                 var val2 = $('#Todate').val();
-                                if (val1 > val2)
-                                {
-                                    alert("To-date should be greater than or equal to from-date of leave.");
-                                    return false;
+
+                                var startDate = $('#Fromdate').val();
+                                var endDate = $('#Todate').val();
+                                var regExp = /(\d{1,2})\/(\d{1,2})\/(\d{2,4})/;
+                                if (parseInt(endDate.replace(regExp, "$3$2$1")) < parseInt(startDate.replace(regExp, "$3$2$1"))) {
+                                    alert("To-date should be greater than or equal to from-date of leave");
                                 }
+
+                               
+
+                                //if (val1 > val2)
+                                //{
+                                //    alert("To-date should be greater than or equal to from-date of leave.");
+                                //    return false;
+                                //}
                               
                                 $.ajax({
                                     type: "GET",
                                     url: "/Leave/CalculateleaveDays",
                                     //data: JSON.stringify({ leavecount: leavecount }),
                                     contentType: "application/json; charset=utf-8",
-                                   // dataType: "json",
+                                    // dataType: "json",
                                     data: JSON.stringify({ val1: val2 }),
                                     data: "Fromdate=" + val1 + "&Todate=" + val2,
                                     success: function (data) {
-                                    
+                                          
 
                                         if (data != "") {
                                             console.log(data);

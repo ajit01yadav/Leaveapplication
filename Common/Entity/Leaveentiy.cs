@@ -81,7 +81,7 @@ public class Leaveentiy
 
         public string LastName { get; set; }
 
-        public string FullName { get; set; }
+       public string FullName { get; set; }
 
         public string Rejectionreason { get; set; }
 
@@ -101,10 +101,17 @@ public class Leaveentiy
 
        public int PageTypeID { get; set; }
        public string Halfdayentity { get; set; }
-       public List<DataTags> DataTagList { get; set; }
-      //public List<Halfdayentity> DataTagList { get; set; }
-    public int DatTagCount { get; set; }
-     public string DataTags { get; set; }
+      public string ApprovalType { get; set; }
+    //ApprovalType
+
+    //public string FullName
+    //{
+    //    get
+    //    {
+    //        return string.Format("{0} {1}", FirstName, LastName);
+    //    }
+    //}
+
 
 
 }

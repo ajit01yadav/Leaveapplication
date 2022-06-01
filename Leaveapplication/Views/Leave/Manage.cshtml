@@ -72,12 +72,11 @@
                     From Date:
                 </label>
                 <div class="form-group has-feedback">
-                    <i class="input-icons"></i>
-                    <i class="glyphicon glyphicon-calendar"></i>
+                    @*<i class="input-icons"></i>
+                    <i class="glyphicon glyphicon-calendar"></i>*@
                         @Html.TextBox("FromDate", "", new { @class = "form-control", @id = "Fromdate", @maxlength = "100" })
                     
-
-</div>
+                 </div>
 
             </div>
             <div class="col-sm-4">
@@ -85,11 +84,24 @@
                     To date:
                 </label>
                 <div class="form-group">
-                    <span class="glyphicon glyphicon-calendar"></span>
+                    @*<span class="glyphicon glyphicon-calendar"></span>*@
 
                     @Html.TextBox("ToDate", "", new { @class = "form-control", @id = "Todate", @maxlength = "100" })
                 </div>
             </div>
+                <div class="col-sm-4">
+                    <label>
+                        Status:
+                    </label>
+                    <div class="form-group">
+                        @Html.DropDownList("Status", new List<SelectListItem> {
+                                      new SelectListItem { Text = "All", Value = "0" },
+                                      new SelectListItem { Text = "Open", Value = "1" },
+                                      new SelectListItem { Text = "Approved", Value = "2" },
+                                      new SelectListItem { Text = "Rejected", Value = "3" }}, new { @class = "form-control" })
+                    </div>
+                </div>
+
             <div class="row">
                 <div class="col-sm-4">
                     <label></label>
@@ -128,7 +140,7 @@
                         <th class="text-center">Leave Reason</th>
                         <th class="text-center">Leave Type</th>
                         <th class="text-center">Total Days</th>
-
+                        <th class="text-center">Status</th>
                             <th class="text-center">Action</th>
 
                     </tr>
@@ -150,23 +162,78 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.leavecount)
                             </td>
+                            <td>
+                                @General.GetStatus(item.Status)
+                            </td>
 
                             <td class="text-center">
-
-
+                             
+                            @if (item.Status == 2 && Convert.ToDateTime(item.Todate) < DateTime.Today)
+                            {
                                 <span>
-                                    <a href="@Url.Action("Add", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" title='Edit'>
+                                    <a href="@Url.Action("Add", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" title='Edit' class="btn btn-success btn-sm disabled">
                                         <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
                                     </a>
                                 </span>
-
                                 <span>
-                                    <a href="@Url.Action("Delete", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" onclick="return ShowConfirmation(event,this,'You want to delete this record?')" title='Delete'>
+                                    <a href="@Url.Action("Delete", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" onclick="return ShowConfirmation(event,this,'You want to delete this record?')" title='Delete'
+                                       class="btn btn-success btn-sm disabled">
                                         <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
 
                                     </a>
                                 </span>
 
+                            }
+                            @if(item.Status == 2 && Convert.ToDateTime(item.Todate) >= DateTime.Today)
+                            {
+                                <span>
+                                    <a href="@Url.Action("Add", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" title='Edit' class="btn btn-success btn-sm">
+                                        <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+                                    </a>
+                                </span>
+                                <span>
+                                    <a href="@Url.Action("Delete", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" onclick="return ShowConfirmation(event,this,'You want to delete this record?')" title='Delete'
+                                       class="btn btn-success btn-sm">
+                                        <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+
+                                    </a>
+                                </span>
+
+                            }
+
+
+                              @if(item.Status==3)
+                              {
+
+                                <span>
+                                    <a href="@Url.Action("Add", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" title='Edit' class="btn btn-success btn-sm disabled">
+                                        <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+                                    </a>
+                                </span>
+                                <span>
+                                    <a href="@Url.Action("Delete", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" onclick="return ShowConfirmation(event,this,'You want to delete this record?')" title='Delete'
+                                       class="btn btn-success btn-sm disabled">
+                                        <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+
+                                    </a>
+                                </span>
+                               }
+                              @if (item.Status == 1)
+                              {
+
+                                <span>
+                                    <a href="@Url.Action("Add", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" title='Edit' class="btn btn-success btn-sm">
+                                        <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+                                    </a>
+                                </span>
+
+                                <span>
+                                    <a href="@Url.Action("Delete", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" onclick="return ShowConfirmation(event,this,'You want to delete this record?')" title='Delete' class="btn btn-success btn-sm">
+                                        <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+
+                                    </a>
+                                </span>
+                               }
 
                             </td>
                         </tr>

@@ -166,8 +166,8 @@
                                 @Html.DisplayFor(modelItem => item.updatedby)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.FirstName)
-                                @Html.DisplayFor(modelItem => item.LastName)
+                                @Html.DisplayFor(modelItem => item.FullName)
+                                @*@Html.DisplayFor(modelItem => item.LastName)*@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Fromdate)
@@ -190,9 +190,9 @@
                             </td>
 
                             <td class="text-center">
-                                @if (item.IsApproved ==true && item.IsRejected==false)
-                                      {
-                                    @*<a class='btn btn-danger btn-sm disabled' id='btnDelete' style='margin-left:5px'><i class='fa fa-trash'></i> Delete</a>*@
+                                @if (item.IsApproved == true && item.IsRejected == false && item.ApprovalType != "approveflag")
+                                {
+
                                     <span>
                                         <a href="@Url.Action("Approve", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })"
                                            id="btnapprove" class="btn btn-success btn-sm disabled" title='Approve'>
@@ -201,20 +201,54 @@
                                         </a>
 
                                     </span>
-                                }
-                                else
-                                {
-                                    
                                     <span>
-                                        <a href="@Url.Action("Approve", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" 
-                                           id="btnapprove" class="btn btn-success btn-sm" title='Approve'>
+                                        <a href="@Url.Action("UserDetails", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" data-toggle="modal" class="btn btn-success btn-sm"
+                                           id="btnEdit" data-target="#exampleModal" data-id="@item.leaveId" title='Reject'>
+                                            Reject
+                                        </a>
+
+                                    </span>
+                                }
+                                 @if (item.IsApproved == true && item.IsRejected == false && item.ApprovalType == "approveflag")
+                                {
+
+                                    <span>
+                                        <a href="@Url.Action("Approve", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })"
+                                           id="btnapprove" class="btn btn-success btn-sm disabled" title='Approve'>
 
                                             Approve
                                         </a>
 
                                     </span>
+                                    <span>
+                                        <a href="@Url.Action("UserDetails", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" data-toggle="modal" class="btn btn-success btn-sm disabled"
+                                           id="btnEdit" data-target="#exampleModal" data-id="@item.leaveId" title='Reject'>
+                                            Reject
+                                        </a>
+
+                                    </span>
                                 }
-                                @if (item.IsRejected == true && item.IsApproved==false)
+                                @if (item.IsRejected == true && item.IsApproved == false && item.ApprovalType == "rejectflag")
+                                {
+
+                                    <span>
+                                        <a href="@Url.Action("Approve", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })"
+                                           id="btnapprove" class="btn btn-success btn-sm disabled" title='Approve'>
+
+                                            Approve
+                                        </a>
+
+                                    </span>
+                                    <span>
+                                        <a href="@Url.Action("UserDetails", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" data-toggle="modal" class="btn btn-success btn-sm disabled"
+                                           id="btnEdit" data-target="#exampleModal" data-id="@item.leaveId" title='Reject'>
+                                            Reject
+                                        </a>
+
+                                    </span>
+                                }
+                              
+                                @if (item.IsRejected == true && item.IsApproved == false && item.Status == 3 && item.ApprovalType != "rejectflag")
                                 {
 
                                     <span>
@@ -224,31 +258,58 @@
                                         </a>
 
                                     </span>
-                                }
-                                else
-                                {
-
                                     <span>
-                                        <a href="@Url.Action("UserDetails",new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" data-toggle="modal" class="btn btn-success btn-sm"
-                                           id="btnEdit" data-target="#exampleModal" data-id="@item.leaveId" title='Reject'>
-                                            Reject
+                                        <a href="@Url.Action("Approve", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })"
+                                           id="btnapprove" class="btn btn-success btn-sm" title='Approve'>
+
+                                            Approve
                                         </a>
 
                                     </span>
                                 }
-                             
-                               
+                               @if (item.Status==1 && item.ApprovalType == "openstatus")
+                              {
 
-                                @*<span>
-                                    <a href="@Url.Action("UserDetails",new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" data-toggle="modal" class="btn btn-success btn-sm"
-                                       id="btnEdit" data-target="#exampleModal" data-id="@item.leaveId" title='Reject'>
-                                        Reject
-                                    </a>
+                           
+                           <span>
+                        <a href="@Url.Action("Approve", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })"
+                           id="btnapprove" data-id="@item.leaveId", class="btn btn-success btn-sm" title='Approve'>
 
-                                </span>*@
-                            </td>
+                            Approve
+                        </a>
+                        </span>
+                        <span>
+                            <a href="@Url.Action("UserDetails",new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" data-toggle="modal" class="btn btn-success btn-sm"
+                               id="btnEdit" data-target="#exampleModal" data-id="@item.leaveId" title='Reject'>
+                                Reject
+                            </a>
 
-                        </tr>
+                    </span>
+                     }
+                                @*@if (Convert.ToDateTime(item.Todate) < DateTime.Today)
+                                {
+                                    <span>
+                                        <a href="@Url.Action("Approve", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })"
+                                           id="btnapprove" data-id="@item.leaveId" , class="btn btn-success btn-sm disabled" title='Approve'>
+
+                                            Approve
+                                        </a>
+                                        </span>
+                                        <span>
+                                            <a href="@Url.Action("UserDetails",new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" data-toggle="modal" class="btn btn-success btn-sm disabled"
+                                               id="btnEdit" data-target="#exampleModal" data-id="@item.leaveId" title='Reject'>
+                                                Reject
+                                            </a>
+
+                                        </span>
+
+                                }*@
+                                      
+
+
+</td>
+
+               </tr>
                     }
                     @Html.Partial("Paging")
                 </table>
