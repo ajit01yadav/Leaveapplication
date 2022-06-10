@@ -5,12 +5,13 @@
     ViewBag.Title = "Manage Leave";
    // Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Assets/Js/"></script>
+@*<script src="~/Assets/Js/"></script>
+@Scripts.Render("~/Validation")*@
 @*<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
 
 </script>*@
 
-<link href="~/Assets/Css/" rel="stylesheet" />
+@*<link href="~/Assets/Css/" rel="stylesheet" />*@
 <script type="text/javascript">
     $(document).ready(function () {
         var leaveid
@@ -32,6 +33,7 @@
                          $.ajax({
                              type: "POST",
                              url: "/Leave/UserDetails",
+                            
                              data: { Rejectionreason: UserDetail, Leaveid: leaveid },
 
                              dataType: "json",
@@ -61,34 +63,31 @@
     </script>
 
 <form>
+   
 
         @using (Html.BeginForm("ApproveReject", "Leave", FormMethod.Post))
         {
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Reason For Rejection</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input class="modalTextInput form-control" placeholder="Text Here" id="rejectreason" />
 
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Reason For Rejection</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <input class="modalTextInput form-control" placeholder="Text Here" id="rejectreason" />
-                       
 
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" id="btnSubmit" class="saveEdit btn btn-primary">Save</button>
-                       
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" id="btnSubmit" class="saveEdit btn btn-primary">Save</button>
+
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-       
-        <p class="recentNote"></p>
-
         <div class="row">
             <div class="col-xs-12 page-header">
                 <div class="row">
@@ -98,7 +97,7 @@
                             Employee Name:
                         </label>
                         <div class="form-group">
-                            @Html.TextBox("FirstName", "", new { @class = "form-control", @maxlength = "100" })
+                            @Html.TextBox("FullName", "", new { @class = "form-control", @maxlength = "100" })
                         </div>
                     </div>
                     <div class="col-sm-4">
@@ -190,7 +189,7 @@
                             </td>
 
                             <td class="text-center">
-                                @if (item.IsApproved == true && item.IsRejected == false && item.ApprovalType != "approveflag")
+                                @if (item.IsApproved == true && item.IsRejected == false && item.ApprovalType != "approveflag" && Convert.ToDateTime(item.Todate) > DateTime.Today)
                                 {
 
                                     <span>
@@ -286,15 +285,15 @@
 
                     </span>
                      }
-                                @*@if (Convert.ToDateTime(item.Todate) < DateTime.Today)
+                                @*@if (item.Status == 2 && Convert.ToDateTime(item.Todate) < DateTime.Today)
                                 {
-                                    <span>
-                                        <a href="@Url.Action("Approve", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })"
-                                           id="btnapprove" data-id="@item.leaveId" , class="btn btn-success btn-sm disabled" title='Approve'>
+                                     <span>
+                                    <a href="@Url.Action("Approve", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })"
+                                       id="btnapprove" data-id="@item.leaveId" , class="btn btn-success btn-sm disabled" title='Approve'>
 
-                                            Approve
-                                        </a>
-                                        </span>
+                                        Approve
+                                    </a>
+                                </span>
                                         <span>
                                             <a href="@Url.Action("UserDetails",new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" data-toggle="modal" class="btn btn-success btn-sm disabled"
                                                id="btnEdit" data-target="#exampleModal" data-id="@item.leaveId" title='Reject'>
@@ -302,12 +301,30 @@
                                             </a>
 
                                         </span>
+                                       
+                                }
+                               @if (item.Status == 3 && Convert.ToDateTime(item.Todate) < DateTime.Today)
+                               {
+                                <span>
+                                    <a href="@Url.Action("Approve", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })"
+                                       id="btnapprove" data-id="@item.leaveId" , class="btn btn-success btn-sm disabled" title='Approve'>
 
-                                }*@
-                                      
+                                        Approve
+                                    </a>
+                                </span>
+                                <span>
+                                    <a href="@Url.Action("UserDetails",new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" data-toggle="modal" class="btn btn-success btn-sm disabled"
+                                       id="btnEdit" data-target="#exampleModal" data-id="@item.leaveId" title='Reject'>
+                                        Reject
+                                    </a>
+
+                                </span>
+
+                               }*@
 
 
-</td>
+
+                </td>
 
                </tr>
                     }

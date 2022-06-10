@@ -1,9 +1,11 @@
 ﻿using Common.Entity;
 using Dapper;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net.Http;
@@ -36,6 +38,7 @@ namespace DAL
                     objUsers.EmpID,
                     objUsers.EMPCode,
                     objUsers.FullName,
+                   // objUsers.ReportingToId,
                     objUsers.updatedby,
                     objUsers.IsHalfdaySelect,
                     objUsers.ApprovalType
@@ -147,7 +150,7 @@ namespace DAL
             });
 
             //SP_GetLeaveDetails
-            return this.db.Query<Leaveentiy>("SP_GetLeaveDetails1", new { objUser.FirstName, objUser.Status, ReportingToId }, commandType: CommandType.StoredProcedure).ToList();
+            return this.db.Query<Leaveentiy>("SP_GetLeaveDetails", new { objUser.FirstName, objUser.Status, ReportingToId }, commandType: CommandType.StoredProcedure).ToList();
         }
         public string Getdata(string empid, string leavetype)
         {
@@ -225,7 +228,7 @@ namespace DAL
             });
             return this.db.Query<Leaveentiy>("Sp_DisplayUser", new { leaveid }, commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
-       
+
         public string CheckAndDeleteUser(int leaveid)
         {
             var parameters = new DynamicParameters(new
@@ -338,27 +341,27 @@ namespace DAL
             return parameters.Get<string>("@Output");
 
         }
-        public List<Leaveentiy> ManageApproveReject_Test(string ReportingToId)
-        {
-            var parameters = new DynamicParameters(new
-            {
-                ReportingToId,
+        //public List<Leaveentiy> ManageApproveReject_Test(string ReportingToId)
+        //{
+        //    var parameters = new DynamicParameters(new
+        //    {
+        //        ReportingToId,
 
-            });
+        //    });
 
-            return this.db.Query<Leaveentiy>("SP_GetApproveRejectDataNew", new { ReportingToId }, commandType: CommandType.StoredProcedure).ToList();
-        }
-        public List<ApproveRejectEntity> GetFilterdata_Test(string Reportingid, ApproveRejectEntity objleave)
-        {
-            var parameters = new DynamicParameters(new
-            {
-                Reportingid
+        //    return this.db.Query<Leaveentiy>("SP_GetApproveRejectDataNew", new { ReportingToId }, commandType: CommandType.StoredProcedure).ToList();
+        //}
+        //public List<ApproveRejectEntity> GetFilterdata_Test(string Reportingid, ApproveRejectEntity objleave)
+        //{
+        //    var parameters = new DynamicParameters(new
+        //    {
+        //        Reportingid
                
-            });
+        //    });
 
-            return this.db.Query<ApproveRejectEntity>("SP_GetFilterData", new { Reportingid, objleave.Status, objleave.FirstName}, commandType: CommandType.StoredProcedure).ToList();
+        //    return this.db.Query<ApproveRejectEntity>("SP_GetFilterData", new { Reportingid, objleave.Status, objleave.FirstName}, commandType: CommandType.StoredProcedure).ToList();
          
-        }
+        //}
         public string GetUserRoles(string EMPCode)
         {
             return this.db.Query<string>("Sp_GetUserRole", new { EMPCode }, commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -427,7 +430,7 @@ namespace DAL
 
 
             });
-            return this.db.Query<decimal>("Sp_UpdateBalanceleave", new { empid, leavetype}, commandType: CommandType.StoredProcedure).SingleOrDefault();
+            return this.db.Query<decimal>("Sp_UpdateBalanceleave", new { empid, leavetype }, commandType: CommandType.StoredProcedure).FirstOrDefault();
 
         }
         //updateplbalanceleave
@@ -440,6 +443,26 @@ namespace DAL
                 leavetype
             });
             return this.db.Query<decimal>("Sp_TotalclplleavebalanceSave1", new { empid, leavetype}, commandType: CommandType.StoredProcedure).SingleOrDefault();
+
+        }
+        //GetUpdatedCL
+        //var reader = conn.QueryMultiple("ProductSearch", param: new { CategoryID = 1 }, commandType: CommandType.StoredProcedure);
+        //var ProductListOne = reader.Read<ProuductTbl>().ToList();
+        //var ProductListTwo = reader.Read<ProuductTbl>().ToList();
+
+        public List<decimal> GetUpdatedCL(int empid, string leavetype, int leaveid)
+        {
+            var parameters = new DynamicParameters(new
+            {
+                empid,
+                leavetype,
+                leaveid
+            });
+            //// parameters.Add("@Output", dbType: DbType.String, direction: ParameterDirection.Output, size: 50);
+            // return this.db.Execute("Sp_UpdateCLBalanceLeave", parameters, commandType: CommandType.StoredProcedure);
+            //// return parameters.Get<decimal>("@Output");
+            return this.db.Query<decimal>("Sp_UpdateCLBalanceLeave", new { empid, leavetype, leaveid }, commandType: CommandType.StoredProcedure).ToList();
+
 
         }
         public decimal GetApprveRejectCLPLBalance(int empid, int leaveid, string leavetype, int status)
@@ -499,16 +522,16 @@ namespace DAL
            // return this.db.Query<Menu_List>("USP_GetMenuItemDataNew", new { EmpId }, commandType: CommandType.StoredProcedure).ToList();
            
         }
-        public int GetHalfdaycount(int leaveid, Boolean IsDeleted)
-        {
-            var parameters = new DynamicParameters(new
-            {
-                leaveid
+        //public int GetHalfdaycount(int leaveid, Boolean IsDeleted)
+        //{
+        //    var parameters = new DynamicParameters(new
+        //    {
+        //        leaveid
 
-            });
-            return this.db.Query<int>("Sp_GetHalfdaycount", new { leaveid, IsDeleted }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+        //    });
+        //    return this.db.Query<int>("Sp_GetHalfdaycount", new { leaveid, IsDeleted }, commandType: CommandType.StoredProcedure).FirstOrDefault();
 
-        }
+        //}
         //GetHalfdaycount
 
     }

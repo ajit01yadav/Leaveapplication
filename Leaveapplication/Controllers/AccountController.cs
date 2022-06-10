@@ -23,7 +23,6 @@ namespace Leaveapplication.Controllers
             LoginEntity objLogin = new LoginBLL().CheckAndValidateUser(Login);
             if (objLogin != null)
             {
-               // new LogsBLL().InsertLoginLogs(objLogin);
                 Response.Cookies["User"]["UserID"] = clsEncrypt.Encrypt(Convert.ToString(objLogin.EMPId));
               
                 Response.Cookies["User"]["username"] = objLogin.WindowsUsername;
@@ -32,15 +31,19 @@ namespace Leaveapplication.Controllers
                 Session["Empid"] = objLogin.EMPId;
                 Session["Empcode"] = objLogin.EMPCode;
                 Session["Emial"] = objLogin.EmailId;
-                Session["ReportingToId"] = objLogin.ReportingToId;
+               
+                var results = objLogin.ReportingToId.Split(',');
+                Session["ReportingToId"] = results[0];
+               // Session["ReportingToId1"] = results[1];
+                // Session["ReportingToId"] = objLogin.ReportingToId;
                 Session["FirstName"] = objLogin.FirstName;
                 Session["LastName"] = objLogin.LastName;
                return RedirectToAction("Index", "Home");
-               // return RedirectToAction("~/Views/Shared/_Menu.cshtml");
+              
             }
             else
             {
-               // ViewBag.Message = "Sorry, Invalid Email / Password.";
+              
                 ViewBag.Message = "Sorry, Invalid User Name.";
                 ViewBag.Class = "alert alert-danger alert-dismissable col-lg-12";
                 return View();

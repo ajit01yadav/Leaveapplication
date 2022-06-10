@@ -1,7 +1,9 @@
 ﻿using BLL;
 using Common.Entity;
+using Dapper;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -78,16 +80,30 @@ namespace Leaveapplication.Controllers
             };
             ViewBag.Paging = CreatePager;
         }
-       // public bool SendMail(Leaveentiy objUser, string fromdate, string todate, decimal leavecount, string[] halfday)
-       public bool SendMail(string fromdate, string todate, decimal leavecount, string[] halfday)
+        // Method to save Rejection Reason
+        //public void InsertRejectreason(string Rejectionreason, int Leaveid)
+        
+        //{
+        //    var parameters = new DynamicParameters(new
+        //    {
+        //        Rejectionreason,
+        //        Leaveid
+        //    });
+        //  //  parameters.Add("@Output", dbType: DbType.String, direction: ParameterDirection.Output, size: 50);
+        //    this.db.Execute("SP_InsertRejection", parameters, commandType: CommandType.StoredProcedure);
+        //  //  return parameters.Get<string>("@Output");
+
+        //}
+    
+        public bool EditleaveSendMail(string fromdate, string todate, decimal leavecount, string[] halfday)
         {
             var empids = Convert.ToInt32(Session["Empid"]);
             var FromEmail = Session["Emial"];
             var FirstName = Session["FirstName"];
             var LastName = Session["LastName"];
-           // List<Leaveentiy> Users = new LeaveBLL().ManageUserByEmpcode(objUser.EmpID);
+            // List<Leaveentiy> Users = new LeaveBLL().ManageUserByEmpcode(objUser.EmpID);
             List<Employeeentity> objemp = new LeaveBLL().GetEmailId(empids);
-           // Employeeentity objemp = new LeaveBLL().GetEmailId(empids);
+            // Employeeentity objemp = new LeaveBLL().GetEmailId(empids);
             HRentity objhr = new LeaveBLL().GetHREmail();
             string strSubject = "", strMessage = "";
             // foreach (var reportingmail in objemp)
@@ -98,14 +114,46 @@ namespace Leaveapplication.Controllers
 
                     strSubject = "Application For Leave";
                     strMessage = "<table border='0' style=' font-family:Arial; font-size:13px;'><tr><td style='text-align:justify'>";
-                    // strMessage += "Dear " + objemp.FirstName + " " + objemp.LastName + "," + "<br/><br/>";
                     strMessage += "Dear " + reportingmail.FirstName + " " + reportingmail.LastName + "," + "<br/><br/>";
-                    strMessage += "Please approve my leave for " + leavecount + " day/s from" + fromdate + "  to " + todate + ". :" + "<br/><br/>";
+                    strMessage += "Please approve my updated leave for " + leavecount + " day/s from" + fromdate + "  to " + todate + ". :" + "<br/><br/>";
                     strMessage += "Regards," + "<br/>";
-                    // strMessage += "NEC Technologies.";
-                    // strMessage += objemp[0].FirstName + " " + reportingmail.FirstName;
                     strMessage += FirstName + " " + LastName;
                     new General().SendMail(reportingmail.EmailId.ToString(), objhr.Emailid.ToString(), "", strSubject, strMessage, 0, "", true, "", FromEmail.ToString());
+
+                }
+
+
+            }
+            return true;
+
+        }
+        public bool SendMail(string fromdate, string todate, decimal leavecount, string[] halfday)
+        {
+            var empids = Convert.ToInt32(Session["Empid"]);
+           // var reportingid = Convert.ToInt32(Session["ReportingToId"]);
+            var FromEmail = Session["Emial"];
+            var FirstName = Session["FirstName"];
+            var LastName = Session["LastName"];
+        
+            List<Employeeentity> objemp = new LeaveBLL().GetEmailId(empids);
+            
+            HRentity objhr = new LeaveBLL().GetHREmail();
+            string strSubject = "", strMessage = "";
+            if (empids != 0)
+            {
+                foreach (var reportingmail in objemp)
+                {
+                    if (reportingmail.EMPId != Convert.ToInt32(empids))
+                    {
+                        strSubject = "Application For Leave";
+                        strMessage = "<table border='0' style=' font-family:Arial; font-size:13px;'><tr><td style='text-align:justify'>";
+                        strMessage += "Dear " + reportingmail.FirstName + " " + reportingmail.LastName + "," + "<br/><br/>";
+                        strMessage += "Please approve my leave for " + leavecount + " day/s from" + fromdate + "  to " + todate + ". :" + "<br/><br/>";
+                        strMessage += "Regards," + "<br/>";
+                        strMessage += FirstName + " " + LastName;
+                        new General().SendMail(reportingmail.EmailId.ToString(), objhr.Emailid.ToString(), "", strSubject, strMessage, 0, "", true, "", FromEmail.ToString());
+
+                    }
 
                 }
 
@@ -114,15 +162,51 @@ namespace Leaveapplication.Controllers
             return true;
 
         }
+
+        /// <summary>
+        /// If user take leave more than 5 days then mail goes to project manager as well as line manager
+        /// </summary>
+        public bool MailtoMangerLineManager(string fromdate, string todate, decimal leavecount, string[] halfday)
+        {
+            var reportingid = Convert.ToInt32(Session["ReportingToId"]);
+            var FromEmail = Session["Emial"];
+            var FirstName = Session["FirstName"];
+            var LastName = Session["LastName"];
+
+            List<Employeeentity> objemp = new LeaveBLL().GetEmailId(reportingid);
+
+            HRentity objhr = new LeaveBLL().GetHREmail();
+            string strSubject = "", strMessage = "";
+            if (reportingid != 0)
+            {
+                foreach (var reportingmail in objemp)
+                {
+
+                    strSubject = "Application For Leave";
+                    strMessage = "<table border='0' style=' font-family:Arial; font-size:13px;'><tr><td style='text-align:justify'>";
+                    strMessage += "Dear " + reportingmail.FirstName + " " + reportingmail.LastName + "," + "<br/><br/>";
+                    strMessage += "Please approve my leave for " + leavecount + " day/s from" + fromdate + "  to " + todate + ". :" + "<br/><br/>";
+                    strMessage += "Regards," + "<br/>";
+                    strMessage += FirstName + " " + LastName;
+                    new General().SendMail(reportingmail.EmailId.ToString(), objhr.Emailid.ToString(), "", strSubject, strMessage, 0, "", true, "", FromEmail.ToString());
+
+                }
+
+
+            }
+            return true;
+
+        }
+
+
+
         public bool SendMail(string User )
         {
-           // var empids = Convert.ToInt32(Session["Empid"]);
+          
             Leaveentiy objUser = new Leaveentiy();
-           // if (!String.IsNullOrEmpty(User))
+           
              objUser = new LeaveBLL().DisplayUsers(DecryptToInt(User));
             decimal leavecount = objUser.leavecount;
-             // DateTime? todate = objUser.Todate;
-             //DateTime? fromdate= objUser.Fromdate;
             string todate = objUser.Todate;
             string fromdate = objUser.Fromdate;
             string approvalreason = objUser.leavereason;

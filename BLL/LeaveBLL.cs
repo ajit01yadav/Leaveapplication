@@ -56,7 +56,7 @@ namespace BLL
         {
             return new LeaveDAL().GetleaveDetialbyid(leaveid);
         }
-        
+
         public string CheckAndDeleteUser(int leaveid)
         {
             return new LeaveDAL().CheckAndDeleteUser(leaveid);
@@ -112,14 +112,14 @@ namespace BLL
         {
             return new LeaveDAL().ManageApproveReject(ReportingToId);
         }
-        public List<Leaveentiy> ManageApproveReject_Test(string ReportingToId)
-        {
-            return new LeaveDAL().ManageApproveReject_Test(ReportingToId);
-        }
-        public List<ApproveRejectEntity> GetFilterdata_Test(string Reportingid, ApproveRejectEntity objleave)
-        {
-            return new LeaveDAL().GetFilterdata_Test(Reportingid, objleave);
-        }
+        //public List<Leaveentiy> ManageApproveReject_Test(string ReportingToId)
+        //{
+        //    return new LeaveDAL().ManageApproveReject_Test(ReportingToId);
+        //}
+        //public List<ApproveRejectEntity> GetFilterdata_Test(string Reportingid, ApproveRejectEntity objleave)
+        //{
+        //    return new LeaveDAL().GetFilterdata_Test(Reportingid, objleave);
+        //}
         public String GetUserRoles(string Empcode)
         {
             return new LeaveDAL().GetUserRoles(Empcode);
@@ -169,6 +169,13 @@ namespace BLL
             return new LeaveDAL().GetApprveRejectCLBalance(empid, leavetype);
 
         }
+        //GetUpdatedCL
+       // public decimal GetUpdatedCL(int empid, string leavetype,int leaveid)
+        public List<decimal> GetUpdatedCL(int empid, string leavetype, int leaveid)
+        {
+            return new LeaveDAL().GetUpdatedCL(empid, leavetype, leaveid);
+
+        }
         public decimal GetApprveRejectCLPLBalance(int empid, int leaveid, string leavetype, int status)
         {
             return new LeaveDAL().GetApprveRejectCLPLBalance(empid, leaveid, leavetype, status);
@@ -186,11 +193,11 @@ namespace BLL
         {
             return new LeaveDAL().IsApproved(leaveid, IsApproved, IsRejected);
         }
-        public int GetHalfdaycount( int leaveid, Boolean IsDeleted)
-        {
-            return new LeaveDAL().GetHalfdaycount(leaveid, IsDeleted);
+        //public int GetHalfdaycount( int leaveid, Boolean IsDeleted)
+        //{
+        //    return new LeaveDAL().GetHalfdaycount(leaveid, IsDeleted);
 
-        }
+        //}
 
         //GetHalfdaycount
 
