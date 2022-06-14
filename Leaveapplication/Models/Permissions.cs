@@ -17,40 +17,5 @@ public class PermissionsAttribute : ActionFilterAttribute
         this.ModuleRights = ModuleRights;
     }
 
-    public override void OnActionExecuting(ActionExecutingContext filterContext)
-    {
-        bool HasRight = false;
-        RoleRightsEntity rightsEntity = new RoleRightsBLL().ViewRightsForModule(ModuleID);
-        if (rightsEntity != null)
-        {
-            var ViewBag = filterContext.Controller.ViewBag;
-            switch (ModuleRights)
-            {
-                case 0: //Create Rights
-                    ViewBag.SaveRights = rightsEntity.EditRights;
-                    ViewBag.DeleteRights = rightsEntity.DeleteRights;
-                    HasRight = rightsEntity.ViewRights == 1 ? true : false;
-                    break;
-                case 1: //Manage Rights
-                    ViewBag.SaveRights = rightsEntity.EditRights;
-                    ViewBag.DeleteRights = rightsEntity.DeleteRights;
-                    HasRight = rightsEntity.ViewRights == 1 ? true : false;
-                    break;
-                case 2: //Delete Rights
-                    ViewBag.SaveRights = rightsEntity.EditRights;
-                    ViewBag.DeleteRights = rightsEntity.DeleteRights;
-                    HasRight = rightsEntity.ViewRights == 1 && rightsEntity.DeleteRights == 1 ? true : false;
-                    break;
-            }
-        }
-        if (!HasRight)
-        {
-            RouteValueDictionary routeValues = new RouteValueDictionary(new
-            {
-                action = "",
-                controller = "RestrictedAccess",
-            });
-            filterContext.Result = new RedirectToRouteResult(routeValues);
-        }
-    }
+    
 }

@@ -15,10 +15,7 @@ public class LogsDAL
         this.db.Execute("SPLogsErrorInsert", new { Error.UserID, Error.IPAddress, Error.ReffererPage, Error.ErrorPage, Error.ErrorTitle, Error.ErrorDescription }, commandType: CommandType.StoredProcedure);
     }
 
-    //public void InsertAuditLogsInsertUpdate(string TableName, string ColumnName, int? ColumnID, string LogStatus, string LogMessage = null)
-    //{
-    //    this.db.Execute("SPLogsAuditInsert", new { IPAddress = HttpContext.Current.Request.UserHostAddress, CreatedBy = AuthenticateDAL.UserID(), CreatedByName = AuthenticateDAL.FirstName() + " " + AuthenticateDAL.LastName(), LogStatus, TableName, ColumnName, ColumnID, LogMessage }, commandType: CommandType.StoredProcedure);
-    //}
+   
 
     public List<LogsAuditEntity> ManageAuditLogs(LogsAuditEntity objLogsAudit)
     {
@@ -45,20 +42,14 @@ public class LogsDAL
         this.db.Execute("SPLogsLoginInsert", new { objLogin.EMPId, IPAddress = HttpContext.Current.Request.UserHostAddress }, commandType: CommandType.StoredProcedure);
     }
 
-    public string DeleteErrorLogs(string PurgeLogID)
-    {
-        var Parameters = new DynamicParameters(new { PurgeLogID });
-        Parameters.Add("@Output", dbType: DbType.String, direction: ParameterDirection.Output, size: 15);
-        this.db.Execute("SPLogsErrorPurge", Parameters, commandType: CommandType.StoredProcedure);
-        return Parameters.Get<string>("@Output");
-    }
-
-
-    //public string CheckAndRestoreDeletedLog(int LogID)
+    //public string DeleteErrorLogs(string PurgeLogID)
     //{
-    //    var Parameters = new DynamicParameters(new {LogID , UserID =  AuthenticateDAL.UserID(), UserName = AuthenticateDAL.FirstName() + ' ' + AuthenticateDAL.LastName(), IPAddress = HttpContext.Current.Request.UserHostAddress});
+    //    var Parameters = new DynamicParameters(new { PurgeLogID });
     //    Parameters.Add("@Output", dbType: DbType.String, direction: ParameterDirection.Output, size: 15);
-    //    this.db.Query<LogsDeleteEntity>("SPLogCheckAndRestore", Parameters, commandType: CommandType.StoredProcedure);
+    //    this.db.Execute("SPLogsErrorPurge", Parameters, commandType: CommandType.StoredProcedure);
     //    return Parameters.Get<string>("@Output");
     //}
+
+
+   
 }

@@ -56,7 +56,7 @@ namespace DAL
                     string constr = ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString;
                     using (SqlConnection con = new SqlConnection(constr))
                     {
-                        SqlCommand cmd = new SqlCommand("SP_HalfdayInsertUpdate2", con);
+                        SqlCommand cmd = new SqlCommand("SP_HalfdayInsertUpdate", con);
                         cmd.CommandType = CommandType.StoredProcedure;
 
                         cmd.Connection = con;
@@ -112,7 +112,7 @@ namespace DAL
                 leaveid
 
             });
-            return this.db.Query<Halfdayentity>("Select halfdayid,leaveid from T_halfdayLeave where leaveid=@leaveid", new { leaveid }, commandType: CommandType.Text).ToList();
+            return this.db.Query<Halfdayentity>("Select halfdayid,leaveid from T_LA_HalfdayLeave where leaveid=@leaveid", new { leaveid }, commandType: CommandType.Text).ToList();
         }
            
          
@@ -127,17 +127,17 @@ namespace DAL
             });
             return this.db.Query<Leaveentiy>("Sp_DisplayUserByEmpid", new { EMPId }, commandType: CommandType.StoredProcedure).ToList();
         }
-        public List<Leaveentiy> ManageApproveReject(string ReportingToId)
-        {
-            //SP_GetApproveRejectDataNew
-            var parameters = new DynamicParameters(new
-            {
-                ReportingToId
+        //public List<Leaveentiy> ManageApproveReject(string ReportingToId)
+        //{
+        //    //SP_GetApproveRejectDataNew
+        //    var parameters = new DynamicParameters(new
+        //    {
+        //        ReportingToId
 
-            });
-            return this.db.Query<Leaveentiy>("SP_GetApproveRejectDataNew", parameters, commandType: CommandType.StoredProcedure).ToList();
+        //    });
+        //    return this.db.Query<Leaveentiy>("SP_GetApproveRejectData", parameters, commandType: CommandType.StoredProcedure).ToList();
           
-        }
+        //}
 
         // //ManageApproveReject
         public List<Leaveentiy> ApproveRejectUser(Leaveentiy objUser, string ReportingToId)
@@ -189,18 +189,18 @@ namespace DAL
 
         }
         //Getfromdatetodate
-        public List<Leaveentiy> Getfromdatetodate(string empid)
-        {
-            //Sp_TotlaBussinessdays
-            var parameters = new DynamicParameters(new
-            {
+        //public List<Leaveentiy> Getfromdatetodate(string empid)
+        //{
+        //    //Sp_TotlaBussinessdays
+        //    var parameters = new DynamicParameters(new
+        //    {
                
-                empid
+        //        empid
 
-            });
-            return this.db.Query<Leaveentiy>("Sp_GetFromandToday", new { empid }, commandType: CommandType.StoredProcedure).ToList();
+        //    });
+        //    return this.db.Query<Leaveentiy>("Sp_GetFromandToday", new { empid }, commandType: CommandType.StoredProcedure).ToList();
 
-        }
+        //}
         public decimal GetPLBalance(string empid)
         {
             var parameters = new DynamicParameters(new
@@ -240,29 +240,26 @@ namespace DAL
             this.db.Execute("SPUserDelete", parameters, commandType: CommandType.StoredProcedure);
             return parameters.Get<string>("@Output");
         }
-        public string ApproveLeave(int leaveid)
-        {
-            var parameters = new DynamicParameters(new
-            {
-                leaveid
+        //public string ApproveLeave(int leaveid)
+        //{
+        //    var parameters = new DynamicParameters(new
+        //    {
+        //        leaveid
                
-            });
-            parameters.Add("@Output", dbType: DbType.String, direction: ParameterDirection.Output, size: 20);
-            this.db.Execute("SPUserApprove", parameters, commandType: CommandType.StoredProcedure);
-            return parameters.Get<string>("@Output");
-        }
+        //    });
+        //    parameters.Add("@Output", dbType: DbType.String, direction: ParameterDirection.Output, size: 20);
+        //    this.db.Execute("SPUserApprove", parameters, commandType: CommandType.StoredProcedure);
+        //    return parameters.Get<string>("@Output");
+        //}
         public List<Employeeentity> GetEmailId(int empid)
         {
             var parameters = new DynamicParameters(new
             {
                 empid
-                // IPAddress = HttpContext.Current.Request.UserHostAddress,
-                //  CreatedBy = AuthenticateDAL.UserID()
+               
             });
-            //SPMangeLeave2
-            //SPLeaveManage3
-            // return this.db.Query<Employeeentity>("USP_Employee_GetManagerEmailIdNew", commandType: CommandType.StoredProcedure).ToList();
-            return this.db.Query<Employeeentity>("USP_Employee_GetManagerEmailIdNew", new { empid }, commandType: CommandType.StoredProcedure).ToList();
+          
+            return this.db.Query<Employeeentity>("USP_Employee_GetManagersEmailId", new { empid }, commandType: CommandType.StoredProcedure).ToList();
         }
         public Employeeentity GetUserEmail(int empid)
         {
@@ -368,7 +365,7 @@ namespace DAL
         }
         public decimal GetApprveRejectCLBalance(int empid, int leaveid, string leavetype, int status)
         {
-            //Sp_TotalCLBalance_New1
+            //Sp_TotalCLBalance_New
             var parameters = new DynamicParameters(new
             {
                 empid,
@@ -377,7 +374,7 @@ namespace DAL
                 status
 
             });
-            return this.db.Query<decimal>("Sp_TotalCLBalance_New", new { empid, leaveid, leavetype, status }, commandType: CommandType.StoredProcedure).SingleOrDefault();
+            return this.db.Query<decimal>("Sp_TotalUpdatedCLPLBalance", new { empid, leaveid, leavetype, status }, commandType: CommandType.StoredProcedure).SingleOrDefault();
 
         }
         public decimal AddApproveleavebalance(int empid, int leaveid, string leavetype)
@@ -442,13 +439,10 @@ namespace DAL
                 empid,
                 leavetype
             });
-            return this.db.Query<decimal>("Sp_TotalclplleavebalanceSave1", new { empid, leavetype}, commandType: CommandType.StoredProcedure).SingleOrDefault();
+            return this.db.Query<decimal>("Sp_TotalclplleavebalanceSave", new { empid, leavetype}, commandType: CommandType.StoredProcedure).SingleOrDefault();
 
         }
-        //GetUpdatedCL
-        //var reader = conn.QueryMultiple("ProductSearch", param: new { CategoryID = 1 }, commandType: CommandType.StoredProcedure);
-        //var ProductListOne = reader.Read<ProuductTbl>().ToList();
-        //var ProductListTwo = reader.Read<ProuductTbl>().ToList();
+       
 
         public List<decimal> GetUpdatedCL(int empid, string leavetype, int leaveid)
         {
@@ -458,9 +452,7 @@ namespace DAL
                 leavetype,
                 leaveid
             });
-            //// parameters.Add("@Output", dbType: DbType.String, direction: ParameterDirection.Output, size: 50);
-            // return this.db.Execute("Sp_UpdateCLBalanceLeave", parameters, commandType: CommandType.StoredProcedure);
-            //// return parameters.Get<decimal>("@Output");
+         
             return this.db.Query<decimal>("Sp_UpdateCLBalanceLeave", new { empid, leavetype, leaveid }, commandType: CommandType.StoredProcedure).ToList();
 
 
@@ -512,16 +504,16 @@ namespace DAL
         }
        public  List<ModuleEntity> GetMenu(ModuleEntity objUser, string EmpId)
         {
-            return this.db.Query<ModuleEntity>("USP_GetMenuItemDataNew", new { EmpId }, commandType: CommandType.StoredProcedure).ToList();
+            return this.db.Query<ModuleEntity>("USP_GetMenuItemsData", new { EmpId }, commandType: CommandType.StoredProcedure).ToList();
           
         }
-        public List<MenuModel> GetMenu1()
-        // public List<ModuleEntity> GetMenu(string EmpId)
-        {
-            return this.db.Query<MenuModel>("Select * from Menus_MVC",  commandType: CommandType.Text).ToList();
-           // return this.db.Query<Menu_List>("USP_GetMenuItemDataNew", new { EmpId }, commandType: CommandType.StoredProcedure).ToList();
+        //public List<MenuModel> GetMenu1()
+        //// public List<ModuleEntity> GetMenu(string EmpId)
+        //{
+        //    return this.db.Query<MenuModel>("Select * from Menus_MVC",  commandType: CommandType.Text).ToList();
+        //   // return this.db.Query<Menu_List>("USP_GetMenuItemDataNew", new { EmpId }, commandType: CommandType.StoredProcedure).ToList();
            
-        }
+        //}
         //public int GetHalfdaycount(int leaveid, Boolean IsDeleted)
         //{
         //    var parameters = new DynamicParameters(new

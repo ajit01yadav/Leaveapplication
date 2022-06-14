@@ -57,11 +57,11 @@ public class UserDAL
         return parameters.Get<string>("@Output");
     }
 
-    public string UpdateUserPassword(int UserID, string CurrentPwd, string NewPwd)
-    {
-        var parameters = new DynamicParameters(new { UserID, CurrentPwd, NewPwd });
-        parameters.Add("@Output", dbType: DbType.String, direction: ParameterDirection.Output, size: 10);
-        this.db.Execute("SPChangePassword", parameters, commandType: CommandType.StoredProcedure);
-        return parameters.Get<string>("@Output");
-    }
+    //public string UpdateUserPassword(int UserID, string CurrentPwd, string NewPwd)
+    //{
+    //    var parameters = new DynamicParameters(new { UserID, CurrentPwd, NewPwd });
+    //    parameters.Add("@Output", dbType: DbType.String, direction: ParameterDirection.Output, size: 10);
+    //    this.db.Execute("SPChangePassword", parameters, commandType: CommandType.StoredProcedure);
+    //    return parameters.Get<string>("@Output");
+    //}
 }

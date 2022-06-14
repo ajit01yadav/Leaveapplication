@@ -26,9 +26,5 @@ public class UserBLL
         return new UserDAL().CheckAndDeleteUser(UserId);
     }
 
-    public string UpdateUserPassword(string CurrentPwd, string NewPwd, int UserID)
-    {
-        string ResponseMsg = new UserDAL().UpdateUserPassword(UserID, CurrentPwd, NewPwd);
-        return ResponseMsg;
-    }
+   
 }

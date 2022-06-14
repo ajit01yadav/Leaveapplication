@@ -26,7 +26,7 @@
                         
                     }
             })
-            $('#leavcountid').hide();
+            //$('#leavcountid').hide();
 
             $(function () {
                 $("#LeaveStatusID").change(function () {
@@ -187,6 +187,7 @@
                                         <span class="req">*</span>
                                     </div>
                                     <div class="col-md-8 col-xl-9">
+                                        <i class="fa fa-calendar"></i>
                                         @Html.TextBoxFor(model => model.Fromdate, new { @id = "Fromdate", @class = "form-control", @maxlength = "25" })
                                         
                                        
@@ -386,7 +387,7 @@
                               
                                 var Leavetype = $('#LeaveStatusID').val();
 
-
+                                //string[] strre = objUser.DynamicTextBox;
 
 
                                 var val1 = $('#Fromdate').val();
@@ -399,13 +400,6 @@
                                     alert("To-date should be greater than or equal to from-date of leave");
                                 }
 
-                               
-
-                                //if (val1 > val2)
-                                //{
-                                //    alert("To-date should be greater than or equal to from-date of leave.");
-                                //    return false;
-                                //}
                               
                                 $.ajax({
                                     type: "GET",
@@ -462,19 +456,19 @@
                         $(button).parent().remove();
                     }
                     //
-                    function DateCheck() {
-                        debugger;
-                        //if (val1 > val2)
-                        var StartDate = document.getElementById('Fromdate').value;
-                        var EndDate = document.getElementById('Todate').value;
-                        var eDate = new Date(EndDate);
-                        var sDate = new Date(StartDate);
-                        if (StartDate != '' && EndDate != '' && sDate > eDate) {
-                           // if (sDate > eDate) {
-                            alert("Please ensure that the End Date is greater than or equal to the Start Date.");
-                            return false;
-                        }
-                    }
+                    //function DateCheck() {
+                    //    debugger;
+                    //    //if (val1 > val2)
+                    //    var StartDate = document.getElementById('Fromdate').value;
+                    //    var EndDate = document.getElementById('Todate').value;
+                    //    var eDate = new Date(EndDate);
+                    //    var sDate = new Date(StartDate);
+                    //    if (StartDate != '' && EndDate != '' && sDate > eDate) {
+                    //       // if (sDate > eDate) {
+                    //        alert("Please ensure that the End Date is greater than or equal to the Start Date.");
+                    //        return false;
+                    //    }
+                    //}
 
                   //
 

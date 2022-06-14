@@ -33,11 +33,11 @@ namespace BLL
             return new LeaveDAL().GetCount(Fromdate, Todate);
 
         }
-        public List<Leaveentiy> Getfromdatetodate(string empid)
-        {
-            return new LeaveDAL().Getfromdatetodate(empid);
+        //public List<Leaveentiy> Getfromdatetodate(string empid)
+        //{
+        //    return new LeaveDAL().Getfromdatetodate(empid);
 
-        }
+        //}
         public decimal GetCLBalance(string empid)
         {
             return new LeaveDAL().GetCLBalance(empid);
@@ -61,10 +61,10 @@ namespace BLL
         {
             return new LeaveDAL().CheckAndDeleteUser(leaveid);
         }
-        public string ApproveLeave(int leaveid)
-        {
-            return new LeaveDAL().ApproveLeave(leaveid);
-        }
+        //public string ApproveLeave(int leaveid)
+        //{
+        //    return new LeaveDAL().ApproveLeave(leaveid);
+        //}
         //ApproveLeave
         public List<Employeeentity> GetEmailId(int empid)
         {
@@ -108,10 +108,10 @@ namespace BLL
         {
             return new LeaveDAL().ManageUserByEmpcode(EMPId);
         }
-        public List<Leaveentiy> ManageApproveReject(string ReportingToId)
-        {
-            return new LeaveDAL().ManageApproveReject(ReportingToId);
-        }
+        //public List<Leaveentiy> ManageApproveReject(string ReportingToId)
+        //{
+        //    return new LeaveDAL().ManageApproveReject(ReportingToId);
+        //}
         //public List<Leaveentiy> ManageApproveReject_Test(string ReportingToId)
         //{
         //    return new LeaveDAL().ManageApproveReject_Test(ReportingToId);
@@ -130,11 +130,11 @@ namespace BLL
            
             return new LeaveDAL().GetMenu(objUser, Empcode);
         }
-        public List<MenuModel> GetMenu1()
-        {
-            //return new LeaveDAL().GetMenu(Empcode);
-            return new LeaveDAL().GetMenu1();
-        }
+        //public List<MenuModel> GetMenu1()
+        //{
+        //    //return new LeaveDAL().GetMenu(Empcode);
+        //    return new LeaveDAL().GetMenu1();
+        //}
 
         public decimal GetApprveRejectCLBalance(int empid, int leaveid, string leavetype, int status)
         {

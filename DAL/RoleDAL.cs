@@ -43,8 +43,7 @@ public class RoleDAL
         var Parameters = new DynamicParameters(new
         {
             RoleID,
-          //  IPAddress = HttpContent.Current.Request.UserHostAddress,
-          //  CreatedBy = AuthenticateDAL.UserID()
+         
         });
         Parameters.Add("@Output", dbType: DbType.String, direction: ParameterDirection.Output, size: 20);
         this.db.Execute("SPRoleDelete", Parameters, commandType: CommandType.StoredProcedure);

@@ -230,10 +230,19 @@
                                 <span>
                                     <a href="@Url.Action("Delete", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" onclick="return ShowConfirmation(event,this,'You want to delete this record?')" title='Delete' class="btn btn-success btn-sm">
                                         <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+                                      
 
                                     </a>
                                 </span>
-                               }
+                                <span>
+                                    <a href="@Url.Action("Cancel", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" onclick="return ShowConfirmation(event,this,'You want to cancel this record?')" title='Cancel' class="btn btn-success btn-sm">
+                                      
+                                        Cancel
+
+
+                                    </a>
+                                </span>
+                              }
 
                             </td>
                         </tr>

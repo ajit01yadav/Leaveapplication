@@ -189,7 +189,7 @@
                             </td>
 
                             <td class="text-center">
-                                @if (item.IsApproved == true && item.IsRejected == false && item.ApprovalType != "approveflag" && Convert.ToDateTime(item.Todate) > DateTime.Today)
+                                @if (item.IsApproved == true && item.IsRejected == false && item.ApprovalType != "approveflag" && Convert.ToDateTime(item.Todate) >= DateTime.Today)
                                 {
 
                                     <span>
@@ -201,8 +201,8 @@
 
                                     </span>
                                     <span>
-                                        <a href="@Url.Action("UserDetails", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" data-toggle="modal" class="btn btn-success btn-sm"
-                                           id="btnEdit" data-target="#exampleModal" data-id="@item.leaveId" title='Reject'>
+                                        <a href="@Url.Action("UserDetails", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })" data-toggle="modal" 
+                                           class="btn btn-success btn-sm" id="btnEdit" data-target="#exampleModal" data-id="@item.leaveId" title='Reject'>
                                             Reject
                                         </a>
 
@@ -285,7 +285,7 @@
 
                     </span>
                      }
-                                @*@if (item.Status == 2 && Convert.ToDateTime(item.Todate) < DateTime.Today)
+                                @if (item.Status == 2 && Convert.ToDateTime(item.Todate) < DateTime.Today)
                                 {
                                      <span>
                                     <a href="@Url.Action("Approve", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })"
@@ -303,7 +303,7 @@
                                         </span>
                                        
                                 }
-                               @if (item.Status == 3 && Convert.ToDateTime(item.Todate) < DateTime.Today)
+                               @*@if (item.Status == 3 && Convert.ToDateTime(item.Todate) < DateTime.Today)
                                {
                                 <span>
                                     <a href="@Url.Action("Approve", new { User = clsEncrypt.Encrypt(item.leaveId.ToString()) })"

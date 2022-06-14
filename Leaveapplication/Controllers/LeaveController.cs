@@ -331,8 +331,6 @@ namespace Leaveapplication.Controllers
         public List<decimal> GetUpdatedCL(int empid, string leavetype, int leaveid)
         {
             List < decimal > CL = new LeaveBLL().GetUpdatedCL(empid, leavetype, leaveid);
-
-          // decimal CL = new LeaveBLL().GetUpdatedCL(empid, leavetype, leaveid);
             return CL;
         }
         //For getting leavecount
@@ -417,15 +415,12 @@ namespace Leaveapplication.Controllers
                     }
                 con.Close();
             }
-
-           // }
+            
            return ds;
 
-
-        //return View(ds);
     }
 
-   // }
+  
 
 
     [HttpGet]

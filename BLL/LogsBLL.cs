@@ -68,14 +68,4 @@ public class LogsBLL
     {
         new LogsDAL().InsertLoginLogs(objLogin);
     }
-
-    public string DeleteErrorLogs(string PurgeLogID)
-    {
-        return new LogsDAL().DeleteErrorLogs(PurgeLogID);
-    }
-
-    //public string CheckAndRestoreDeletedLog(int LogID)
-    //{
-    //    return new LogsDAL().CheckAndRestoreDeletedLog(LogID);
-    //}
 }

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 public class RoleRightsBLL
 {
-    public RoleRightsEntity ViewRightsForModule(int ModuleID)
-    {
-        return new RoleRightsDAL().ViewRightsForModule(ModuleID);
+    //public RoleRightsEntity ViewRightsForModule(int ModuleID)
+    //{
+    //    return new RoleRightsDAL().ViewRightsForModule(ModuleID);
        
-    }
+    //}
 }

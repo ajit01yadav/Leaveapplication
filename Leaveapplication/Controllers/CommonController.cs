@@ -48,24 +48,11 @@ namespace Leaveapplication.Controllers
         {
             ViewData["StatusSelect"] = new SelectList(new General().GetUserStatus(), "Value", "Text", SelectedValue);
         }
-        public void BindRoleSelectList(int SelectedValue = 0)
-        {
-            ViewData["Permission"] = new SelectList(new RoleBLL().BindRoleDropDown(), "Value", "Text", SelectedValue);
-        }
-        public void BindDefaultDataTags(int EntityID, int EntityType, out int DatTagCount, out List<DataTags> Datatag)
-       // public void BindDefaultDataTags(int halfdayid, int leaveid, out int DatTagCount, out List<Halfdayentity> Datatag)
-        {
-            //int halfdayid, int leaveid List<DataTags> DatatagList = new List<DataTags>();
-            List<DataTags> DatatagList = new List<DataTags>();
-            if (EntityID != 0)
-                DatatagList = new ContentBLL().DisplayDatatags(EntityID, EntityType);
-            DatTagCount = DatatagList.Count > 0 ? DatatagList.Count : 1;
-            ViewBag.DatTagCount = DatatagList.Count > 0 ? DatatagList.Count : 1;
-            if (DatatagList.Count == 0)
-               // DatatagList.Add(new Halfdayentity() { halfdayid = 0, Date = "" });
-            DatatagList.Add(new DataTags() { TagName = "", TagValue = "" });
-            Datatag = DatatagList;
-        }
+        //public void BindRoleSelectList(int SelectedValue = 0)
+        //{
+        //    ViewData["Permission"] = new SelectList(new RoleBLL().BindRoleDropDown(), "Value", "Text", SelectedValue);
+        //}
+      
         public void CreatePager(int? PageNo, int TotalRowCount)
         {
             int pageSize = Pager.GetPageSize();
