@@ -130,11 +130,7 @@ namespace BLL
            
             return new LeaveDAL().GetMenu(objUser, Empcode);
         }
-        //public List<MenuModel> GetMenu1()
-        //{
-        //    //return new LeaveDAL().GetMenu(Empcode);
-        //    return new LeaveDAL().GetMenu1();
-        //}
+      
 
         public decimal GetApprveRejectCLBalance(int empid, int leaveid, string leavetype, int status)
         {
@@ -193,14 +189,6 @@ namespace BLL
         {
             return new LeaveDAL().IsApproved(leaveid, IsApproved, IsRejected);
         }
-        //public int GetHalfdaycount( int leaveid, Boolean IsDeleted)
-        //{
-        //    return new LeaveDAL().GetHalfdaycount(leaveid, IsDeleted);
-
-        //}
-
-        //GetHalfdaycount
-
-
+        
     }
 }
