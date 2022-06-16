@@ -373,7 +373,7 @@ namespace Leaveapplication.Controllers
             string constr = ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString;
             using (SqlConnection con = new SqlConnection(constr))
             {
-                SqlCommand cmd = new SqlCommand("Sp_Applyleavegreater", con);
+                SqlCommand cmd = new SqlCommand("sp_LA_Applyleavegreater", con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Connection = con;

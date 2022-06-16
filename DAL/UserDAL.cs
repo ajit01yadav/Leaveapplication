@@ -53,7 +53,7 @@ public class UserDAL
             CreatedBy = AuthenticateDAL.UserID()
         });
         parameters.Add("@Output", dbType: DbType.String, direction: ParameterDirection.Output, size: 20);
-        this.db.Execute("SPUserDelete", parameters, commandType: CommandType.StoredProcedure);
+        this.db.Execute("sp_LA_UserDelete", parameters, commandType: CommandType.StoredProcedure);
         return parameters.Get<string>("@Output");
     }
 
