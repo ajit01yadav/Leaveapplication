@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 public class AuthenticateBLL
 {
-    static int intMinutes = 0;
+   // static int intMinutes = 0;
 
     //AuthenticateLogggedIn
     public static void AuthenticateLogggedIn()
