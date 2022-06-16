@@ -52,7 +52,6 @@ namespace Leaveapplication.Controllers
         public ActionResult Add(Leaveentiy objUser,Halfdayentity objhalfday, string Output)
         {
             Leaveentiy objUserlist = new Leaveentiy();
-           // objUserlist = new LeaveBLL().DisplayUser(objUser.leaveId);
             var getleavecount = 0.00M;
             string fromdate = Convert.ToString(objUser.Fromdate);
             string todate = Convert.ToString(objUser.Todate);
@@ -393,19 +392,16 @@ namespace Leaveapplication.Controllers
         // For Edit leave type
         public DataSet updateplbalances(int empid, string leavetype, int leaveid)
         {
-           // int result=0;
             DataSet ds = new DataSet();
             string constr = ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString;
             using (SqlConnection con = new SqlConnection(constr))
             {
-               // string query = "SELECT * FROM Customers";
+              
                 SqlCommand cmd = new SqlCommand("Sp_UpdateCLBalanceLeave", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-               // using (SqlCommand cmd = new SqlCommand(query))
-               // {
                     cmd.Connection = con;
                 cmd.Parameters.AddWithValue("@empid", empid);
-               // cmd.Parameters.AddWithValue("@TotalPaidLeave", TotalPaidLeave);
+               
                 cmd.Parameters.AddWithValue("@leavetype", leavetype);
                 cmd.Parameters.AddWithValue("@leaveid", leaveid);
                 con.Open();

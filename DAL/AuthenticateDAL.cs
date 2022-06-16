@@ -11,13 +11,11 @@ public class AuthenticateDAL
     //AuthenticateLogggedIn
     public static void AuthenticateLogggedIn()
     {
-        //if (HttpContext.Current.Request.Cookies["User"] == null)
-            //System.Web.HttpContext.Current.Request.InputStream.Position = 0;
+        
        if( System.Web.HttpContext.Current.Request.Cookies["User"] == null)
 
            System.Web.HttpContext.Current.Response.Redirect("Account/Login");
-        //HttpContext.Current.Response.Redirect("Account/Login");
-        //System.Web.HttpContext.Current
+       
         else
         {
             DateTime dtLoginTime = Convert.ToDateTime(System.Web.HttpContext.Current.Request.Cookies["User"]["LogInTime"]);

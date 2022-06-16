@@ -18,11 +18,10 @@ namespace BLL
         {
             return new LeaveDAL().ManageUser( objUser, EmpID);
         }
-        public List<Halfdayentity> HalfdayCount(int leaveid)
-        {
-            return new LeaveDAL().HalfdayCount(leaveid);
-        }
-        //HalfdayCount
+        //public List<Halfdayentity> HalfdayCount(int leaveid)
+        //{
+        //    return new LeaveDAL().HalfdayCount(leaveid);
+        //}
         public List<Leaveentiy> ApproveRejectUser(Leaveentiy objUser, string ReportingToId)
         {
             return new LeaveDAL().ApproveRejectUser(objUser, ReportingToId);
@@ -33,11 +32,7 @@ namespace BLL
             return new LeaveDAL().GetCount(Fromdate, Todate);
 
         }
-        //public List<Leaveentiy> Getfromdatetodate(string empid)
-        //{
-        //    return new LeaveDAL().Getfromdatetodate(empid);
-
-        //}
+       
         public decimal GetCLBalance(string empid)
         {
             return new LeaveDAL().GetCLBalance(empid);
@@ -98,28 +93,16 @@ namespace BLL
         {
             return new LeaveDAL().UpdaterejectType(leaveid, empid);
         }
-        //UpdaterejectType
         public string UpdateRejectStatus(int leaveid)
         {
             return new LeaveDAL().UpdateRejectStatus(leaveid);
         }
-        //ManageApproveReject
+       
         public List<Leaveentiy> ManageUserByEmpcode(int EMPId)
         {
             return new LeaveDAL().ManageUserByEmpcode(EMPId);
         }
-        //public List<Leaveentiy> ManageApproveReject(string ReportingToId)
-        //{
-        //    return new LeaveDAL().ManageApproveReject(ReportingToId);
-        //}
-        //public List<Leaveentiy> ManageApproveReject_Test(string ReportingToId)
-        //{
-        //    return new LeaveDAL().ManageApproveReject_Test(ReportingToId);
-        //}
-        //public List<ApproveRejectEntity> GetFilterdata_Test(string Reportingid, ApproveRejectEntity objleave)
-        //{
-        //    return new LeaveDAL().GetFilterdata_Test(Reportingid, objleave);
-        //}
+       
         public String GetUserRoles(string Empcode)
         {
             return new LeaveDAL().GetUserRoles(Empcode);
@@ -130,8 +113,6 @@ namespace BLL
            
             return new LeaveDAL().GetMenu(objUser, Empcode);
         }
-      
-
         public decimal GetApprveRejectCLBalance(int empid, int leaveid, string leavetype, int status)
         {
             return new LeaveDAL().GetApprveRejectCLBalance(empid, leaveid, leavetype, status);
@@ -142,13 +123,11 @@ namespace BLL
             return new LeaveDAL().AddApproveleavebalance(empid, leaveid, leavetype);
 
         }
-        //AddApproveleavebalance
         public decimal GetApprveRejectCLBalance(int empid,string leavetype, int leaveid)
         {
             return new LeaveDAL().GetApprveRejectCLBalance(empid, leavetype, leaveid);
 
         }
-        //Getleavecount
         public decimal Getleavecount(int empid, int leaveid)
         {
             return new LeaveDAL().Getleavecount(empid, leaveid);
@@ -159,14 +138,12 @@ namespace BLL
             return new LeaveDAL().updateplbalanceleave(empid, leavetype);
 
         }
-        //updateplbalanceleave
         public decimal GetApprveRejectCLBalance(int empid, string leavetype)
         {
             return new LeaveDAL().GetApprveRejectCLBalance(empid, leavetype);
 
         }
-        //GetUpdatedCL
-       // public decimal GetUpdatedCL(int empid, string leavetype,int leaveid)
+      
         public List<decimal> GetUpdatedCL(int empid, string leavetype, int leaveid)
         {
             return new LeaveDAL().GetUpdatedCL(empid, leavetype, leaveid);
