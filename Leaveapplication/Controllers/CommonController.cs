@@ -1,11 +1,9 @@
 ﻿using BLL;
 using Common.Entity;
-using Dapper;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Leaveapplication.Controllers
