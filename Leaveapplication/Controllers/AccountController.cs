@@ -10,7 +10,7 @@ namespace Leaveapplication.Controllers
 {
     public class AccountController : Controller
     {
-        // GET: Account
+        // GET: Account test
         public ActionResult Login()
         {
             return View();
@@ -30,8 +30,7 @@ namespace Leaveapplication.Controllers
                 Response.Cookies["User"].Expires = DateTime.Now.AddHours(4);
                 Session["Empid"] = objLogin.EMPId;
                 Session["Empcode"] = objLogin.EMPCode;
-                Session["Emial"] = objLogin.EmailId;
-               
+                Session["Email"] = objLogin.EmailId;
                 var results = objLogin.ReportingToId.Split(',');
                 Session["ReportingToId"] = results[0];
                // Session["ReportingToId1"] = results[1];
