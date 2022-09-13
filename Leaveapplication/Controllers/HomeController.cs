@@ -10,27 +10,7 @@ namespace Leaveapplication.Controllers
 {
     public class HomeController : Controller
     {
-        ////public ActionResult Index()
-        //public ActionResult Index(ModuleEntity objUser, string Message, int? page)
-        //{
-        //    var Empcode = Convert.ToString(Session["Empcode"]);
-        //    var Empid = Convert.ToString(Session["Empid"]);
-
-        //    // var Getroles = new LeaveBLL().GetUserRoles(Empcode.ToString());
-        //    List<ModuleEntity> MenuList = new LeaveBLL().GetMenu(objUser, Empid.ToString());
-        //    // GetMessage(UserList.Count == 0 ? "NoRecord" : Message, "");
-        //    // CreatePager(page, UserList.Count);
-        //    Session["MenuList"] = MenuList;
-
-        //    PagedList<ModuleEntity> model = new PagedList<ModuleEntity>(MenuList, page.HasValue ? Convert.ToInt32(page) : 1, Pager.GetPageSize());
-        //    // TempData["Roles"] = Getroles;
-        //   // return View();
-        //    return View(model);
-        //}
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
+      
         public ActionResult Index(ModuleEntity objUser)
         {
           //  using (MenuMaster db = new MenuMaster())

@@ -83,7 +83,7 @@ namespace Leaveapplication.Controllers
         public bool EditleaveSendMail(string fromdate, string todate, decimal leavecount, string[] halfday)
         {
             var empids = Convert.ToInt32(Session["Empid"]);
-            var FromEmail = Session["Emial"];
+            var FromEmail = Session["Email"];
             var FirstName = Session["FirstName"];
             var LastName = Session["LastName"];
             // List<Leaveentiy> Users = new LeaveBLL().ManageUserByEmpcode(objUser.EmpID);
@@ -116,7 +116,7 @@ namespace Leaveapplication.Controllers
         {
             var empids = Convert.ToInt32(Session["Empid"]);
            // var reportingid = Convert.ToInt32(Session["ReportingToId"]);
-            var FromEmail = Session["Emial"];
+            var FromEmail = Session["Email"];
             var FirstName = Session["FirstName"];
             var LastName = Session["LastName"];
         
@@ -154,7 +154,7 @@ namespace Leaveapplication.Controllers
         public bool MailtoMangerLineManager(string fromdate, string todate, decimal leavecount, string[] halfday)
         {
             var reportingid = Convert.ToInt32(Session["ReportingToId"]);
-            var FromEmail = Session["Emial"];
+            var FromEmail = Session["Email"];
             var FirstName = Session["FirstName"];
             var LastName = Session["LastName"];
 
@@ -197,7 +197,7 @@ namespace Leaveapplication.Controllers
             string approvalreason = objUser.leavereason;
             Employeeentity objemp = new LeaveBLL().GetUserEmail(objUser.EmpID);
             HRentity objhr = new LeaveBLL().GetHREmail();
-            var FromEmail = Session["Emial"];
+            var FromEmail = Session["Email"];
             var FirstName = Session["FirstName"];
             var LastName = Session["LastName"];
             string strSubject = "", strMessage = "";
@@ -227,7 +227,7 @@ namespace Leaveapplication.Controllers
             string Rejectionreason = objUser.Rejectionreason;
             Employeeentity objemp = new LeaveBLL().GetUserEmail(objUser.EmpID);
             HRentity objhr = new LeaveBLL().GetHREmail();
-            var FromEmail = Convert.ToString(Session["Emial"]);
+            var FromEmail = Convert.ToString(Session["Email"]);
             var FirstName = Convert.ToString(Session["FirstName"]);
             var LastName = Convert.ToString(Session["LastName"]);
             string strSubject = "", strMessage = "";
